@@ -1,0 +1,341 @@
+=== PAGE 1 ===
+DEEP NEURAL NETWORK
+MODULE # 1: I NTRODUCTION TO
+DEEP LEARNING
+DNN Team
+BITS Pilani WILP
+
+=== PAGE 2 ===
+With grateful acknowledgement to the authors who have
+generously made their course materials freely available online.
+Deck prepared by Seetha Parameswaran.
+BITS Pilani WILP Deep Neural Network 2 / 35
+
+=== PAGE 3 ===
+Table of Contents
+1 Introduction to Deep Learning
+2 Why Deep Learning?
+3 Applications of Deep Learning
+4 Key Components of DL Problem
+5 Kinds of DL Problems
+BITS Pilani WILP Deep Neural Network 3 / 35
+
+=== PAGE 4 ===
+What is Deep Learning?
+Deep Learning is a type of machine learning based on artiﬁcial neural
+networks in which multiple layers of processing are used to extract
+progressively higher level features from data.
+Deep learning is a method in artiﬁcial intelligence (AI) that teaches computers
+to process data in a way that is inspired by the human brain.
+Deep learning is a machine learning technique that teaches computers to do
+what comes naturally to humans: learn by example.
+Deep learning is a subset of machine learning, which is essentially a neural
+network with three or more layers.
+Deep Learning gets its name from the fact that we add more Layers to learn
+from the data.
+BITS Pilani WILP Deep Neural Network 4 / 35
+
+=== PAGE 5 ===
+Where in AI sits DL?
+AI is a general ﬁeld that encompasses machine learning and deep learning,
+but that also includes many more approaches that don’t involve any learning.
+Artiﬁcial Intelligence
+MachineLearning
+DataScience
+NeuralNetworks
+DeepLearning
+BITS Pilani WILP Deep Neural Network 5 / 35
+
+=== PAGE 6 ===
+AI – ML – DL
+AI : Artiﬁcial intelligence is the science of making things smart. The aim
+is make machines perform human tasks. Eg: Robot cleaning a room.
+ML : Machine learning is an approach to AI. The machine learns or
+perform tasks through learning by experience.
+DL : Deep Learning is a technique for implementing machine learning to
+recognise patterns.
+BITS Pilani WILP Deep Neural Network 6 / 35
+
+=== PAGE 7 ===
+Deep (Machine) Learning
+Deep learning is a speciﬁc subﬁeld of machine learning.
+Learning representations from data that puts an emphasis on learning
+successive layers of increasingly meaningful representations.
+The deep in deep learning stands for this idea of successive layers of
+representations.
+The number of layers that contribute to model the data is called the depth of
+the model.
+In deep learning, the layered representations are learned via models called
+neural networks, structured in literal layers stacked on top of each other.
+BITS Pilani WILP Deep Neural Network 7 / 35
+
+=== PAGE 8 ===
+Table of Contents
+1 Introduction to Deep Learning
+2 Why Deep Learning?
+3 Applications of Deep Learning
+4 Key Components of DL Problem
+5 Kinds of DL Problems
+BITS Pilani WILP Deep Neural Network 8 / 35
+
+=== PAGE 9 ===
+Why Deep Learning?
+Large amounts of data
+Lots and lots of unstructured data like images, text, audio, video
+Cheap, high-quality sensors
+Cheap computation - CPU, GPU, Distributed clusters
+Cheap data storage
+Learn by examples
+Automated feature generation
+Better learning capabilities
+Scalability
+Advance analytics can be applied
+BITS Pilani WILP Deep Neural Network 9 / 35
+
+=== PAGE 10 ===
+Why Deep Learning?
+Amount of labeled data
+Performance
+Scale drives deep learning progress Andrew Ng
+Traditional
+machine learning algo
+(Logistic regression,
+SVM, ...)
+Small NN
+Medium NN
+Large NN
+Small training sets
+BITS Pilani WILP Deep Neural Network 10 / 35
+
+=== PAGE 11 ===
+Deep Learning: Timeline
+BITS Pilani WILP Deep Neural Network 11 / 35
+
+=== PAGE 12 ===
+Table of Contents
+1 Introduction to Deep Learning
+2 Why Deep Learning?
+3 Applications of Deep Learning
+4 Key Components of DL Problem
+5 Kinds of DL Problems
+BITS Pilani WILP Deep Neural Network 12 / 35
+
+=== PAGE 13 ===
+Breakthroughs with Neural Networks
+BITS Pilani WILP Deep Neural Network 13 / 35
+
+=== PAGE 14 ===
+Breakthroughs with Neural Networks
+BITS Pilani WILP Deep Neural Network 14 / 35
+
+=== PAGE 15 ===
+Image Segmentation and Recognition
+BITS Pilani WILP Deep Neural Network 15 / 35
+
+=== PAGE 16 ===
+Image Recognition
+BITS Pilani WILP Deep Neural Network 16 / 35
+
+=== PAGE 17 ===
+Breakthroughs with Neural Networks
+BITS Pilani WILP Deep Neural Network 17 / 35
+
+=== PAGE 18 ===
+Breakthroughs with Neural Networks
+BITS Pilani WILP Deep Neural Network 18 / 35
+
+=== PAGE 19 ===
+Applications of Deep Learning
+Application Input Output Neural Network
+Real Estate House features House Price Std NN
+Photo Tagging Image Text CNN
+Object detection Image Bounding box CNN
+Speech Recognition Audio Text transcript RNN
+Translation English Text French Text RNN
+Autonomous driving Image, Sensors Position of other cars, Hybrid NN
+Radars objects, signals
+BITS Pilani WILP Deep Neural Network 19 / 35
+
+=== PAGE 20 ===
+Many more applications...
+a program that predicts tomorrow’s weather given geographic information,
+satellite images, and a trailing window of past weather.
+a program that takes in a question, expressed in free-form text, and answers it
+correctly.
+a program that given an image can identify all the people it contains, drawing
+outlines around each.
+a program that presents users with products that they are likely to enjoy but
+unlikely, in the natural course of browsing, to encounter.
+BITS Pilani WILP Deep Neural Network 20 / 35
+
+=== PAGE 21 ===
+Table of Contents
+1 Introduction to Deep Learning
+2 Why Deep Learning?
+3 Applications of Deep Learning
+4 Key Components of DL Problem
+5 Kinds of DL Problems
+BITS Pilani WILP Deep Neural Network 21 / 35
+
+=== PAGE 22 ===
+Core Components of DL Problem
+The data that we can learn from.
+A model of how to transform the data.
+An objective function that quantiﬁes how well (or badly) the model is doing.
+An algorithm to adjust the model’s parameters to optimize the objective
+function.
+Data
+LearningAlgorithm
+LossFunction
+Model
+BITS Pilani WILP Deep Neural Network 22 / 35
+
+=== PAGE 23 ===
+1. Data
+Collection of examples.
+Data has to be converted to an useful and a suitable numerical
+representation.
+Each example (or data point, data instance, sample) typically consists of a set
+of attributes called features (or covariates), from which the model must make
+its predictions.
+In the supervised learning problems, the attribute to be predicted is designated
+as the label (or target).
+BITS Pilani WILP Deep Neural Network 23 / 35
+
+=== PAGE 24 ===
+1. Data
+Data = D = {X , t}
+Number of features =
+Number of Dimensions = d
+Number of examples = N
+As the number of features
+increase, we say the
+dimensionality increases.
+ID Bedrooms Location Sq Ft Price
+1 3 Urban 1500 350K
+2 2 Suburban 1200 280K
+3 4 Urban 2000 520K
+4 3 Rural 1800 310K
+5 2 Suburban 1100 245K
+6 5 Urban 2500 680K
+7 3 Rural 1600 275K
+8 4 Suburban 1900 425K
+Features
+(Target)
+Examples
+BITS Pilani WILP Deep Neural Network 24 / 35
+
+=== PAGE 25 ===
+2. Model
+Model denotes the computational machinery for ingesting data of one type,
+and spitting out predictions of a possibly different type.
+Deep learning models consist of many successive transformations of the data
+that are chained together top to bottom, thus the name deep learning.
+BITS Pilani WILP Deep Neural Network 25 / 35
+
+=== PAGE 26 ===
+3. Objective Function
+Learning means improving at some task over time.
+Objective functions are formal measures to denote how good (or bad) a
+mathematical model is.
+By convention, objective functions are deﬁned so that lower is better.
+Because lower is better, these functions are sometimes called loss functions.
+BITS Pilani WILP Deep Neural Network 26 / 35
+
+=== PAGE 27 ===
+4. Learning Algorithms
+Learning Algorithm is an algorithm capable of searching for the best
+possible parameters for minimizing the loss function.
+Popular algorithm for deep learning – gradient descent.
+BITS Pilani WILP Deep Neural Network 27 / 35
+
+=== PAGE 28 ===
+Example of the Framework
+We have to tell a computer explicitly how to map from inputs to outputs.
+We have to deﬁne the problem precisely, pinning down the exact nature of the
+inputs and outputs, and choosing an appropriate model family.
+Collect a huge dataset containing examples of audio and label those that do
+and that do not contain the wake word.
+BITS Pilani WILP Deep Neural Network 28 / 35
+
+=== PAGE 29 ===
+How to Create a Model?
+Start with a program whose behavior is determined by a number of
+parameters.
+How to determine the best possible set of parameters? Use data or examples.
+Parameters improve the performance of the program with respect to the loss
+function.
+BITS Pilani WILP Deep Neural Network 29 / 35
+
+=== PAGE 30 ===
+Train The Model
+Train the program with data to ﬁnd the best set of parameters that improves
+the performance of the program with respect to the loss function. Once the
+parameters are ﬁnalised, we call the program a model.
+▶ Eg: The model receives a snippet of audio as input, and the model generates a
+selection among yes, no as output.
+The set of all distinct programs (input-output mappings) that we can produce
+just by manipulating the parameters is called a family of models.
+▶ Eg: We expect that the same model family should be suitable for ”Alexa”
+recognition and ”Hey Siri” recognition because they seem, intuitively, to be
+similar tasks.
+BITS Pilani WILP Deep Neural Network 30 / 35
+
+=== PAGE 31 ===
+Table of Contents
+1 Introduction to Deep Learning
+2 Why Deep Learning?
+3 Applications of Deep Learning
+4 Key Components of DL Problem
+5 Kinds of DL Problems
+BITS Pilani WILP Deep Neural Network 31 / 35
+
+=== PAGE 32 ===
+Learning Problems
+1 Supervised Learning
+▶ Training by examples
+▶ The model is given a dataset which has the data and its labels
+▶ Eg: Classiﬁcation, Regression
+▶ Y ou will learn this in this course and Machine Learning Course
+2 Unsupervised Learning
+▶ Situations where we feed the model a giant dataset containing only the features.
+▶ Eg: Clustering, Generate synthetic data (uses GAN), Density estimation
+▶ Y ou will learn this in Advanced Deep Learning Course and Machine Learning
+Course
+3 Reinforcement Learning
+▶ Develop an agent that interacts with an environment and takes actions over a
+series of time steps.
+▶ Y ou will learn this in Deep Reinforcement Learning Course
+BITS Pilani WILP Deep Neural Network 32 / 35
+
+=== PAGE 33 ===
+Supervised Learning
+Task of predicting labels given input features.
+Each feature-label pair is called an example.
+Goal is to produce a model that maps any input to a label prediction.
+The supervision comes into play because for choosing the parameters, we
+(the supervisors) provide the model with a dataset consisting of labelled
+examples, where each example is matched with conditional probability of a
+label given input features.
+BITS Pilani WILP Deep Neural Network 33 / 35
+
+=== PAGE 34 ===
+Supervised Learning Tasks
+Regression
+▶ how much or how many question
+Classiﬁcation
+▶ Binary classiﬁcation
+▶ Multi-class classiﬁcation
+▶ Multi-label classiﬁcation
+Recommender systems
+Sequence Learning
+▶ Tagging and Parsing
+▶ Automatic speech recognition
+▶ Text to speech
+▶ Machine translation
+BITS Pilani WILP Deep Neural Network 34 / 35
+
+=== PAGE 35 ===
+References
+1 Dive in Deep Learning (T1)- Chapter 1 https://d2l.ai/
+BITS Pilani WILP Deep Neural Network 35 / 35

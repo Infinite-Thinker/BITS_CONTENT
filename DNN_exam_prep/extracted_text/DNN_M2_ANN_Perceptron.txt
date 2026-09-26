@@ -1,0 +1,785 @@
+=== PAGE 1 ===
+DEEP NEURAL NETWORK
+MODULE # 2: A RTIFICIAL NEURAL
+NETWORK
+DNN Team
+BITS Pilani WILP
+
+=== PAGE 2 ===
+With grateful acknowledgement to the authors who have
+generously made their course materials freely available online.
+Deck prepared by Seetha Parameswaran.
+BITS Pilani WILP Deep Neural Network 2 / 52
+
+=== PAGE 3 ===
+Questions that will be answered
+1 What is an artiﬁcial neuron?
+2 How is it related to biological neuron?
+3 How are artiﬁcial neurons interconnected?
+4 How do artiﬁcial neuron learn?
+BITS Pilani WILP Deep Neural Network 3 / 52
+
+=== PAGE 4 ===
+Table of Contents
+1 Biological Neuron
+2 Artificial Neuron
+3 Artificial Neural Network (ANN)
+4 Connectionism Model
+5 Perceptron
+6 Perceptron & Logic Gates
+7 How does Perceptron Learn?
+8 XOR Problem
+9 Linearly Separable Data
+10 Summary
+BITS Pilani WILP Deep Neural Network 4 / 52
+
+=== PAGE 5 ===
+How do Humans Learn?
+It begins with brain.
+Humans learn, solve problems, recognize patterns, create, think deeply about
+something, meditate and many many more.....
+Humans learn through association. [Refer to Associationism for more details.]
+BITS Pilani WILP Deep Neural Network 5 / 52
+
+=== PAGE 6 ===
+Observation: The Brain
+The brain is a mass of interconnected
+neurons.
+Number of neurons is approximately 1010.
+Connections per neuron is approximately
+10(4 to 5).
+Neuron switching time is approximately
+0.001 second.
+Scene recognition time is 1 second.
+100 inference steps doesn’t seem like
+enough.
+Lot of parallel computation.
+BITS Pilani WILP Deep Neural Network 6 / 52
+
+=== PAGE 7 ===
+Brain: Interconnected Neurons
+Many neurons connect in to each neuron.
+Each neuron connects out to many neurons.
+BITS Pilani WILP Deep Neural Network 7 / 52
+
+=== PAGE 8 ===
+Biological Neuron Structure
+Key Components:
+Dendrites: Receive signals
+from other neurons
+Cell Body (Soma):
+Processes incoming signals
+Axon: Transmits output
+signal
+Synapses: Connection
+points between neurons
+BITS Pilani WILP Deep Neural Network 8 / 52
+
+=== PAGE 9 ===
+Table of Contents
+1 Biological Neuron
+2 Artificial Neuron
+3 Artificial Neural Network (ANN)
+4 Connectionism Model
+5 Perceptron
+6 Perceptron & Logic Gates
+7 How does Perceptron Learn?
+8 XOR Problem
+9 Linearly Separable Data
+10 Summary
+BITS Pilani WILP Deep Neural Network 9 / 52
+
+=== PAGE 10 ===
+What is an Artificial Neuron?
+Definition
+Artiﬁcial Neuron is a processing element inspired by how the brain works.
+Similar to biological neuron, each
+artiﬁcial neuron will be do some
+computation. Each neuron is
+interconnected to other neurons.
+Similar to brain, the interconnections
+between neurons store the knowledge it
+learns. The knowledge is stored as
+parameters.
+x1
+x2
+...
+xn
+N ˆy
+BITS Pilani WILP Deep Neural Network 10 / 52
+
+=== PAGE 11 ===
+Artificial Neuron N
+Processing neuron N performs weighted
+sum.
+For each feature xi, weight wi shows the
+importance to the feature .
+N generates one numerical output ˆy
+1
+x1
+x2
+...
+xn
+N ˆy
+b
+w1
+w2
+wn
+BITS Pilani WILP Deep Neural Network 11 / 52
+
+=== PAGE 12 ===
+Artificial Neuron – Mathematical Computation
+Sum of weights wi times corresponding features xi
+Apply activation function f () on the sum.
+1
+x1
+x2
+...
+xn
+∑
+f(·) ˆy
+b
+w1
+w2
+wn
+z =
+n∑
+i=1
+wi xi + b (1)
+ˆy = f
+( n∑
+i=1
+wi xi + b
+)
+(2)
+BITS Pilani WILP Deep Neural Network 12 / 52
+
+=== PAGE 13 ===
+Comparison: Biological vs Artificial Neurons
+Biological Neuron
+Complex biochemical processes
+Analog signal processing
+Adaptive synaptic strengths
+Parallel processing
+Learning through experience
+Fault tolerant
+Artiﬁcial Neuron
+Simple mathematical model
+Digital computation
+Adjustable weights
+Parallel computation possible
+Learning through algorithms
+Deterministic behavior
+Key Insight
+Artiﬁcial neurons are simpliﬁed mathematical abstractions that capture the essential
+computational properties of biological neurons.
+BITS Pilani WILP Deep Neural Network 13 / 52
+
+=== PAGE 14 ===
+Table of Contents
+1 Biological Neuron
+2 Artificial Neuron
+3 Artificial Neural Network (ANN)
+4 Connectionism Model
+5 Perceptron
+6 Perceptron & Logic Gates
+7 How does Perceptron Learn?
+8 XOR Problem
+9 Linearly Separable Data
+10 Summary
+BITS Pilani WILP Deep Neural Network 14 / 52
+
+=== PAGE 15 ===
+What are Artificial Neural Networks?
+Neural Network is a
+computational model inspired by
+human brain.
+Interconnected neurons process
+information.
+Interconnection can be forward,
+recursive or self loop.
+Learn patterns from data
+through training.
+Capable of approximating
+complex functions
+Input
+Layer
+Hidden Layers Output
+Layer
+BITS Pilani WILP Deep Neural Network 15 / 52
+
+=== PAGE 16 ===
+Properties of Artificial Neural Networks
+Many neurons.
+Many weighted interconnections among neurons.
+Highly parallel, distributed process.
+Tuning parameters or weights automatically.
+BITS Pilani WILP Deep Neural Network 16 / 52
+
+=== PAGE 17 ===
+When to consider Artificial Neural Networks?
+Input is high-dimensional discrete or real-valued (e.g. raw sensor input).
+Possibly noisy data. Data has lots of errors.
+Output is discrete or real valued or a vector of values
+Form of target function is unknown.
+Human readability, in other words, explainability, of result is unimportant.
+Examples:
+▶ Speech recognition
+▶ Image classiﬁcation
+▶ Financial prediction
+BITS Pilani WILP Deep Neural Network 17 / 52
+
+=== PAGE 18 ===
+Table of Contents
+1 Biological Neuron
+2 Artificial Neuron
+3 Artificial Neural Network (ANN)
+4 Connectionism Model
+5 Perceptron
+6 Perceptron & Logic Gates
+7 How does Perceptron Learn?
+8 XOR Problem
+9 Linearly Separable Data
+10 Summary
+BITS Pilani WILP Deep Neural Network 18 / 52
+
+=== PAGE 19 ===
+Connectionist Machines
+Network of processing elements, called artiﬁcial
+neurons.
+The neurons are interconnected to form a
+network.
+Interconnection can be forward, recursive or self
+loop.
+All world knowledge is stored in the connections
+between these elements.
+Neural networks are Connectionist machines.
+a
+aalanturing.net
+BITS Pilani WILP Deep Neural Network 19 / 52
+
+=== PAGE 20 ===
+Connectionism Principles
+Core Ideas:
+Intelligence emerges from simple processing
+neurons
+Knowledge is stored in connection weights
+Learning modiﬁes connection strengths
+Parallel distributed processing
+a
+aalanturing.net
+BITS Pilani WILP Deep Neural Network 20 / 52
+
+=== PAGE 21 ===
+Table of Contents
+1 Biological Neuron
+2 Artificial Neuron
+3 Artificial Neural Network (ANN)
+4 Connectionism Model
+5 Perceptron
+6 Perceptron & Logic Gates
+7 How does Perceptron Learn?
+8 XOR Problem
+9 Linearly Separable Data
+10 Summary
+BITS Pilani WILP Deep Neural Network 21 / 52
+
+=== PAGE 22 ===
+The Perceptron
+Perceptron = Simplest form of artiﬁcial neuron.
+Perceptron was introduced by Rosenblatt in 1958.
+1
+x1
+x2
+x3
+Perceptron ˆy
+w1
+w2
+w3
+b
+BITS Pilani WILP Deep Neural Network 22 / 52
+
+=== PAGE 23 ===
+The Perceptron
+Perceptron = Simplest form of artiﬁcial neuron.
+1
+x1
+x2
+x3
+Perceptron ˆy
+w1
+w2
+w3
+b
+ˆy =
+{
+1 if
+∑n
+i=1 wi xi + b≥ 0
+−1 otherwise
+BITS Pilani WILP Deep Neural Network 23 / 52
+
+=== PAGE 24 ===
+Table of Contents
+1 Biological Neuron
+2 Artificial Neuron
+3 Artificial Neural Network (ANN)
+4 Connectionism Model
+5 Perceptron
+6 Perceptron & Logic Gates
+7 How does Perceptron Learn?
+8 XOR Problem
+9 Linearly Separable Data
+10 Summary
+BITS Pilani WILP Deep Neural Network 24 / 52
+
+=== PAGE 25 ===
+Representing Logic Gates using Perceptron
+Power of Perceptron
+▶ Any linear decision can be represented by a Boolean equation.
+▶ The quest is to ﬁnd out how to represent the above using Perceptron.
+▶ For this we test whether each of the logic gates can be represented by a
+Perceptron.
+For the perceptron algorithm:
+▶ The classical perceptron (Rosenblatt’s original) typically uses{-1, +1} as
+outputs.
+▶ However, modern implementations and logic gates often use{0, 1}.
+▶ Both are valid! The choice affects the bias/threshold calculation.
+Note: The numerical examples that follow uses binary values {0,1}. Classical per-
+ceptron uses{-1,+1}, but both formulations are equivalent.
+BITS Pilani WILP Deep Neural Network 25 / 52
+
+=== PAGE 26 ===
+AND Logic Gate
+Question:
+How to represent AND gate using a Perceptron?
+What are the parameters for the AND Perceptron?
+Data is given below.
+A B AB
+0 0 0
+0 1 0
+1 0 0
+1 1 1
+BITS Pilani WILP Deep Neural Network 26 / 52
+
+=== PAGE 27 ===
+Perceptron for AND gate
+1
+x1
+x2
+N ˆy
+w1
+w2
+b
+Perceptron equation is
+ˆy = w0x0 + w1x1 + w2x2
+Goal: Find parameters w0, w1, w2
+x1 x2 t h
+0 0 0 w0 + 0 + 0< 0
+0 1 0 w0 + 0 + w2 < 0
+1 0 0 w0 + w1 + 0< 0
+1 1 1 w0 + w1 + w2≥ 0
+One solution is
+w0 =−1
+w1 = 0.75
+w2 = 0.75
+BITS Pilani WILP Deep Neural Network 27 / 52
+
+=== PAGE 28 ===
+Perceptron for AND gate
+1
+x1
+x2
+N ˆy
+w1
+w2
+b
+Perceptron equation is
+ˆy = w0x0 + w1x1 + w2x2
+x1
+x2
+(0,0):0
+(0,1):0
+(1,0):0
+(1,1):1
+Linear separation
+One solution is
+w0 =−1
+w1 = 0.75
+w2 = 0.75
+BITS Pilani WILP Deep Neural Network 28 / 52
+
+=== PAGE 29 ===
+OR Logic Gate
+Question:
+How to represent OR gate using a Perceptron?
+What are the parameters for the OR Perceptron?
+Data is given below.
+A B A+B
+0 0 0
+0 1 1
+1 0 1
+1 1 1
+BITS Pilani WILP Deep Neural Network 29 / 52
+
+=== PAGE 30 ===
+Perceptron for OR gate
+1
+x1
+x2
+N ˆy
+w1
+w2
+b
+Perceptron equation is
+ˆy = w0x0 + w1x1 + w2x2
+Goal: Find parameters w0, w1, w2
+x1 x2 t h
+0 0 0 w0 + 0 + 0< 0
+0 1 1 w0 + 0 + w2≥ 0
+1 0 1 w0 + w1 + 0≥ 0
+1 1 1 w0 + w1 + w2≥ 0
+One solution is
+w0 =−1
+w1 = 2
+w2 = 2
+BITS Pilani WILP Deep Neural Network 30 / 52
+
+=== PAGE 31 ===
+Perceptron for OR gate
+1
+x1
+x2
+N ˆy
+w1
+w2
+b
+Perceptron equation is
+ˆy = w0x0 + w1x1 + w2x2
+x1
+x2
+(0,0):0
+(0,1):1
+(1,0):1
+(1,1):1
+Linear separation
+One solution is w0 =−1
+w1 = 2
+w2 = 2
+BITS Pilani WILP Deep Neural Network 31 / 52
+
+=== PAGE 32 ===
+Table of Contents
+1 Biological Neuron
+2 Artificial Neuron
+3 Artificial Neural Network (ANN)
+4 Connectionism Model
+5 Perceptron
+6 Perceptron & Logic Gates
+7 How does Perceptron Learn?
+8 XOR Problem
+9 Linearly Separable Data
+10 Summary
+BITS Pilani WILP Deep Neural Network 32 / 52
+
+=== PAGE 33 ===
+Perceptron Learning Algorithm
+Goal: Find weights that correctly classify training data (input, output) pair (x, t).
+Algorithm:
+1 Initialize learning rateη = 0.1
+2 Initialize weights randomly: wi = random
+3 For each training example (x, t):
+▶ Calculate output: ˆy = sign(∑
+i wi xi + b)
+▶ If ˆy̸= t, update weights:
+w new
+i = w old
+i +η(t− ˆy)xi
+bnew = bold +η(t− ˆy)
+4 Repeat until convergence or max iterations
+Convergence Theorem:
+If linearly separable data, Perceptron learning algorithm will converge in ﬁnite steps.
+BITS Pilani WILP Deep Neural Network 33 / 52
+
+=== PAGE 34 ===
+Perceptron Learning for NOT gate
+1
+x1
+N ˆyw1
+b
+Perceptron equation
+h = w0x0 + w1x1
+ˆy =
+{
+1 if h≥ 0
+0 if h< 0
+Example x1 t
+Eg:1 0 1
+Eg:2 1 0
+x1
+Output
+(0):1
+(1):0
+Threshold
+BITS Pilani WILP Deep Neural Network 34 / 52
+
+=== PAGE 35 ===
+Perceptron Learning for NOT Gate I
+1 Initialization
+▶ Assume w0 = w1 = 0.
+▶ Let the learning rate=η = 1.
+2 Epoch 1
+▶ Example 1: (x1 = 0, t = 1)
+h = w1x1 + w0 = 0· 0 + 0 = 0
+ˆy =
+{
+1 if h≥ 0
+0 if h< 0
+= 1
+Is ˆy equal to t? YES. No weight update needed.
+BITS Pilani WILP Deep Neural Network 35 / 52
+
+=== PAGE 36 ===
+Perceptron Learning for NOT Gate II
+▶ Example 2: (x1 = 1, t = 0)
+h = w1x1 + w0 = 0· 1 + 0 = 0
+ˆy = 1
+Is ˆy equal to t? (ˆy = 1, t = 0) NO. Update weights:
+w (new)
+i = w (old)
+i +η(t− ˆy)xi
+w (new)
+1 = 0 + 1(0− 1)· 1 =−1
+w (new)
+0 = 0 + 1(0− 1) =−1
+BITS Pilani WILP Deep Neural Network 36 / 52
+
+=== PAGE 37 ===
+Perceptron Learning for NOT Gate III
+3 Epoch 2 We will use the updated weights w1 =−1, w0 =−1.
+▶ Example 1: (x1 = 0, t = 1)
+h = w1x1 + w0 = (−1)· 0 + (−1) =−1
+ˆy = 0 (since h< 0)
+Is ˆy equal to t (ˆy = 0, t = 1)? NO. Update weights:
+w (new)
+1 = (−1) + 1(1− 0)· 0 =−1
+w (new)
+0 = (−1) + 1(1− 0) = 0
+BITS Pilani WILP Deep Neural Network 37 / 52
+
+=== PAGE 38 ===
+Perceptron Learning for NOT Gate IV
+▶ Example 2: (x1 = 1, t = 0)
+h = (−1)· 1 + 0 =−1
+ˆy = 0
+Is ˆy equal to t? YES. No update needed. Current weights are w1 =−1, w0 = 0
+4 Epoch 3
+▶ Example 1: (x1 = 0, t = 1)
+h = (−1)· 0 + 0 = 0
+ˆy = 1 (since h≥ 0)
+Is ˆy equal to t? YES. No update needed.
+BITS Pilani WILP Deep Neural Network 38 / 52
+
+=== PAGE 39 ===
+Perceptron Learning for NOT Gate V
+▶ Example 2: (x1 = 1, t = 0)
+h = (−1)· 1 + 0 =−1
+ˆy = 0
+Is ˆy equal to t? YES. No update needed.
+5 Algorithm Converges!
+Final weights: w1 =−1, w0 = 0
+BITS Pilani WILP Deep Neural Network 39 / 52
+
+=== PAGE 40 ===
+Table of Contents
+1 Biological Neuron
+2 Artificial Neuron
+3 Artificial Neural Network (ANN)
+4 Connectionism Model
+5 Perceptron
+6 Perceptron & Logic Gates
+7 How does Perceptron Learn?
+8 XOR Problem
+9 Linearly Separable Data
+10 Summary
+BITS Pilani WILP Deep Neural Network 40 / 52
+
+=== PAGE 41 ===
+The XOR Problem
+Truth Table for XOR:
+x1 x2 x1 XOR x2
+0 0 0
+0 1 1
+1 0 1
+1 1 0 x1
+x2
+(0,0):0
+(0,1):1
+(1,0):1
+(1,1):0
+Problem
+XOR is not linearly separable! Single perceptron cannot solve XOR.
+BITS Pilani WILP Deep Neural Network 41 / 52
+
+=== PAGE 42 ===
+Why Single Perceptron F ails on XOR
+Linear Decision Boundary Limitation:
+Any line w1x1 + w2x2 + b = 0 cannot separate XOR classes.
+x1
+x2
+(0,0):0
+(0,1):1
+(1,0):1
+(1,1):0
+No single line works!
+Solution: Need multiple layers (Multilayer Perceptron)
+BITS Pilani WILP Deep Neural Network 42 / 52
+
+=== PAGE 43 ===
+Perceptron Demo Python Code
+https://colab.research.google.com/drive/
+1DUVcOoUIWhl8GQKc6AWR1wi0LaMeNkgD?usp=sharing
+Student pl note:
+The Python notebook is shared for anyone who has access to the link and the access
+is restricted to use BITS email id. So please do not access from non-BITS email id
+and send requests for access. Access for non-BITS email id will NOT be granted.
+BITS Pilani WILP Deep Neural Network 43 / 52
+
+=== PAGE 44 ===
+Table of Contents
+1 Biological Neuron
+2 Artificial Neuron
+3 Artificial Neural Network (ANN)
+4 Connectionism Model
+5 Perceptron
+6 Perceptron & Logic Gates
+7 How does Perceptron Learn?
+8 XOR Problem
+9 Linearly Separable Data
+10 Summary
+BITS Pilani WILP Deep Neural Network 44 / 52
+
+=== PAGE 45 ===
+Linearly Separable Data
+Two sets of data points are linearly separable in a n-dimensional space if they
+can be separated by an (n− 1) dimensional hyperplane.
+in 2D-space, straight line can separate all the data examples belonging to
+class +1 from all the examples belonging to the class -1. Then it is 2D linearly
+separable data.
+An inﬁnite number of straight lines can be drawn to separate the class +1 from
+the class -1.
+BITS Pilani WILP Deep Neural Network 45 / 52
+
+=== PAGE 46 ===
+Linearly vs Non-Linearly Separable Data
+BITS Pilani WILP Deep Neural Network 46 / 52
+
+=== PAGE 47 ===
+Perceptron for Linearly Separable Data
+Data
+▶ Truth tables or set of examples
+Model
+▶ Perceptron
+▶ Inputs x are the features or columns
+▶ Target output t is the required label
+Objective Function
+▶ Deviation of desired output or target t and the computed output ˆy
+Learning Algorithm
+▶ Perceptron Learning algorithm
+Challenge
+▶ How to learn these n + 1 parameters w0, w1.w2... wn ?
+Solution
+▶ Use Perceptron learning algorithm.
+BITS Pilani WILP Deep Neural Network 47 / 52
+
+=== PAGE 48 ===
+Perceptron for Linearly Separable Data
+1
+x1
+x2
+...
+xn
+N ˆy
+w0
+w1
+w2
+wn
+˜x =
+
+
+1
+x1
+x2
+...
+xn
+
+
+w =
+
+
+w0
+w1
+w2
+...
+wn
+
+
+h = w0 + w1x1 + w2x2 +... + wnxn
+= w ⊤˜x
+ˆy =
+{
+1 if h≥ 0
+0 if h< 0
+BITS Pilani WILP Deep Neural Network 48 / 52
+
+=== PAGE 49 ===
+Table of Contents
+1 Biological Neuron
+2 Artificial Neuron
+3 Artificial Neural Network (ANN)
+4 Connectionism Model
+5 Perceptron
+6 Perceptron & Logic Gates
+7 How does Perceptron Learn?
+8 XOR Problem
+9 Linearly Separable Data
+10 Summary
+BITS Pilani WILP Deep Neural Network 49 / 52
+
+=== PAGE 50 ===
+Key Concepts
+Neural Network: Computational model inspired by biological neurons that
+processes information through interconnected units
+Perceptron:
+▶ Single-layer linear classiﬁer: ˆy = sign(w ⊤x)
+▶ Learning rule: w (new)
+i = w (old)
+i +η(t− ˆy)xi
+▶ Converges for linearly separable data
+Perceptron Limitations:
+▶ Cannot solve XOR and other non-linearly separable problems
+▶ Solution: Multi-layer networks with non-linear activation functions
+Foundation: These concepts form the basis for deep learning architectures
+BITS Pilani WILP Deep Neural Network 50 / 52
+
+=== PAGE 51 ===
+Practice Problems
+1 Represent OR gate using Perceptron. Compute the parameters of the
+perceptron using perceptron learning algorithm.
+2 Represent AND gate using Perceptron. Compute the parameters of the
+perceptron using perceptron learning algorithm.
+3 Represent NOR gate using Perceptron. Compute the parameters of the
+perceptron using perceptron learning algorithm.
+4 Represent NAND gate using Perceptron. Compute the parameters of the
+perceptron using perceptron learning algorithm.
+BITS Pilani WILP Deep Neural Network 51 / 52
+
+=== PAGE 52 ===
+References
+Zhang et al. ”Dive into Deep Learning” - Chapter 1https://d2l.ai/
+http://mlsp.cs.cmu.edu/people/rsingh/docs/Chapter1_
+Introduction.pdf
+Goodfellow, Bengio, Courville - ”Deep Learning” Chapters 1-6
+Rosenblatt, F . (1958) - ”The Perceptron: A Probabilistic Model”
+Minsky & Papert (1969) - ”Perceptrons” (Historical perspective)
+BITS Pilani WILP Deep Neural Network 52 / 52

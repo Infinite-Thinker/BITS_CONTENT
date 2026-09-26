@@ -1,0 +1,1984 @@
+=== PAGE 1 ===
+DEEP NEURAL NETWORK
+MODULE # 4 : L INEAR NEURAL
+NETWORKS FOR CLASSIFICATION
+DNN Team
+BITS Pilani WILP
+
+=== PAGE 2 ===
+With grateful acknowledgement to the authors who have
+generously made their course materials freely available online.
+Deck prepared by Seetha Parameswaran.
+BITS Pilani WILP Deep Learning 2 / 100
+
+=== PAGE 3 ===
+Table of Contents
+1 Classification
+2 Binary Classification
+Logistic Regression
+The Model: Single Neuron for Binary Classiﬁcation
+Binary Classiﬁcation: Worked Example
+Binary Classiﬁcation: Evaluation Metrics
+3 Multi-class Classification
+Multi-class Classiﬁcation Model
+Mini-batch Stochastic Gradient Descent
+Multiclass Classiﬁcation: Worked Example
+Making Predictions (Inference)
+Multiclass Classiﬁcation: Evaluation Metrics
+4 Implementation Tips and Debugging
+5 Summary
+BITS Pilani WILP Deep Learning 3 / 100
+
+=== PAGE 4 ===
+What is Classification?
+Definition
+Classiﬁcation is a supervised learning task that predicts a discrete category or
+class label based on input features.
+Key Characteristics:
+Input: Feature vector x∈ Rd
+Output: Class label y∈{ 1, 2,..., K} (discrete)
+Goal: Learn a function f : Rd→{ 1, 2,..., K} that assigns inputs to classes
+Difference from Regression:
+Regression: Predicts continuous values (e.g., price, temperature)
+Classiﬁcation: Predicts discrete categories (e.g., spam/not spam, cat/dog)
+BITS Pilani WILP Deep Learning 4 / 100
+
+=== PAGE 5 ===
+Examples of Classification Problems
+1 Email Spam Detection
+▶ Input: Email text, sender information, attachments
+▶ Output: Spam or Not Spam
+2 Medical Diagnosis
+▶ Input: Patient symptoms, test results, medical history
+▶ Output: Disease present or absent
+3 Image Recognition
+▶ Input: Pixel values of an image
+▶ Output: Object category (cat, dog, car, etc.)
+4 Sentiment Analysis
+▶ Input: Customer review text
+▶ Output: Positive, Negative, or Neutral
+BITS Pilani WILP Deep Learning 5 / 100
+
+=== PAGE 6 ===
+Types of Classification
+1. Binary Classiﬁcation
+Two classes: y∈{ 0, 1} or{−1, +1}
+Examples: Spam detection, disease diagnosis, fraud detection
+2. Multi-class Classiﬁcation
+Multiple classes: y∈{ 1, 2,..., K} where K > 2
+Examples: Digit recognition (0-9), animal classiﬁcation
+Each example belongs to exactly one class
+3. Multi-label Classiﬁcation
+Each example can belong to multiple classes simultaneously
+Examples: Movie genres (action + comedy), document tagging
+BITS Pilani WILP Deep Learning 6 / 100
+
+=== PAGE 7 ===
+Table of Contents
+1 Classification
+2 Binary Classification
+Logistic Regression
+The Model: Single Neuron for Binary Classiﬁcation
+Binary Classiﬁcation: Worked Example
+Binary Classiﬁcation: Evaluation Metrics
+3 Multi-class Classification
+Multi-class Classiﬁcation Model
+Mini-batch Stochastic Gradient Descent
+Multiclass Classiﬁcation: Worked Example
+Making Predictions (Inference)
+Multiclass Classiﬁcation: Evaluation Metrics
+4 Implementation Tips and Debugging
+5 Summary
+BITS Pilani WILP Deep Learning 7 / 100
+
+=== PAGE 8 ===
+Binary Classification Problem
+Definition
+Binary classiﬁcation assigns each input to one of two classes.
+Standard Notation:
+Classes: y∈{ 0, 1}
+▶ y = 1: Positive class (e.g., spam, disease present)
+▶ y = 0: Negative class (e.g., not spam, disease absent)
+Dataset:D ={(x(i), y (i))}N
+i=1
+Goal: Learn f (x) that outputs probability of class 1
+Decision Boundary:
+Predict ˆy = 1 if f (x)≥ 0.5
+Predict ˆy = 0 if f (x)< 0.5
+BITS Pilani WILP Deep Learning 8 / 100
+
+=== PAGE 9 ===
+Binary Classification: Visual Example
+x1
+x2
+Decision Boundary
+• Class 0 × Class 1
+Region 0
+Region 1
+The decision boundary
+separates the two
+classes in feature space.
+BITS Pilani WILP Deep Learning 9 / 100
+
+=== PAGE 10 ===
+Why Not Use Linear Regression?
+Problem with Linear Regression for Classiﬁcation:
+Linear regression outputs: ˆy∈ (−∞,∞)
+We need probabilities: ˆy∈ [0, 1]
+Linear model can predict values< 0 or> 1
+x
+y
+y = 1
+Linear: y = wx + b
+< 0
+> 1 Solution:
+Use a function that maps
+(−∞,∞) → [0, 1]
+BITS Pilani WILP Deep Learning 10 / 100
+
+=== PAGE 11 ===
+Table of Contents
+1 Classification
+2 Binary Classification
+Logistic Regression
+The Model: Single Neuron for Binary Classiﬁcation
+Binary Classiﬁcation: Worked Example
+Binary Classiﬁcation: Evaluation Metrics
+3 Multi-class Classification
+Multi-class Classiﬁcation Model
+Mini-batch Stochastic Gradient Descent
+Multiclass Classiﬁcation: Worked Example
+Making Predictions (Inference)
+Multiclass Classiﬁcation: Evaluation Metrics
+4 Implementation Tips and Debugging
+5 Summary
+BITS Pilani WILP Deep Learning 11 / 100
+
+=== PAGE 12 ===
+What is Logistic Regression?
+Definition
+Logistic regression is a linear model for binary classiﬁcation that uses the sigmoid
+function to output probabilities.
+Key Idea:
+Compute linear combination: z = wTx + w0
+Apply sigmoid function: ˆy =σ(z)
+Interpret output as probability: ˆy = P(y = 1|x)∈ [0, 1]
+Mathematical Form:
+ˆy =σ(wTx) = 1
+1 + e−wT x (1)
+whereσ(·) is the sigmoid (logistic) function.
+BITS Pilani WILP Deep Learning 12 / 100
+
+=== PAGE 13 ===
+The Sigmoid Activation Function
+Sigmoid (Logistic) Function:σ(z) = 1
+1+e−z
+Derivative formula:σ′(z) = σ(z)(1−σ(z))
+Function
+−5 5
+0.5
+1
+(0,0.5)
+z
+σ(z)
+Derivative
+−5 5
+0.1
+0.2
+0.3 (0,0.25)
+z
+σ′(z)
+At z = 0:σ(0) = 0.5 σ′(0) = 0.25
+BITS Pilani WILP Deep Learning 13 / 100
+
+=== PAGE 14 ===
+Properties of Sigmoid Function
+Key Properties:
+Range:σ(z)∈ (0, 1)→ perfect for probabilities!
+Monotonic: Always increasing
+Smooth: Differentiable everywhere
+Symmetry: σ(−z) = 1−σ(z)
+Derivative:σ′(z) = σ(z)(1−σ(z))
+Behavior:
+When z→ +∞:σ(z)→ 1 (conﬁdent class 1)
+When z→−∞ :σ(z)→ 0 (conﬁdent class 0)
+When z = 0:σ(z) = 0.5 (uncertain)
+The derivative property makes sigmoid ideal for gradient-based learning!
+BITS Pilani WILP Deep Learning 14 / 100
+
+=== PAGE 15 ===
+Table of Contents
+1 Classification
+2 Binary Classification
+Logistic Regression
+The Model: Single Neuron for Binary Classiﬁcation
+Binary Classiﬁcation: Worked Example
+Binary Classiﬁcation: Evaluation Metrics
+3 Multi-class Classification
+Multi-class Classiﬁcation Model
+Mini-batch Stochastic Gradient Descent
+Multiclass Classiﬁcation: Worked Example
+Making Predictions (Inference)
+Multiclass Classiﬁcation: Evaluation Metrics
+4 Implementation Tips and Debugging
+5 Summary
+BITS Pilani WILP Deep Learning 15 / 100
+
+=== PAGE 16 ===
+The Four Components
+A complete deep learning system for classiﬁcation consists of:
+1 Data: d-dimensional input vectors and binary labels
+2 Model: Single neuron with sigmoid activation
+3 Objective Function: Binary cross-entropy loss
+4 Learning Algorithm: Stochastic gradient descent (SGD)
+Note: We use stochastic gradient descent instead of batch gradient descent for
+efﬁciency. (This is for learning purposes only.)
+BITS Pilani WILP Deep Learning 16 / 100
+
+=== PAGE 17 ===
+Matrix Form of Data
+For efﬁcient computation, we organize data into matrices:
+Input Data = x(i) = [1, x (i)
+1 ,..., x (i)
+d ]T
+Design Matrix: X∈ RN×(d+1) X =
+
+
+1 x (1)
+1 ··· x (1)
+d
+1 x (2)
+1 ··· x (2)
+d
+... ... ... ...
+1 x (N)
+1 ··· x (N)
+d
+
+
+Label Vector: y∈{ 0, 1}N y =
+[
+y (1) y (2) ... y (N)]⊤
+Weight Vector: w∈ Rd+1 w =
+[
+w0 w1 w2 ... wd
+]⊤
+Key difference from regression: y (i)∈{ 0, 1} (discrete), not continuous!
+BITS Pilani WILP Deep Learning 17 / 100
+
+=== PAGE 18 ===
+Logistic Regression as a Single Neuron
+Model binary classiﬁcation as a single artiﬁcial neuron with sigmoid activation:
+x1
+x2
+...
+xd
+1
+Σ σ ˆy
+w0
+w1
+w2
+wd
+z
+Weighted Sum Sigmoid
+Input: x∈ Rd
+Linear combination: z = wTx
+Activation: Sigmoid ˆy =σ(z)
+Output: Predicted probability ˆy = P(y = 1|x)∈ [0, 1]
+BITS Pilani WILP Deep Learning 18 / 100
+
+=== PAGE 19 ===
+Model Prediction
+Model: A single neuron computes weighted sum and applies sigmoid activation.
+Prediction for input x:
+z = wTx = w0 + w1x1 + w2x2 +··· + wd xd (2)
+ˆy =σ(z) = 1
+1 + e−z (3)
+ˆy = P(y = 1|x)∈ [0, 1] (4)
+where:
+z is the logit (pre-activation).
+ˆy is the predicted probability.
+BITS Pilani WILP Deep Learning 19 / 100
+
+=== PAGE 20 ===
+Making Predictions
+Decision Rule:
+Given predicted probability ˆy = P(y = 1|x):
+Predicted class =
+{
+1 if ˆy≥ 0.5
+0 if ˆy < 0.5
+(5)
+Equivalently, sinceσ(z) = 0.5 when z = 0:
+Predicted class =
+{
+1 if wTx≥ 0
+0 if wTx< 0
+(6)
+The decision boundary is: wTx = 0 (a hyperplane in feature space)
+BITS Pilani WILP Deep Learning 20 / 100
+
+=== PAGE 21 ===
+Binary Cross-Entropy Loss
+We cannot use squared error for classiﬁcation. Instead, we use cross-entropy loss.
+Cross-entropy Loss for a single example:
+ℓ(w; x(i), y (i)) =−
+[
+y (i) log(ˆy (i)) + (1− y (i)) log(1− ˆy (i))
+]
+(7)
+where ˆy (i) =σ(wTx(i))
+Interpretation:
+If y (i) = 1: Loss =− log(ˆy (i))
+▶ Penalizes if ˆy(i) is far from 1
+If y (i) = 0: Loss =− log(1− ˆy (i))
+▶ Penalizes if ˆy(i) is far from 0
+BITS Pilani WILP Deep Learning 21 / 100
+
+=== PAGE 22 ===
+Total Loss Function
+Average Binary Cross-Entropy Loss:
+J(w) =−1
+N
+N∑
+i=1
+[
+y (i) log(ˆy (i)) + (1− y (i)) log(1− ˆy (i))
+]
+(8)
+Goal:
+Find w∗ that minimizes J(w)
+w∗ = arg min
+w
+J(w) (9)
+BITS Pilani WILP Deep Learning 22 / 100
+
+=== PAGE 23 ===
+Why Cross-Entropy Loss?
+Advantages:
+Probabilistic interpretation: Derived from maximum likelihood estimation
+Appropriate for probabilities: Heavily penalizes conﬁdent wrong predictions
+Convex: Has a single global minimum for logistic regression
+Well-behaved gradients: Works well with sigmoid activation
+Loss behavior: Loss increases exponentially as prediction diverges from true label!
+0.2 0.4 0.6 0.8 1
+2
+4y =1:−log(ˆy) y =0:−log(1−ˆy)
+ˆy (prediction)
+Loss
+BITS Pilani WILP Deep Learning 23 / 100
+
+=== PAGE 24 ===
+From Batch to Stochastic Gradient Descent
+Batch Gradient Descent (from Module 3):
+Uses all training examples in each update
+Computes gradient:∇J(w) = 1
+N
+∑N
+i=1∇ℓ(w; x(i), y (i))
+Update: w← w−η∇J(w)
+Problems with Batch GD:
+Slow for large datasets (must process all N examples per update)
+High memory requirements
+Redundant computations when examples are similar
+Solution: Stochastic Gradient Descent (SGD)
+Update weights using one random example at a time
+Much faster iterations
+Lower memory requirements
+BITS Pilani WILP Deep Learning 24 / 100
+
+=== PAGE 25 ===
+Stochastic Gradient Descent (SGD)
+Key Idea:
+Instead of computing gradient over entire dataset, use gradient from a single ran-
+dom example.
+SGD Update Rule:
+At iteration t:
+1 Randomly select one example (x(i), y (i))
+2 Compute gradient for this example:∇ℓ(w; x(i), y (i)) (noisy gradient estimate)
+3 Update weights: w(t+1) = w(t)−η∇ℓ(w(t); x(i), y (i))
+The noise in SGD actually helps escape local minima and often leads to better gen-
+eralization!
+BITS Pilani WILP Deep Learning 25 / 100
+
+=== PAGE 26 ===
+Computing the Gradient for SGD
+Gradient of cross-entropy loss for one example:
+For example (x(i), y (i)):
+∇wℓ(w; x(i), y (i)) = ∂ℓ
+∂wj
+=
+(ˆy (i)− y (i))
+x(i) (10)
+where ˆy (i) =σ(wTx(i)) for j = 0, 1,..., d (where x (i)
+0 = 1 for bias)
+Remarkably simple form!
+Error: (ˆy (i)− y (i))
+Direction: x(i)
+Same structure as linear regression gradient!
+BITS Pilani WILP Deep Learning 26 / 100
+
+=== PAGE 27 ===
+Stochastic Gradient Descent Algorithm
+Algorithm 1: Stochastic Gradient Descent for Logistic Regression
+Input: DatasetD ={(x(i), y (i))}N
+i=1, learning rateη, epochs T
+Output: Learned weights w
+1 Initialize w(0) = 0 (or small random values);
+2 for epoch = 1 to T do
+3 Shufﬂe datasetD;
+4 for each example (x(i), y (i)) inD do
+5 Compute prediction: ˆy (i) =σ(wTx(i));
+6 Compute gradient:∇ℓ = (ˆy (i)− y (i))x(i);
+7 Update weights: w← w−η∇ℓ;
+8 Optional: Compute total loss J (w) for monitoring;
+9 return w;
+BITS Pilani WILP Deep Learning 27 / 100
+
+=== PAGE 28 ===
+SGD vs Batch GD: Visual Comparison
+w∗
+Batch GD
+SGD
+w1
+w2
+Batch GD: Smooth, deter-
+ministic path
+SGD: Noisy, stochastic
+path but faster iterations
+BITS Pilani WILP Deep Learning 28 / 100
+
+=== PAGE 29 ===
+Benefits and Challenges of SGD
+Beneﬁts:
+Speed: Much faster per iteration (only one example)
+Memory: Can handle datasets that don’t ﬁt in memory
+Online learning: Can update model as new data arrives
+Generalization: Noise helps escape sharp minima
+Scalability: Works well with massive datasets
+Challenges:
+Noisy updates: Path to minimum is not smooth
+Learning rate: More sensitive toη choice
+Convergence: May oscillate near minimum
+Hyperparameter tuning: Requires careful tuning
+Common compromise: Mini-batch SGD
+BITS Pilani WILP Deep Learning 29 / 100
+
+=== PAGE 30 ===
+Table of Contents
+1 Classification
+2 Binary Classification
+Logistic Regression
+The Model: Single Neuron for Binary Classiﬁcation
+Binary Classiﬁcation: Worked Example
+Binary Classiﬁcation: Evaluation Metrics
+3 Multi-class Classification
+Multi-class Classiﬁcation Model
+Mini-batch Stochastic Gradient Descent
+Multiclass Classiﬁcation: Worked Example
+Making Predictions (Inference)
+Multiclass Classiﬁcation: Evaluation Metrics
+4 Implementation Tips and Debugging
+5 Summary
+BITS Pilani WILP Deep Learning 30 / 100
+
+=== PAGE 31 ===
+Numerical Example: Setup
+Tiny Dataset: Classify whether a student passes based on study hours
+Hours (x1) Pass (y)
+1 0
+2 0
+3 1
+4 1
+x1
+1
+Σ σ ˆy
+w0
+w1
+z
+Matrix Formulation:
+X =
+
+
+1 1
+1 2
+1 3
+1 4
+
+, y =
+
+
+0
+0
+1
+1
+
+, w =
+[
+w0
+w1
+]
+BITS Pilani WILP Deep Learning 31 / 100
+
+=== PAGE 32 ===
+Numerical Example: Initialization
+Hyperparameters: η = 0.5, N = 4
+Initialize weights: w(0) =
+[
+0
+0
+]
+Sigmoid function: σ(z) = 1
+1 + e−z
+Loss function: ℓ(w; x, y) =− [y log(ˆy) + (1− y) log(1− ˆy)]
+Initial predictions with w(0) =
+[
+0 0
+]T
+: For all examples: z = 0⇒ ˆy =σ(0) = 0.5
+ˆy(0) =
+
+
+0.5
+0.5
+0.5
+0.5
+
+
+BITS Pilani WILP Deep Learning 32 / 100
+
+=== PAGE 33 ===
+Numerical Example: First SGD Iteration
+Randomly select ﬁrst example: (x(1), y (1)) = (
+[
+1 1
+]
+, 0)
+Step 1 - Forward pass: z(1) = X(1)w(0) =
+[
+1 1
+][
+0
+0
+]
+= 0
+ˆy (1) =σ(0) = 0.5
+Step 2 - Compute error: error = ˆy (1)− y (1) = 0.5− 0 = 0.5
+Step 3 - Compute gradient: ∇ℓ = (ˆy (1)− y (1))x(1) = 0.5
+[
+1
+1
+]
+=
+[
+0.5
+0.5
+]
+Step 4 - Update weights: w(1) = w(0)−η∇ℓ
+=
+[
+0
+0
+]
+− 0.5
+[
+0.5
+0.5
+]
+=
+[−0.25
+−0.25
+]
+BITS Pilani WILP Deep Learning 33 / 100
+
+=== PAGE 34 ===
+Numerical Example: Second SGD Iteration
+Randomly select second example: (x(3), y (3)) = (
+[
+1 3
+]
+, 1)
+Step 1: Forward pass: z(3) = X(3)w(1) =
+[
+1 3
+][−0.25
+−0.25
+]
+=−1.0
+ˆy (3) =σ(−1.0) = 1
+1 + e1.0≈ 0.269
+Step 2: Compute error: error = 0.269− 1 =−0.731
+Step 3: Compute gradient: ∇ℓ =−0.731
+[
+1
+3
+]
+=
+[−0.731
+−2.193
+]
+Step 4: Update weights: w(2) =
+[−0.25
+−0.25
+]
+− 0.5
+[−0.731
+−2.193
+]
+=
+[
+0.116
+0.847
+]
+BITS Pilani WILP Deep Learning 34 / 100
+
+=== PAGE 35 ===
+Numerical Example: Checking Progress
+After 2 SGD iterations, let’s check predictions:
+With w(2) =
+[
+0.116
+0.847
+]
+:
+Example 1: ˆy (1) =σ(0.116 + 0.847· 1)≈σ(0.963)≈ 0.724
+Example 2: ˆy (2) =σ(0.116 + 0.847· 2)≈σ(1.810)≈ 0.859
+Example 3: ˆy (3) =σ(0.116 + 0.847· 3)≈σ(2.657)≈ 0.934
+Example 4: ˆy (4) =σ(0.116 + 0.847· 4)≈σ(3.504)≈ 0.971
+Progress:
+Examples 1, 2 (true label 0): predictions moving toward 0 
+Examples 3, 4 (true label 1): predictions moving toward 1 
+Continue SGD for multiple epochs until convergence!
+BITS Pilani WILP Deep Learning 35 / 100
+
+=== PAGE 36 ===
+Computational Graph for One SGD Step
+w(t) x(i) y(i)
+×
+z σ ˆy −
+e ℓ Loss
+w(t+1)
+∇ℓ
+e· x
+−η
+Weights Input Label
+Updated
+Single example used per iteration — much faster than batch GD!
+BITS Pilani WILP Deep Learning 36 / 100
+
+=== PAGE 37 ===
+Table of Contents
+1 Classification
+2 Binary Classification
+Logistic Regression
+The Model: Single Neuron for Binary Classiﬁcation
+Binary Classiﬁcation: Worked Example
+Binary Classiﬁcation: Evaluation Metrics
+3 Multi-class Classification
+Multi-class Classiﬁcation Model
+Mini-batch Stochastic Gradient Descent
+Multiclass Classiﬁcation: Worked Example
+Making Predictions (Inference)
+Multiclass Classiﬁcation: Evaluation Metrics
+4 Implementation Tips and Debugging
+5 Summary
+BITS Pilani WILP Deep Learning 37 / 100
+
+=== PAGE 38 ===
+Evaluating Classification Models
+Unlike regression, we need different metrics for classiﬁcation.
+Key Questions:
+How often does the model predict correctly? (Accuracy)
+What types of errors does it make? (Confusion Matrix)
+How well does it identify positive cases? (Precision, Recall)
+Data Split:
+Training set: Learn weights w (typically 90-99%)
+Validation set: Tune hyperparameters (typically 10-15%)
+Test set: Final evaluation (typically 1-10%)
+Always evaluate on unseen test data to measure generalization!
+BITS Pilani WILP Deep Learning 38 / 100
+
+=== PAGE 39 ===
+Confusion Matrix
+The confusion matrix shows all prediction outcomes:
+Predicted
+Positive (1) Negative (0)
+Actual
+Positive (1) True Positive (TP) False Negative (FN)
+Negative (0) False Positive (FP) True Negative (TN)
+Deﬁnitions:
+TP: Correctly predicted positive
+TN: Correctly predicted negative
+FP: Incorrectly predicted positive (Type I error)
+FN: Incorrectly predicted negative (Type II error)
+BITS Pilani WILP Deep Learning 39 / 100
+
+=== PAGE 40 ===
+Classification Metrics I
+1. Accuracy: Overall correctness
+Accuracy = TP + TN
+TP + TN + FP + FN (11)
+2. Precision: Of predicted positives, how many are correct?
+Precision = TP
+TP + FP (12)
+BITS Pilani WILP Deep Learning 40 / 100
+
+=== PAGE 41 ===
+Classification Metrics II
+3. Recall (Sensitivity): Of actual positives, how many did we ﬁnd?
+Recall = TP
+TP + FN (13)
+4. F1 Score: Harmonic mean of precision and recall
+F1 = 2· Precision× Recall
+Precision + Recall (14)
+BITS Pilani WILP Deep Learning 41 / 100
+
+=== PAGE 42 ===
+When to Use Which Metric?
+Accuracy:
+Use when classes are balanced
+Misleading with imbalanced data! (e.g., 95% negative class)
+Precision:
+Important when False Positives are costly
+Example: Spam detection (don’t want to mark real emails as spam)
+Recall:
+Important when False Negatives are costly
+Example: Disease detection (don’t want to miss sick patients)
+F1 Score:
+Use when you need balance between precision and recall
+Good for imbalanced datasets
+BITS Pilani WILP Deep Learning 42 / 100
+
+=== PAGE 43 ===
+Example: Computing Metrics
+Given predictions:
+True Pred True Pred
+1 1 (TP) 0 0 (TN)
+1 1 (TP) 0 0 (TN)
+1 0 (FN) 0 1 (FP)
+1 1 (TP) 0 0 (TN)
+Counts: TP = 3, TN = 3, FP = 1, FN = 1
+Accuracy = 3 + 3
+3 + 3 + 1 + 1 = 6
+8 = 0.75
+Precision = 3
+3 + 1 = 0.75
+Recall = 3
+3 + 1 = 0.75
+F1 = 2· 0.75× 0.75
+0.75 + 0.75 = 0.75
+BITS Pilani WILP Deep Learning 43 / 100
+
+=== PAGE 44 ===
+Summary: Binary Classification
+Logistic Regression
+1. Data 2. Model
+3. Loss4. SGD
+{(x(i), y(i))}
+y(i)∈{ 0, 1}
+Shufﬂe each epoch
+Σ σ ˆy
+Sigmoid output
+Cross-Entropy
+−[y log ˆy+
+(1− y) log(1− ˆy)]
+wt wt+1
+One example
+per update
+sample
+predict
+gradient
+next
+This framework is the foundation for neural networks!
+BITS Pilani WILP Deep Learning 44 / 100
+
+=== PAGE 45 ===
+Key Takeaways
+Binary classiﬁcation predicts discrete categories using y∈{ 0, 1}.
+Sigmoid activationσ(z) = 1
+1+e−z maps to probabilities [0, 1].
+Logistic regression = linear model + sigmoid activation.
+Cross-entropy loss is the appropriate objective for classiﬁcation.
+Stochastic Gradient Descent (SGD) updates weights one example at a time —
+faster and more scalable.
+Feature scaling is essential for convergence and numerical stability.
+Evaluation metrics: Accuracy, Precision, Recall, F1 Score, Confusion Matrix.
+This framework extends naturally to multi-class classiﬁcation and deep
+networks.
+BITS Pilani WILP Deep Learning 45 / 100
+
+=== PAGE 46 ===
+Table of Contents
+1 Classification
+2 Binary Classification
+Logistic Regression
+The Model: Single Neuron for Binary Classiﬁcation
+Binary Classiﬁcation: Worked Example
+Binary Classiﬁcation: Evaluation Metrics
+3 Multi-class Classification
+Multi-class Classiﬁcation Model
+Mini-batch Stochastic Gradient Descent
+Multiclass Classiﬁcation: Worked Example
+Making Predictions (Inference)
+Multiclass Classiﬁcation: Evaluation Metrics
+4 Implementation Tips and Debugging
+5 Summary
+BITS Pilani WILP Deep Learning 46 / 100
+
+=== PAGE 47 ===
+What is Multi-class Classification?
+Definition
+Multi-class classiﬁcation assigns each input to one of K classes, where K > 2.
+Key Characteristics:
+Classes: y∈{ 1, 2, 3,..., K} (or{0, 1, 2,..., K− 1})
+Each example belongs to exactly one class
+Output: Probability distribution over all K classes
+Probabilities sum to 1:
+∑K
+k=1 P(y = k|x) = 1
+Example:
+Input: Image of a handwritten digit
+Output: Probabilities for each of 10 classes (0, 1, 2, ..., 9)
+Prediction: Class with highest probability
+BITS Pilani WILP Deep Learning 47 / 100
+
+=== PAGE 48 ===
+Examples of Multi-class Classification
+1 Handwritten Digit Recognition (MNIST)
+▶ Input: 28× 28 pixel image
+▶ Output: One of 10 digits (0-9)
+2 Image Classiﬁcation (ImageNet)
+▶ Input: Color image
+▶ Output: One of 1000 object categories (cat, dog, car, plane, ...)
+3 Text Classiﬁcation
+▶ Input: News article text
+▶ Output: Topic category (politics, sports, technology, entertainment, business)
+4 Speech Recognition
+▶ Input: Audio features
+▶ Output: Phoneme class (multiple phonemes in a language)
+BITS Pilani WILP Deep Learning 48 / 100
+
+=== PAGE 49 ===
+Multi-class Classification: Visual Example
+x1
+x2
+1
+1
+1
+1
+1
+2
+2
+2
+2
+2
+3
+3
+3
+33
+Class 1 Class 2
+Class 3
+Key insight: We need
+multiple output neu-
+rons (one per class)
+and a way to convert
+their outputs into a
+valid probability dis-
+tribution.
+Decision boundaries separate K = 3 classes in feature space.
+BITS Pilani WILP Deep Learning 49 / 100
+
+=== PAGE 50 ===
+Table of Contents
+1 Classification
+2 Binary Classification
+Logistic Regression
+The Model: Single Neuron for Binary Classiﬁcation
+Binary Classiﬁcation: Worked Example
+Binary Classiﬁcation: Evaluation Metrics
+3 Multi-class Classification
+Multi-class Classiﬁcation Model
+Mini-batch Stochastic Gradient Descent
+Multiclass Classiﬁcation: Worked Example
+Making Predictions (Inference)
+Multiclass Classiﬁcation: Evaluation Metrics
+4 Implementation Tips and Debugging
+5 Summary
+BITS Pilani WILP Deep Learning 50 / 100
+
+=== PAGE 51 ===
+The Four Components for Multi-class
+Classification
+A complete multi-class classiﬁcation system consists of:
+1 Data: Input features and class labels y∈{ 1, 2,..., K}
+2 Model: Linear model with K output neurons (no hidden layers)
+3 Activation: Softmax function to produce probability distribution
+4 Objective Function: Categorical cross-entropy loss
+5 Learning Algorithm: Mini-batch stochastic gradient descent
+Note: We now use mini-batch SGD instead of single-example SGD for better efﬁ-
+ciency and stability.
+BITS Pilani WILP Deep Learning 51 / 100
+
+=== PAGE 52 ===
+Data Representation
+Input Features:
+X∈ RN×(d+1) X =
+
+
+1 x (1)
+1 ··· x (1)
+d
+1 x (2)
+1 ··· x (2)
+d
+... ... ... ...
+1 x (N)
+1 ··· x (N)
+d
+
+
+Class Labels: Two representations
+1. Integer encoding: y∈{ 1, 2,..., K}N
+y =
+[
+3 1 2 1 3
+]T
+2. One-hot encoding: Y∈{ 0, 1}N×K (preferred for computation)
+BITS Pilani WILP Deep Learning 52 / 100
+
+=== PAGE 53 ===
+One-Hot Encoding
+Deﬁnition: Convert class label to binary vector of length K
+For class k: All zeros except 1 at position k
+Example with K = 4 classes:
+Class 1: y = [1, 0, 0, 0]T
+Class 2: y = [0, 1, 0, 0]T
+Class 3: y = [0, 0, 1, 0]T
+Class 4: y = [0, 0, 0, 1]T
+Why one-hot?
+Treats all classes equally (no implicit ordering)
+Matches the format of softmax output probabilities
+Simpliﬁes loss computation
+Standard in deep learning frameworks
+BITS Pilani WILP Deep Learning 53 / 100
+
+=== PAGE 54 ===
+Weight Matrix for Multi-class Classification
+For K classes and d input features:
+Weight Matrix: W∈ R(d+1)×K
+W =
+
+
+w0,1 w0,2 ··· w0,K
+w1,1 w1,2 ··· w1,K
+w2,1 w2,2 ··· w2,K
+... ... ... ...
+wd,1 wd,2 ··· wd,K
+
+
+Each column wk represents weights for class k
+Each class has its own linear model
+Row 0: Bias terms for all classes
+Total parameters: (d + 1)× K
+Compare to binary: 1 weight vector vs K weight vectors!
+BITS Pilani WILP Deep Learning 54 / 100
+
+=== PAGE 55 ===
+Multi-class Model Architecture
+Architecture: Multiple output neurons with softmax activation
+1
+x1
+x2
+...
+xd
+z1
+z2
+...
+zK
+Softmax
+ˆy1
+ˆy2
+...
+ˆyK
+Input Logits Probabilities
+z = WTx (linear)→ ˆy = softmax(z) (activation)
+BITS Pilani WILP Deep Learning 55 / 100
+
+=== PAGE 56 ===
+Linear Model: Computing Logits
+Step 1: Compute logits (pre-activation values)
+For a single input x:
+z = WTx =
+
+
+wT
+1 x
+wT
+2 x
+...
+wT
+K x
+
+ =
+
+
+z1
+z2
+...
+zK
+
+ (15)
+where zk = wT
+k x = w0,k + w1,k x1 +··· + wd,k xd
+For entire dataset (batch):
+Z = XW∈ RN×K (16)
+Each row of Z contains logits for one example.
+Logits are unbounded values in (−∞,∞)→ not probabilities yet!
+BITS Pilani WILP Deep Learning 56 / 100
+
+=== PAGE 57 ===
+The Softmax Function
+Purpose: Convert K logits into a valid probability distribution
+Definition:
+For logit vector z = [z1, z2,..., zK ]T
+softmax(z)k = ezk
+∑K
+j=1 ezj
+for k = 1, 2,..., K (17)
+Output: Probability vector ˆy = [ˆy1, ˆy2,..., ˆyK ]T
+ˆyk = P(y = k|x) = ezk
+∑K
+j=1 ezj
+(18)
+Interpretation: ˆyk is the predicted probability for class k
+BITS Pilani WILP Deep Learning 57 / 100
+
+=== PAGE 58 ===
+Properties of Softmax
+Key Properties:
+1 Output range: ˆyk∈ (0, 1) for all k
+2 Probability distribution:
+∑K
+k=1 ˆyk = 1
+3 Preserves order: If zi > zj, then ˆyi > ˆyj
+4 Translation invariant: softmax(z) = softmax(z + c) for any constant c
+5 Differentiable: Enables gradient-based learning
+6 Reduces to sigmoid: When K = 2, softmax is equivalent to sigmoid
+The exponential ampliﬁes differences: larger logits get much larger probabilities!
+BITS Pilani WILP Deep Learning 58 / 100
+
+=== PAGE 59 ===
+Softmax Example: Numerical Computation
+Given logits: z = [2.0, 1.0, 0.1]T for K = 3 classes
+Step 1: Compute exponentials
+ez1 = e2.0≈ 7.39
+ez2 = e1.0≈ 2.72
+ez3 = e0.1≈ 1.11
+Step 2: Compute sum
+3∑
+j=1
+ezj = 7.39 + 2.72 + 1.11 = 11.22
+Step 3: Normalize
+ˆy1 = 7.39
+11.22≈ 0.659
+ˆy2 = 2.72
+11.22≈ 0.242
+ˆy3 = 1.11
+11.22≈ 0.099
+Step 4: Predicted class:
+arg maxk ˆyk = 1 (highest probability)
+BITS Pilani WILP Deep Learning 59 / 100
+
+=== PAGE 60 ===
+Complete Forward Pass
+For a batch of N examples X:
+Step 1: Compute logits Z = XW∈ RN×K (19)
+Step 2: Apply softmax ˆY = softmax(Z)∈ [0, 1]N×K (20)
+(softmax applied row-wise to each example)
+Step 3: Predict class ˆk = arg max
+k
+ˆyk (21)
+Each row of ˆY is a probability distribution over K classes.
+BITS Pilani WILP Deep Learning 60 / 100
+
+=== PAGE 61 ===
+Categorical Cross-Entropy Loss
+Total loss over dataset:
+J(W) =− 1
+N
+N∑
+i=1
+K∑
+k=1
+y (i)
+k log(ˆy (i)
+k ) (22)
+Goal: Minimize J(W) to ﬁnd optimal weights W∗
+BITS Pilani WILP Deep Learning 61 / 100
+
+=== PAGE 62 ===
+Understanding Categorical Cross-Entropy
+Intuition:
+Loss depends only on predicted probability for the true class
+Heavily penalizes conﬁdent wrong predictions
+Encourages high probability for correct class
+Example: True class is 2 (y = [0, 1, 0])
+Prediction ˆy1 ˆy2 Loss =− log(ˆy2)
+Good 0.1 0.8 0.22
+Medium 0.3 0.5 0.69
+Bad 0.7 0.2 1.61
+Very bad 0.9 0.05 3.00
+Loss increases exponentially as predicted probability for true class decreases!
+BITS Pilani WILP Deep Learning 62 / 100
+
+=== PAGE 63 ===
+Why Categorical Cross-Entropy?
+Advantages:
+Probabilistic interpretation: Derived from maximum likelihood
+Appropriate for multi-class: Naturally handles K classes
+Works well with softmax: Numerically stable gradient
+Penalizes wrong conﬁdence: Heavily penalizes conﬁdent mistakes
+Convex: For linear models (like ours)
+Connection to binary cross-entropy:
+When K = 2:
+Categorical: − [y1 log(ˆy1) + y2 log(ˆy2)]
+Binary: − [y log(ˆy) + (1− y) log(1− ˆy)]
+They are equivalent! (with y2 = y and y1 = 1− y)
+BITS Pilani WILP Deep Learning 63 / 100
+
+=== PAGE 64 ===
+Table of Contents
+1 Classification
+2 Binary Classification
+Logistic Regression
+The Model: Single Neuron for Binary Classiﬁcation
+Binary Classiﬁcation: Worked Example
+Binary Classiﬁcation: Evaluation Metrics
+3 Multi-class Classification
+Multi-class Classiﬁcation Model
+Mini-batch Stochastic Gradient Descent
+Multiclass Classiﬁcation: Worked Example
+Making Predictions (Inference)
+Multiclass Classiﬁcation: Evaluation Metrics
+4 Implementation Tips and Debugging
+5 Summary
+BITS Pilani WILP Deep Learning 64 / 100
+
+=== PAGE 65 ===
+From SGD to Mini-batch SGD
+Recap: Gradient Descent Variants
+1. Batch Gradient Descent:
+Uses all N examples per update
+Slow but stable, accurate gradient
+2. Stochastic Gradient Descent (SGD):
+Uses 1 random example per update
+Fast but noisy, unstable
+3. Mini-batch SGD (Best of both worlds):
+Uses small batch of B examples per update (1< B≪ N)
+Typical batch sizes: B∈{ 32, 64, 128, 256, 512}
+Good balance of speed and stability
+Standard in modern deep learning!
+BITS Pilani WILP Deep Learning 65 / 100
+
+=== PAGE 66 ===
+Why Mini-batch SGD?
+Advantages of mini-batches:
+1 Computational efﬁciency:
+▶ Vectorized operations (matrix multiplication)
+▶ Better GPU utilization
+▶ Faster than processing examples one-by-one
+2 Gradient estimation:
+▶ Less noisy than single-example SGD
+▶ More stable convergence
+▶ Better approximation of true gradient
+3 Generalization:
+▶ Noise helps escape sharp minima
+▶ Often leads to better test performance
+4 Memory efﬁciency:
+▶ Can handle datasets larger than memory
+▶ Load and process data in batches
+BITS Pilani WILP Deep Learning 66 / 100
+
+=== PAGE 67 ===
+Mini-batch SGD: Key Concepts
+Batch size (B): Number of examples per update
+▶ Small: 32-64 (more noise, faster iterations)
+▶ Medium: 128-256 (balanced)
+▶ Large: 512-1024 (less noise, but slower convergence)
+Iteration: One weight update (processing one mini-batch)
+Epoch: One complete pass through the entire dataset
+Iterations per epoch =
+⌈
+N
+B
+⌉
+(23)
+Example: N = 60,000 samples, B = 128
+▶ Iterations per epoch:⌈60000/128⌉ = 469
+▶ After 10 epochs: 469× 10 = 4690 weight updates
+BITS Pilani WILP Deep Learning 67 / 100
+
+=== PAGE 68 ===
+Computing Gradients for Mini-batch
+Gradient for a mini-batch of size B:
+LetB be a mini-batch of B examples:B ={(x(i), y(i))}i∈I
+Average gradient over mini-batch:
+∇JB(W) = 1
+B
+∑
+i∈B
+∇ℓ(W; x(i), y(i)) (24)
+For categorical cross-entropy with softmax:
+∇WJB = 1
+B XT
+B(ˆYB− YB) (25)
+where:
+XB∈ RB×(d+1): Mini-batch inputs
+ˆYB∈ RB×K : Predicted probabilities
+YB∈ RB×K : One-hot true labels
+BITS Pilani WILP Deep Learning 68 / 100
+
+=== PAGE 69 ===
+Mini-batch SGD Update Rule
+Update at iteration t:
+W(t+1) = W(t)−η∇JB(W(t)) (26)
+Expanded form:
+W(t+1) = W(t)− η
+B XT
+B(ˆYB− YB) (27)
+BITS Pilani WILP Deep Learning 69 / 100
+
+=== PAGE 70 ===
+Mini-batch SGD Algorithm
+Algorithm 2: Mini-batch SGD for Multi-class Classiﬁcation
+Input: DatasetD ={(x(i), y(i))}N
+i=1, batch size B, learning rateη, epochs T
+Output: Learned weight matrix W
+1 Initialize W∼N (0, 0.01) // Small random values
+2 for epoch = 1 to T do
+3 Shufﬂe datasetD;
+4 for each mini-batchB of size B do
+// Forward pass
+5 ZB = XBW // Compute logits
+6 ˆYB = softmax(ZB) // Apply softmax
+7 ∇J = 1
+B XT
+B(ˆYB− YB) // Compute gradient
+8 W← W−η∇J // Update weights
+9 Optional: Compute total loss for monitoring ;
+10 return W;
+BITS Pilani WILP Deep Learning 70 / 100
+
+=== PAGE 71 ===
+Choosing Batch Size
+Batch Size Advantages Disadvantages
+Small (32-64)
+Fast iterations
+More updates per epoch
+Better generalization
+Escapes sharp minima
+Noisy gradients
+Unstable training
+Poor GPU utilization
+Medium (128-256)
+Good balance
+Stable training
+Good GPU usage
+Standard choice
+May need tuning
+Large (512-1024)
+Stable gradients
+Better GPU utilization
+Faster per-epoch time
+Slow convergence
+May generalize worse
+More memory
+Rule of thumb: Start with B = 128 or B = 256
+BITS Pilani WILP Deep Learning 71 / 100
+
+=== PAGE 72 ===
+Table of Contents
+1 Classification
+2 Binary Classification
+Logistic Regression
+The Model: Single Neuron for Binary Classiﬁcation
+Binary Classiﬁcation: Worked Example
+Binary Classiﬁcation: Evaluation Metrics
+3 Multi-class Classification
+Multi-class Classiﬁcation Model
+Mini-batch Stochastic Gradient Descent
+Multiclass Classiﬁcation: Worked Example
+Making Predictions (Inference)
+Multiclass Classiﬁcation: Evaluation Metrics
+4 Implementation Tips and Debugging
+5 Summary
+BITS Pilani WILP Deep Learning 72 / 100
+
+=== PAGE 73 ===
+Numerical Example: Setup
+Tiny Dataset: Classify 4 data points into 3 classes
+x1 x2 Class
+1 2 1
+2 1 2
+2 3 1
+3 2 3
+1
+x1
+x2
+z1
+z2
+z3
+SM
+ˆy1
+ˆy2
+ˆy3
+Parameters:
+K = 3 classes, d = 2 features, N = 4 examples
+Batch size: B = 2 (mini-batch)
+Learning rate: η = 0.1
+BITS Pilani WILP Deep Learning 73 / 100
+
+=== PAGE 74 ===
+Numerical Example: Data Representation
+Design Matrix: (with bias column) X =
+
+
+1 1 2
+1 2 1
+1 2 3
+1 3 2
+
+∈ R4×3
+One-hot Labels: Y =
+
+
+1 0 0
+0 1 0
+1 0 0
+0 0 1
+
+∈ R4×3
+(class 1)
+(class 2)
+(class 1)
+(class 3)
+Weight Matrix: Initialize randomly W(0) =
+
+
+0.1 −0.1 0 .2
+0.2 0 .1 −0.1
+−0.1 0 .2 0 .1
+
+∈ R3×3
+BITS Pilani WILP Deep Learning 74 / 100
+
+=== PAGE 75 ===
+Numerical Example: First Mini-batch (Examples
+1-2)
+Mini-batch: First 2 examples after shufﬂing
+XB =
+[
+1 1 2
+1 2 1
+]
+, YB =
+[
+1 0 0
+0 1 0
+]
+Step 1: Compute logits
+ZB = XBW(0)
+=
+[
+1 1 2
+1 2 1
+]
+
+0.1 −0.1 0 .2
+0.2 0 .1 −0.1
+−0.1 0 .2 0 .1
+
+
+=
+[
+0.1 0 .4 0 .3
+0.4 0 .2 0 .1
+]
+BITS Pilani WILP Deep Learning 75 / 100
+
+=== PAGE 76 ===
+Numerical Example: Softmax Computation
+Step 2: Apply softmax to each row
+Softmax for example 1: ˆy(1)≈
+
+
+0.280
+0.378
+0.342
+
+
+Similarly for example 2: ˆy(2)≈ [0.387, 0.315, 0.298]T
+For the entire batch: ˆYB =
+[
+0.280 0 .378 0 .342
+0.387 0 .315 0 .298
+]
+BITS Pilani WILP Deep Learning 76 / 100
+
+=== PAGE 77 ===
+Numerical Example: Gradient and Update
+Step 3: Compute gradient
+∇J = 1
+B XT
+B(ˆYB− YB)
+ˆYB− YB =
+[
+0.280 0 .378 0 .342
+0.387 0 .315 0 .298
+]
+−
+[
+1 0 0
+0 1 0
+]
+=
+[−0.720 0 .378 0 .342
+0.387 −0.685 0 .298
+]
+∇J = 1
+2
+
+
+1 1
+1 2
+2 1
+
+
+[−0.720 0 .378 0 .342
+0.387 −0.685 0 .298
+]
+≈
+
+
+−0.167 −0.154 0 .320
+−0.024 −0.496 0 .469
+−0.527 0 .036 0 .491
+
+
+BITS Pilani WILP Deep Learning 77 / 100
+
+=== PAGE 78 ===
+Numerical Example: Weight Update
+Step 4: Update weights
+W(1) = W(0)−η∇J
+=
+
+
+0.1 −0.1 0 .2
+0.2 0 .1 −0.1
+−0.1 0 .2 0 .1
+
+− 0.1
+
+
+−0.167 −0.154 0 .320
+−0.024 −0.496 0 .469
+−0.527 0 .036 0 .491
+
+
+=
+
+
+0.117 −0.085 0 .168
+0.202 0 .150 −0.147
+−0.047 0 .196 0 .051
+
+
+Progress:
+Weights adjusted based on mini-batch gradient
+Process next mini-batch (examples 3-4) with updated weights
+Continue for multiple epochs until convergence
+This completes one iteration of mini-batch SGD!
+BITS Pilani WILP Deep Learning 78 / 100
+
+=== PAGE 79 ===
+Computational Graph for Mini-batch Forward
+Pass
+W XB YB
+×
+ZB SM ˆYB −
+E ℓ J
+Wnew
+∇J
+1
+B XT
+BE
+−η
+Weights Batch Labels
+Updated
+Mini-batch processes B examples simultaneously — efﬁcient and stable!
+BITS Pilani WILP Deep Learning 79 / 100
+
+=== PAGE 80 ===
+Table of Contents
+1 Classification
+2 Binary Classification
+Logistic Regression
+The Model: Single Neuron for Binary Classiﬁcation
+Binary Classiﬁcation: Worked Example
+Binary Classiﬁcation: Evaluation Metrics
+3 Multi-class Classification
+Multi-class Classiﬁcation Model
+Mini-batch Stochastic Gradient Descent
+Multiclass Classiﬁcation: Worked Example
+Making Predictions (Inference)
+Multiclass Classiﬁcation: Evaluation Metrics
+4 Implementation Tips and Debugging
+5 Summary
+BITS Pilani WILP Deep Learning 80 / 100
+
+=== PAGE 81 ===
+Inference: Making Predictions
+After training, use the model to classify new examples.
+Inference process for input xnew:
+Compute logits: z = WTxnew (28)
+Apply softmax: ˆy = softmax(z) (29)
+Predict class: ˆk = arg max
+k=1,...,K
+ˆyk (30)
+Optional: Report conﬁdence scores (the probabilities ˆy)
+BITS Pilani WILP Deep Learning 81 / 100
+
+=== PAGE 82 ===
+Inference Example
+Trained model with K = 3 classes, new input x = [1, 2.5, 1.8]T
+Step 1: Compute logits z = WTx = [1.2, 2.5, 0.8]T
+Step 2: Apply softmax e1.2≈ 3.32, e2.5≈ 12.18, e0.8≈ 2.23
+Sum = 3.32 + 12.18 + 2.23 = 17.73
+ˆy =
+
+
+3.32/17.73
+12.18/17.73
+2.23/17.73
+
+ =
+
+
+0.187
+0.687
+0.126
+
+
+Step 3: Predict class ˆk = arg max
+k
+ˆyk = 2 (Class 2 with 68.7% conﬁdence)
+BITS Pilani WILP Deep Learning 82 / 100
+
+=== PAGE 83 ===
+Table of Contents
+1 Classification
+2 Binary Classification
+Logistic Regression
+The Model: Single Neuron for Binary Classiﬁcation
+Binary Classiﬁcation: Worked Example
+Binary Classiﬁcation: Evaluation Metrics
+3 Multi-class Classification
+Multi-class Classiﬁcation Model
+Mini-batch Stochastic Gradient Descent
+Multiclass Classiﬁcation: Worked Example
+Making Predictions (Inference)
+Multiclass Classiﬁcation: Evaluation Metrics
+4 Implementation Tips and Debugging
+5 Summary
+BITS Pilani WILP Deep Learning 83 / 100
+
+=== PAGE 84 ===
+Evaluation Metrics for Multi-class
+Classification
+1. Accuracy: Overall correctness
+Accuracy = Number of correct predictions
+N = 1
+N
+N∑
+i=1
+⊮[ˆy (i) = y (i)] (31)
+2. Confusion Matrix: K× K matrix
+Row i, Column j: Number of class i examples predicted as class j
+Diagonal: Correct predictions
+Off-diagonal: Misclassiﬁcations
+3. Per-class Precision and Recall:
+Compute for each class separately (one-vs-all)
+Average across classes (macro-average or weighted average)
+BITS Pilani WILP Deep Learning 84 / 100
+
+=== PAGE 85 ===
+Confusion Matrix for Multi-class
+Example: 3-class confusion matrix
+Predicted
+Class 1 Class 2 Class 3
+Actual
+Class 1 45 3 2
+Class 2 5 38 7
+Class 3 2 4 44
+Interpretation:
+Diagonal (green): Correct predictions (45, 38, 44)
+Off-diagonal (red): Misclassiﬁcations
+Row sums: Total actual examples per class (50, 50, 50)
+Column sums: Total predicted examples per class
+Accuracy: (45 + 38 + 44)/150 = 0.847 or 84.7%
+BITS Pilani WILP Deep Learning 85 / 100
+
+=== PAGE 86 ===
+Per-class Metrics
+For each class k, compute:
+Precision for class k: Of all predictions for class k, what fraction were correct?
+Precisionk = TPk
+TPk + FPk
+(32)
+Recall for class k: Of all actual class k examples, what fraction did we identify?
+Recallk = TPk
+TPk + FNk
+(33)
+F1 Score for class k:
+F1k = 2· Precisionk× Recallk
+Precisionk + Recallk
+(34)
+BITS Pilani WILP Deep Learning 86 / 100
+
+=== PAGE 87 ===
+A veraging Strategies
+How to combine per-class metrics into overall score?
+1. Macro-average: Simple average across classes
+Precisionmacro = 1
+K
+K∑
+k=1
+Precisionk (35)
+Treats all classes equally
+Good when classes are equally important
+2. Weighted average: Weight by class frequency
+Precisionweighted =
+K∑
+k=1
+wk· Precisionk wk = Nk/N (36)
+Accounts for class imbalance
+Good when some classes are more common
+BITS Pilani WILP Deep Learning 87 / 100
+
+=== PAGE 88 ===
+Top-K Accuracy
+For problems with many classes (e.g., ImageNet with 1000 classes):
+Top-K Accuracy: Correct if true class is in top K predictions
+Top-K Accuracy = 1
+N
+N∑
+i=1
+⊮[y (i)∈ Top-K(ˆy(i))] (37)
+Example: Image classiﬁcation with 1000 classes
+Top-1 accuracy: Is the highest probability class correct?
+Top-5 accuracy: Is the true class in the top 5 predictions?
+Why useful?
+More forgiving metric for large K
+Captures whether model has correct class among top candidates
+Standard in ImageNet challenge
+BITS Pilani WILP Deep Learning 88 / 100
+
+=== PAGE 89 ===
+Summary: Multiclass Classification
+Multi-class Classiﬁcation
+1. Data 2. Model
+3. Loss4. Mini-batch SGD
+X∈ RN×(d+1)
+Y∈{ 0, 1}N×K (one-hot)
+W∈ R(d+1)×K
+z1
+zK
+SM
+K neurons + softmax
+Cross-Entropy
+− ∑
+k yk log ˆyk
+Batch size B
+∇JB
+Wt Wt+1
+batch
+predict
+gradient
+iterate
+BITS Pilani WILP Deep Learning 89 / 100
+
+=== PAGE 90 ===
+Table of Contents
+1 Classification
+2 Binary Classification
+Logistic Regression
+The Model: Single Neuron for Binary Classiﬁcation
+Binary Classiﬁcation: Worked Example
+Binary Classiﬁcation: Evaluation Metrics
+3 Multi-class Classification
+Multi-class Classiﬁcation Model
+Mini-batch Stochastic Gradient Descent
+Multiclass Classiﬁcation: Worked Example
+Making Predictions (Inference)
+Multiclass Classiﬁcation: Evaluation Metrics
+4 Implementation Tips and Debugging
+5 Summary
+BITS Pilani WILP Deep Learning 90 / 100
+
+=== PAGE 91 ===
+Implementation Tips
+1. Learning Rate & Epochs:
+▶ Start: η∈{ 0.01, 0.1, 1.0}
+▶ Typical: 10-100 epochs
+▶ Use early stopping
+2. Weight Initialization:
+▶ wj∼N (0, 0.01)
+▶ Avoid zeros or large values
+3. Batch Size:
+▶ Start: B∈{ 64, 128, 256}
+▶ Powers of 2 preferred
+▶ Larger: stable, slower
+▶ Smaller: noisy, faster
+4. Data Handling:
+▶ Always shufﬂe each epoch
+▶ Check class balance
+5. Feature Scaling: Essential!
+▶ Standardization: x′
+j = xj−µj
+σj
+▶ Prevents sigmoid saturation
+6. Numerical Stability:
+▶ Use: log(σ(z))
+▶ Stable softmax: c = max k zk
+▶ SM(z)k = ezk−c
+∑
+j ezj−c
+▶ Log-sum-exp trick
+▶ Prevents overﬂow/underﬂow
+BITS Pilani WILP Deep Learning 91 / 100
+
+=== PAGE 92 ===
+Debugging Checklist
+Loss is NaN/Inf:
+▶ η too large decrease
+▶ Checklog(0)in loss
+▶ Scale features
+▶ Use stable softmax
+Predicts same class:
+▶ Check class balance
+▶ Verify softmax/loss
+▶ η might be too small
+▶ Verify one-hot encoding
+Loss oscillates:
+▶ η too large
+▶ Use mini-batches
+▶ Apply learning rate decay
+Softmax outputs̸=1:
+▶ Implementation bug
+▶ Numerical precision
+▶ Use stable softmax
+Loss not decreasing:
+▶ Check gradient signs
+▶ η too small/large
+▶ Verify feature scaling
+▶ Verify data shufﬂing
+▶ Check one-hot encoding
+High train, low test accuracy:
+▶ Overﬁtting
+▶ Add regularization
+▶ Get more training data
+▶ Simpler model
+Sanity checks:
+▶ Tiny dataset 100% accuracy
+▶ Verifyˆy∈[0,1]
+▶ Verify∑
+k ˆyk =1
+▶ Shufﬂing improves results
+▶ Print confusion matrix
+BITS Pilani WILP Deep Learning 92 / 100
+
+=== PAGE 93 ===
+Table of Contents
+1 Classification
+2 Binary Classification
+Logistic Regression
+The Model: Single Neuron for Binary Classiﬁcation
+Binary Classiﬁcation: Worked Example
+Binary Classiﬁcation: Evaluation Metrics
+3 Multi-class Classification
+Multi-class Classiﬁcation Model
+Mini-batch Stochastic Gradient Descent
+Multiclass Classiﬁcation: Worked Example
+Making Predictions (Inference)
+Multiclass Classiﬁcation: Evaluation Metrics
+4 Implementation Tips and Debugging
+5 Summary
+BITS Pilani WILP Deep Learning 93 / 100
+
+=== PAGE 94 ===
+Activation Functions
+Property Identity Sigmoid Softmax
+Formula f (z) = z σ(z) = 1
+1+e−z SM(z)k = ezk∑
+j ezj
+Output Range (−∞,∞) [0, 1] [0, 1]K ,
+∑
+k = 1
+Use Case Regression Binary classiﬁcation Multi-class
+# Outputs 1 1 K (coupled)
+BITS Pilani WILP Deep Learning 94 / 100
+
+=== PAGE 95 ===
+Loss Functions
+Aspect MSE Binary CE Categorical CE
+Formula 1
+N
+∑N
+i=1(ˆy(i)− y(i))2 −1
+N
+∑N
+i=1[y(i) log ˆy(i) +
+(1− y(i)) log(1− ˆy(i))]
+−1
+N
+∑N
+i=1
+∑K
+k=1 y(i)
+k log ˆy(i)
+k
+Task Regression Binary classiﬁcation Multi-class classiﬁcation
+Output Type Continuous value Probability (2 classes) Probability distribution (K
+classes)
+Target y Real number {0, 1} One-hot vector
+Prediction ˆy Any real number Probability [0, 1] Probability vector,∑
+k ˆyk = 1
+Activation Identity Sigmoid Softmax
+Penalizes Distance from target Conﬁdent wrong predic-
+tions
+Wrong class probability
+Properties Convex, Quadratic
+penalty
+Convex, Probabilistic,
+Logarithmic penalty
+Convex, Extends binary
+CE, Multi-class penalty
+BITS Pilani WILP Deep Learning 95 / 100
+
+=== PAGE 96 ===
+Gradient Descent V ariants
+Aspect Batch GD Stochastic GD Mini-batch GD
+Examples/update All N 1 B (batch size)
+Gradient ∇J = 1
+N
+∑N
+i=1∇ℓi ∇ℓi for random i ∇JB = 1
+B
+∑
+i∈B∇ℓi
+Update rule w← w−η∇J w← w−η∇ℓi w← w−η∇JB
+Iterations/epoch 1 N ⌈N/B⌉
+Speed per iteration Slow Fast Medium
+Convergence Smooth, deterministic Noisy, oscillating Balanced
+Memory High (all data) Low (1 example) Medium (B examples)
+Gradient quality Exact Noisy estimate Good estimate
+Advantages Stable, Precise gradi-
+ent, Reproducible
+Fast iterations,
+Online learning, Es-
+capes local minima
+Best balance, GPU efﬁ-
+cient, Stable & fast
+Disadvantages Slow for large N, High
+memory, NO online
+Very noisy, Unstable,
+Hard to parallelize
+Extra hyperparameter
+(B), Needs tuning
+Best for Small datasets Online learning Deep learning (std)
+Typical B N (all data) 1 32, 64, 128, 256
+BITS Pilani WILP Deep Learning 96 / 100
+
+=== PAGE 97 ===
+Comparison of Linear models
+Aspect Regression Binary Multi-class
+Output Continuous y∈ R Discrete y∈{ 0, 1} Discrete y∈{ 1,.., K}
+Activation Identity: f (z) = z Sigmoid:σ(z) Softmax: SM(z)
+Loss Function Mean Squared Error Binary Cross-Entropy Categorical Cross-
+Entropy
+Output Range (−∞,∞) [0, 1] [0, 1]K ,
+∑
+k = 1
+Interpretation Predicted value P(y = 1|x) P(y = k|x) for all k
+Output neurons 1 1 K
+Weights Vector w∈ Rd+1 Vector w∈ Rd+1 Matrix W∈ R(d+1)×K
+Evaluation MSE, RMSE, R2 Accuracy, Precision,
+Recall, F1
+Confusion matrix, Top-
+K
+Learning Batch GD or SGD SGD or Mini-batch Mini-batch SGD
+Examples House prices, tem-
+perature
+Spam detection, di-
+agnosis
+Digit recognition, Ima-
+geNet
+BITS Pilani WILP Deep Learning 97 / 100
+
+=== PAGE 98 ===
+Recap: Binary Classification
+LOGISTIC REGRESION
+Key insight: Sigmoid maps linear combination to probability; optimized by minimiz-
+ing cross-entropy loss.
+Problem: Classify into two classes: y∈{ 0, 1}
+Model: Single neuron with sigmoid activation
+Output: Probability ˆy = P(y = 1|x)∈ [0, 1]
+Loss: Binary cross-entropy
+Training: Stochastic Gradient Descent (SGD)
+x1
+x2
+Σ σ ˆy
+z
+Class 0 or 1
+BITS Pilani WILP Deep Learning 98 / 100
+
+=== PAGE 99 ===
+Recap: Multi-class Classification
+Key insight: Multiple outputs coupled through softmax create valid probability dis-
+tribution over all classes.
+Problem: Classify into K classes: y∈{ 1, 2,..., K}
+Model: K output neurons with softmax activation
+Output: Probability distribution ˆy = [ˆy1,..., ˆyK ]T, where
+∑K
+k=1 ˆyk = 1
+Loss: Categorical cross-entropy
+Training: Mini-batch Stochastic Gradient Descent
+x1
+x2
+z1
+z2
+...
+zK
+Softmax
+ˆy1
+ˆy2
+...
+ˆyK
+Classes 1, 2,..., K
+BITS Pilani WILP Deep Learning 99 / 100
+
+=== PAGE 100 ===
+References
+Zhang, A., Lipton, Z. C., Li, M., & Smola, A. J. (2023). Dive into Deep
+Learning. Cambridge University Press. Chapter 4 (Linear Neural Networks for
+Classiﬁcation). https://d2l.ai/
+Goodfellow, I., Bengio, Y ., & Courville, A. (2016).Deep Learning. MIT Press.
+Chapter 6 (Deep Feedforward Networks).
+https://www.deeplearningbook.org/
+Bishop, C. M. (2006). Pattern Recognition and Machine Learning . Springer.
+Chapter 4 (Linear Models for Classiﬁcation).
+Murphy, K. P . (2022).Probabilistic Machine Learning: An Introduction . MIT
+Press. Chapter 10 (Logistic Regression).
+https://probml.github.io/pml-book/
+BITS Pilani WILP Deep Learning 100 / 100

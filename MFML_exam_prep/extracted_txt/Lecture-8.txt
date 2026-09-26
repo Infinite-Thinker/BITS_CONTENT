@@ -1,0 +1,301 @@
+--- PAGE 1 ---
+BITSPilani
+MFMLANDMFDS
+MFML and MFDS Team
+WILPD - CSIS
+--- PAGE 2 ---
+BITSPilani
+* ZC416 Mathematical Foundations for
+Machine Learning / Data Science
+Topic: # 8 Taylor/MacLaurin series
+1 / 19
+--- PAGE 3 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+INTRODUCTION
+We introduced the Taylor/MacLaurin series, partial
+derivatives and gradients.
+We are interested now in some aspects of Taylor’s series
+which we have not discussed.
+Specifically, we will delve into the theory of Taylor series
+and derive the remainder term for a truncated Taylor series.
+We shall also develop the Taylor’s series in two variables
+and motivate the derivation of the Hessian matrix which
+plays a huge role in data science, especially in neural
+network cost function minimization.
+2 / 19
+--- PAGE 4 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+WHERE DOES THETAYLOR SERIES COME FROM?
+Our development of the Taylor series will mirror the
+argument given in the document ”Proof of Taylor’s theorem”
+which will also be uploaded as class material.
+Theorem: Supposef: (a,b)→Ris a function on
+(a,b), wherea,binRwitha<b. Assume thatfis
+n-times differentiable in the open interval(a,b)and
+f,f ′,f ′′, . . .fn−1 all extend continuously to the closed
+interval[a,b], such that the extended functions are still
+calledf,f ′′ . . .fn−1. Then there existsc∈(a,b)such
+that
+f(b) =
+k=n−1X
+k=0
+f k (a)
+k! (b−a) k + f n(c)
+n! (b−a) n (1)
+3 / 19
+--- PAGE 5 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+MEAN-VALUE THEOREM
+Forn=1, the statement of Taylor’s theorem boils down to
+the mean-value theorem which is that if a function f is
+continuous on[a,b]and differentiable on the interval(a,b),
+then there exists a valuec∈(a,b)such that
+f ′(c) = f(b)−f(a)
+b−a as in the following figure:
+4 / 19
+--- PAGE 6 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+MEAN-VALUE THEOREM
+Note that the requirement thatfbe a differentiable function
+in the mean-value theorem is needed as the theorem is not
+valid for functionsfthat are not differentiable as in the
+example below:
+5 / 19
+--- PAGE 7 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+MEAN-VALUE THEOREM
+The proof of the mean-value theorem comes from Rolle’s
+theorem whose statement follows. We shall show that the
+development of Taylor’s series involves the repeated
+application of Rolle’s theorem below:
+Theorem: If f is a continuous function on[a,b]and
+differentiable on(a,b)withf(a) =f(b) =0, then there
+exists somecin(a,b)such thatf ′(c) =0.
+6 / 19
+--- PAGE 8 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+DEVELOPMENT OFTAYLOR’S SERIES
+LetF(x)be a function over the region(a,b)∈Rsuch that
+F(a) =F ′(a) =F n−1(a) =0, andF(b) =0. Then there
+exists ac∈(a,b)such thatF n(c) =0. Let us call this
+Proposition P .
+Proposition P follows from ann-fold application of Rolle’s
+theorem as follows: sinceF(a) =F(b) =0, an application
+of Rolle’s theorem tells us that there is ac 1 ∈(a,b)such
+thatF ′(c1) =0.
+Now sinceF ′(a) =F ′(c1) =0, there existsc 2 ∈(a,c 1)
+such thatF ′′(c2) =0.
+Continuing this argument we get
+a<c n <c n−1 < . . . <c1 <bsuch thatF k (ck ) =0 for
+k=1,2, . . .n.
+7 / 19
+--- PAGE 9 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+DEVELOPMENT OFTAYLOR’S SERIES
+Thus we haveF n(c) =0 forc=c n ∈(a,b).
+To construct a polynomial that approximates a functionfwe
+use the ideas of the previous slide.
+Let the polynomial used to approximate the functionfbe of
+the formP(x) = Pk=n
+k=0 ak (x−a) k. We will now find the
+coefficientsa 0,a 1,a 2, . . .an such thatF(x) =f(x)−P(x)
+satisfiesF(a) =F(b)andF(a) =F ′(a) =F n−1(a) =0 of
+the previous slide. Then we haveF n(c) =0 forc∈(a,b).
+We can see that
+F k (a) =f k (a)−k!a k ,k=0,1,2, . . .n−1, and to satisfy
+the requirements of the functionFdefined on the previous
+slide we need to setF(a) =F ′(a) =F n−1(a) =0, and
+F(b) =0. This givesa k = f k (a)
+k! ,k=0,1,2, . . .n−1.
+8 / 19
+--- PAGE 10 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+DEVELOPMENT OFTAYLOR’S SERIES
+We finally need to determinea n. To do so, we note that
+F(b) =f(b)− Pk=n
+k=0 ak (b−a) k =0. This becomes
+F(b) =f(b)− Pk=n−1
+k=0
+f k (a)
+k! (b−a) k −a n(b−a) n =0
+once we substitute fora k = f k (a)
+k! , fork=1,2, . . .n−1.
+We can then solve fora n to get
+an = 1
+(b−a)n (f(b)− Pk=n−1
+k=0
+f k (a)
+k! (b−a) k ).
+Our functionFsatisfies the requirements of proposition P ,
+i.e (F(a) =F(b)andF ′(a) =F ′′(a) =. . .Fn−1(a) =0).
+Therefore there exists a pointc, according to proposition P
+such thatF n(c) =0.
+9 / 19
+--- PAGE 11 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+DEVELOPMENT OFTAYLOR’S SERIES
+SinceF n(c) =f n(c)−P n(c), we have
+F n(c) =f n(c)−n!a n =
+f n(c)− n!
+(b−a)n (f(b)− Pk=n−1
+k=0
+f k (a)
+k! (b−a) k ) =0,
+Rearranging the above we have the final Taylor’s series
+expansion with a remainder term:
+f(b) = Pk=n−1
+k=0
+f k (a)
+k! (b−a) k ) +f n(c)
+n! (b−a) n.
+The last term in the expression above is the remainder term
+which should be used when the series is truncated at a
+certain number of terms.
+10 / 19
+--- PAGE 12 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+TAYLOR’S SERIES IN TWO VARIABLES
+How do we develop Taylor’s series in two variables?
+Letf(x,y)be a function in two variables with continuous
+partial derivatives in an open regionRcontaining the point
+P(a,b)where the partial derivatesf x andf y are both zero.
+Note thatf x andf y are zero because the gradient vanishes
+at critical points, and(a,b)is a critical point.
+Lethandkbe increments small enough to put the point
+S(a+h,b+k)in the regionR. We parameterise the line
+segmentPSasx=a+th,y=b+tk,t∈[0,1].
+Now letF(t) =f(a+th,b+tk).Fis now a function of
+only one variable. We can compute
+F ′(t) =f x
+dx
+dt +f y
+dy
+dt =hf x +kf y.
+11 / 19
+--- PAGE 13 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+TAYLOR’S SERIES IN TWO VARIABLES
+Nowf x andf y are differentiable functions,F ′ is a
+differentiable function oftand we can write
+F ′′(t) = ∂F ′
+∂x
+dx
+dt + ∂F ′
+∂y
+dy
+dt .
+Sincex=a+thandy=b+tk, andF ′ =hf x +kf y, we
+can write
+F ′′(t) = ∂(hfx +kfy )
+∂x h+ ∂(hfx +kfy )
+∂y k=h 2fxx +2hkf xy +k 2fyy.
+SinceFandF ′ are continuous on[0,1]andF ′ is
+differentiable on(0,1)we can apply Taylor’s theorem and
+obtainF(1) =F(0) +F ′(0)(1−0) + 1
+2 F”(c)for somec
+between 0 and 1.
+Rewriting this in terms ofx,y, we have
+f(a+h,b+k) =f(a,b) +hf x(a,b) +kfy (a,b) + 1
+2(h2fxx +
+2hkfxy +k 2fyy )|a+ch,b+ck
+12 / 19
+--- PAGE 14 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+TAYLOR’S SERIES IN TWO VARIABLES
+Sincef x(a,b) =f y (a,b) =0, the expression for
+f(a+h,b+k)simplifies to
+f(a+h,b+k)−f(a,b) = 1
+2 (h2fxx +2hkf xy +k 2fyy )|a+ch,b+ck
+The presence of an extremum atf(a,b)is dependent on
+the sign off(a+h,b+k)−f(a,b)for arbitraryhandk.
+This is the same as the sign of
+Q(c) = (h2fxx +2hkf xy +k 2fyy )|a+ch,b+ck.
+We shall now study the sign ofQ(c).
+13 / 19
+--- PAGE 15 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+HESSIAN MATRIX
+IfQ(0)̸=0, the sign ofQ(c)for smallcwill be the same as
+the sign ofQ(0)for sufficiently small values ofhandk.
+We can predict the sign of
+Q(0) = (h2fxx(a,b) +2hkf xy (a,b) +k 2fyy (a,b))from the
+signs off xx andf xx fyy −f 2
+xy evaluated at(a,b).
+Multiply both sides of the equation forQ(0)byf xx, and
+rearrange the right hand side to get
+fxx Q(0) = (hfxx +kf xy )2 + (fxx fyy −f 2
+xy )k 2.
+What can we now conclude about the nature of the
+neighbourhood of the function at(a,b)?
+14 / 19
+--- PAGE 16 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+HESSIAN MATRIX
+Iff xx <0 andf xx fyy −f 2
+xy >0 at(a,b)thenQ(0)<0 for all
+sufficiently small non-zero values ofhandk, thenfhas a
+local maximum value at(a,b).
+Iff xx >0 andf xx fyy −f 2
+xy >0 at(a,b)thenQ(0)>0 for all
+sufficiently small non-zero values ofhandk, thenfhas a
+local minimum value at(a,b).
+Iff xx fyy −f 2
+xy <0 at(a,b)there are combinations of small
+values forhandkfor whichQ(0)>0 and other
+combinations ofhandkfor whichQ(0)<0. This means
+thatfhas a saddle point at(a,b).
+Iff xx fyy −f 2
+xy =0 at(a,b)another test is needed.
+15 / 19
+--- PAGE 17 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+HESSIAN MATRIX
+The considerations of the previous slide show that
+determining whether there is a minimum or maximum at the
+point(a,b)boils down to looking at the following matrix and
+asking if it is positive-definite or not. This is the Hessian
+matrix. 
+fxx fxy
+fxy fyy
+
+(2)
+16 / 19
+--- PAGE 18 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+HESSIAN MATRIX
+A necessary and sufficient criterion of positive-definiteness
+for a Hermitian matrix (such as the Hessian matrix) is
+Sylvester’s criterion - the determinant of every upper left
+m×msubmatrix should be positive which means that
+fxx >0 andf xx fyy −f 2
+xy >0 at(a,b). This condition
+corresponds to bullet point 2 on Slide 15.
+Note that the Hessian matrix is symmetric, so that in case
+of a local minimum it is a symmetric, positive-definite matrix
+which we know from the linear algebra part of this course is
+one that has positive eigenvalues.
+17 / 19
+--- PAGE 19 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+HESSIANMATRIX
+For a local maximum we need to have a negative-definite
+matrix which means thatf xx <0 andf xx fyy −f 2
+xy >0 at
+(a,b). In this case, the determinant of every upper left
+m×msubmatrix is negative ifmis odd, and positive ifmis
+even. The eigenvalues of the Hessian matrix are all
+negative in this case.
+The Hessian is the collection of all second-order partial
+derivatives. If f(x, y) is a twice (continuously) differentiable
+function, then
+∂2f
+∂x∂y = ∂2f
+∂y∂x i.e., the order of differentiation does not matter,
+and the corresponding Hessian matrix is symmetric. The
+Hessian is denoted as∇ 2
+x,y f(x,y)
+18 / 19
+--- PAGE 20 ---
+BITSPilani
+Thank you
+19 / 19

@@ -1,0 +1,2560 @@
+=== PAGE 1 ===
+DEEP NEURAL NETWORK
+MODULE # 6: CNN
+DNN Team
+BITS Pilani WILP
+
+=== PAGE 2 ===
+With grateful acknowledgement to the authors who have
+generously made their course materials freely available online.
+Deck prepared by Seetha Parameswaran.
+Deep Neural Network 2 / 1
+
+=== PAGE 3 ===
+Table of Contents
+1 Computer Vision Tasks
+2 Image Basics and Image Classification Challenges
+3 Introduction to Convolutional Networks
+4 CNN Components
+5 CNN Architecture Design
+6 Popular CNN Architectures
+7 Transfer Learning
+8 CNN Applications
+9 Implementation Considerations
+10 Summary
+Deep Neural Network 3 / 1
+
+=== PAGE 4 ===
+Image Classification
+Deep Neural Network 4 / 1
+
+=== PAGE 5 ===
+F ace Detection
+Fei-Fei Li & Justin Johnson & Serena Y eung
+Deep Neural Network 5 / 1
+
+=== PAGE 6 ===
+Object Recognition
+Derin-Renme-Nedir-Akademik-Biliim-2016
+Deep Neural Network 6 / 1
+
+=== PAGE 7 ===
+Image Captioning
+Deep Neural Network 7 / 1
+
+=== PAGE 8 ===
+Table of Contents
+1 Computer Vision Tasks
+2 Image Basics and Image Classification Challenges
+3 Introduction to Convolutional Networks
+4 CNN Components
+5 CNN Architecture Design
+6 Popular CNN Architectures
+7 Transfer Learning
+8 CNN Applications
+9 Implementation Considerations
+10 Summary
+Deep Neural Network 8 / 1
+
+=== PAGE 9 ===
+Digital Grayscale Image
+Pixel intensities = I(x, y)
+https://mozanunal.com/2019/11/img2sh/
+Deep Neural Network 9 / 1
+
+=== PAGE 10 ===
+Digital Color Image
+https://www.mathworks.com/help/matlab/creating_plots/image-types.html
+Deep Neural Network 10 / 1
+
+=== PAGE 11 ===
+Image Classification - Challenges
+Fei-Fei Li & Justin Johnson & Serena Y eung
+Deep Neural Network 11 / 1
+
+=== PAGE 12 ===
+Image Classification - Challenges
+Fei-Fei Li & Justin Johnson & Serena Y eung
+Deep Neural Network 12 / 1
+
+=== PAGE 13 ===
+Image Classification - Challenges
+Pixelated Images
+ Larger Images
+A 50x50 Image requires 2500 input dimensions.
+A HD image 1920x1080 is about 2 million inputs. (2 Mega Pixels)
+Deep Neural Network 13 / 1
+
+=== PAGE 14 ===
+Image Invariance - Challenges
+Object can appear anywhere in the image.
+Deep Neural Network 14 / 1
+
+=== PAGE 15 ===
+Image Equivariance - Challenges
+Changes to the input predictably (equivalently) should not affect the output.
+Deep Neural Network 15 / 1
+
+=== PAGE 16 ===
+Image Classification - Solution
+Deep Neural Network 16 / 1
+
+=== PAGE 17 ===
+Table of Contents
+1 Computer Vision Tasks
+2 Image Basics and Image Classification Challenges
+3 Introduction to Convolutional Networks
+4 CNN Components
+5 CNN Architecture Design
+6 Popular CNN Architectures
+7 Transfer Learning
+8 CNN Applications
+9 Implementation Considerations
+10 Summary
+Deep Neural Network 17 / 1
+
+=== PAGE 18 ===
+What is a Convolutional Neural Network?
+Definition
+A Convolutional Neural Network (CNN) is a specialized type of deep neural network
+designed to process data with a grid-like topology, such as images, where spatial
+relationships between data points are important.
+Core Insight
+CNNs mimic the visual cortex by detecting simple patterns (edges, corners) in early
+layers and combining them into complex objects (faces, cars) in deeper layers.
+Deep Neural Network 18 / 1
+
+=== PAGE 19 ===
+Why Convolutional Networks?
+Why CNNs for Images?
+Translation Invariance: Object recognition regardless of position
+Local Patterns: Detect edges, textures, and shapes locally
+Hierarchical Features: Low-level  Mid-level  High-level features
+Parameter Efﬁciency: Fewer parameters than fully connected networks
+Computational Efﬁciency: Parallel processing of convolutions
+Deep Neural Network 19 / 1
+
+=== PAGE 20 ===
+Why CNN for Images - Locality
+Some patterns are much smaller than the whole image.
+Courtesy: Akka Zemmari
+Deep Neural Network 20 / 1
+
+=== PAGE 21 ===
+Why CNN for Images - Locality
+Some patterns are much smaller than the whole image.
+A neuron does not have to see the whole image to discover the pattern.
+Courtesy: Akka Zemmari
+Deep Neural Network 21 / 1
+
+=== PAGE 22 ===
+Why CNN for Images - Translation Invariance
+Same pattern may appear in different regions.
+Courtesy: Akka Zemmari
+Deep Neural Network 22 / 1
+
+=== PAGE 23 ===
+Why CNN for Images - Scale Invariance
+Sub-sampling the pixels will not change the object.
+We can sub-sample the image to make it smaller.
+Less parameters for the network to process the image.
+Courtesy: Akka Zemmari
+Deep Neural Network 23 / 1
+
+=== PAGE 24 ===
+The Whole CNN
+Courtesy: Akka Zemmari
+Deep Neural Network 24 / 1
+
+=== PAGE 25 ===
+The Whole CNN
+Courtesy: Akka Zemmari
+Deep Neural Network 25 / 1
+
+=== PAGE 26 ===
+The Whole CNN
+Courtesy: Akka Zemmari
+Deep Neural Network 26 / 1
+
+=== PAGE 27 ===
+The Whole CNN
+Courtesy: Akka Zemmari
+Deep Neural Network 27 / 1
+
+=== PAGE 28 ===
+Key Principles of CNNs
+Three Key Principles
+1 Local Connectivity (Sparse Interactions)
+▶ Each neuron connects only to a local region of the input
+▶ Receptive ﬁeld concept
+2 Parameter Sharing
+▶ Same ﬁlter/kernel used across entire input
+▶ Dramatically reduces parameters
+3 Equivariant Representations
+▶ If input shifts, output shifts correspondingly
+▶ Built-in translation equivariance
+Deep Neural Network 28 / 1
+
+=== PAGE 29 ===
+CNN Key Characteristics
+Convolutional Layers: Apply learnable ﬁlters to detect local features
+Pooling Layers: Reduce spatial dimensions and provide translation invariance
+Hierarchical Learning: Build complex features from simple ones
+Parameter Sharing: Same ﬁlter applied across entire input
+Sparse Connectivity: Each neuron connects to local region only
+Deep Neural Network 29 / 1
+
+=== PAGE 30 ===
+How CNN Achieves Image Classification
+Hierarchical Feature Learning Process
+CNNs achieve image classiﬁcation through a hierarchical feature extraction
+process, where each layer builds increasingly complex representations from simpler
+ones.
+Deep Neural Network 30 / 1
+
+=== PAGE 31 ===
+Hierarchical Feature Learning
+Deep networks learn increasingly complex features:
+Layer 1
+Low-level
+features
+Edges
+Corners
+Colors
+Layer 2
+Mid-level
+features
+Textures
+Patterns
+Parts
+Layer 3
+High-level
+features
+Objects
+Faces
+Scenes
+Example: Face Detection
+Layer 1: Detects edges at various orientations
+Layer 2: Combines edges into facial features (eyes, nose, mouth)
+Layer 3: Combines features into complete face
+Deep Neural Network 31 / 1
+
+=== PAGE 32 ===
+CNN Architecture
+Architecture Pattern
+INPUT  [CONV  ACTIVATION  POOL] Ö N  FC  OUTPUT
+Input
+32×32×3
+Conv1
+28×28×6
+Pool1
+14×14×6
+Conv2
+10×10×16
+Pool2
+5×5×16
+FC
+120
+Output
+10
+Deep Neural Network 32 / 1
+
+=== PAGE 33 ===
+CNN - Layer-by-Layer Breakdown
+Early Layers (1-2)
+Purpose: Detect low-level features
+Features: Edges, corners, lines
+Filters: Small (3×3, 5×5)
+Receptive Field: Local, small regions
+Middle Layers (3-4)
+Purpose: Combine low-level features
+Features: Shapes, textures, patterns
+Complexity: Medium-level abstractions
+Receptive Field: Larger regions
+Deep Neural Network 33 / 1
+
+=== PAGE 34 ===
+CNN - Layer-by-Layer Breakdown
+Deep Layers (5+)
+Purpose: Detect object parts
+Features: Wheels, faces, eyes, ears
+Complexity: High-level semantics
+Receptive Field: textcolorBitsRed image regions
+Fully Connected Layers
+Purpose: Final classiﬁcation decision
+Input: Feature vector from conv layers
+Output: Class probability scores
+Function: Combine all learned features
+Deep Neural Network 34 / 1
+
+=== PAGE 35 ===
+The Classification Process
+1 Feature Extraction: Convolutional layers progressively extract features of
+increasing complexity
+2 Spatial Reduction: Pooling layers reduce spatial dimensions while preserving
+important information
+3 Feature Combination: Deeper layers combine simpler features to recognize
+complex patterns
+4 Decision Making: Fully connected layers use extracted features to make ﬁnal
+classiﬁcation decision
+5 Output: Softmax layer produces probability distribution over classes
+Key Insight
+Each layer acts as a feature detector that becomes increasingly sophisticated.
+Early layers detect simple patterns, while later layers detect complex objects by
+combining simpler patterns.
+Deep Neural Network 35 / 1
+
+=== PAGE 36 ===
+Table of Contents
+1 Computer Vision Tasks
+2 Image Basics and Image Classification Challenges
+3 Introduction to Convolutional Networks
+4 CNN Components
+5 CNN Architecture Design
+6 Popular CNN Architectures
+7 Transfer Learning
+8 CNN Applications
+9 Implementation Considerations
+10 Summary
+Deep Neural Network 36 / 1
+
+=== PAGE 37 ===
+2D Convolution Operation
+Cross-Correlation (Used in Deep Learning)
+(I⋆ K )(i, j) =
+∑
+m
+∑
+n
+I(i + m, j + n)· K (m, n)
+In practice, deep learning frameworks implement cross-correlation but call it ”convo-
+lution”
+Input: Feature map/image I
+Kernel/Filter: Learnable parameters K
+Output: Feature map showing detected patterns
+Deep Neural Network 37 / 1
+
+=== PAGE 38 ===
+2D Convolution Operation
+1 0 0 0 0 1
+0 1 0 0 1 0
+0 0 1 1 0 0
+1 0 0 0 1 0
+0 1 0 0 1 0
+0 0 1 0 1 0
+Input Image 6× 6
+These values inside the matrix are to
+be learned by the network. We call
+these as parameters or weights.
+1 -1 -1
+-1 1 -1
+-1 -1 1
+Kernel / Filter 1
+-1 1 -1
+-1 1 -1
+-1 1 -1
+Kernel / Filter 2
+Property 1: Each ﬁlter detects a small pattern (3× 3)
+Deep Neural Network 38 / 1
+
+=== PAGE 39 ===
+Convolution Operation
+1 0 0 0 0 1
+0 1 0 0 1 0
+0 0 1 1 0 0
+1 0 0 0 1 0
+0 1 0 0 1 0
+0 0 1 0 1 0
+Input Image 6× 6
+1 -1 -1
+-1 1 -1
+-1 -1 1
+Filter 1
+Start at top left corner.
+Perform element wise
+product and add all the
+values.
+Output
+3
+Deep Neural Network 39 / 1
+
+=== PAGE 40 ===
+Convolution Operation
+1 0 0 0 0 1
+0 1 0 0 1 0
+0 0 1 1 0 0
+1 0 0 0 1 0
+0 1 0 0 1 0
+0 0 1 0 1 0
+Input Image 6× 6
+1 -1 -1
+-1 1 -1
+-1 -1 1
+Filter 1
+Slide by one pixel
+towards right.
+Perform element wise
+product and add all the
+values.
+Output
+3 -1
+Deep Neural Network 40 / 1
+
+=== PAGE 41 ===
+Convolution Operation
+stride s = 1
+1 0 0 0 0 1
+0 1 0 0 1 0
+0 0 1 1 0 0
+1 0 0 0 1 0
+0 1 0 0 1 0
+0 0 1 0 1 0
+Input Image 6× 6
+1 -1 -1
+-1 1 -1
+-1 -1 1
+Filter 1
+Slide by one pixel
+towards right.
+Perform element wise
+product and add all the
+values.
+Output
+3 -1 -3
+Deep Neural Network 41 / 1
+
+=== PAGE 42 ===
+Convolution Operation
+stride s = 1
+1 0 0 0 0 1
+0 1 0 0 1 0
+0 0 1 1 0 0
+1 0 0 0 1 0
+0 1 0 0 1 0
+0 0 1 0 1 0
+Input Image 6× 6
+1 -1 -1
+-1 1 -1
+-1 -1 1
+Filter 1
+Slide by one pixel
+towards right.
+Perform element wise
+product and add all the
+values.
+Output
+3 -1 -3 -1
+Deep Neural Network 42 / 1
+
+=== PAGE 43 ===
+Convolution Operation
+stride s = 1
+1 0 0 0 0 1
+0 1 0 0 1 0
+0 0 1 1 0 0
+1 0 0 0 1 0
+0 1 0 0 1 0
+0 0 1 0 1 0
+Input Image 6× 6
+1 -1 -1
+-1 1 -1
+-1 -1 1
+Filter 1
+Jump to next row, left
+most pixel.
+The ﬁlter has to
+completely superimpose
+the pixels of input.
+NOT PARTIALL Y .
+Output
+3 -1 -3 -1
+-3
+Deep Neural Network 43 / 1
+
+=== PAGE 44 ===
+Convolution Operation
+stride s = 1
+1 0 0 0 0 1
+0 1 0 0 1 0
+0 0 1 1 0 0
+1 0 0 0 1 0
+0 1 0 0 1 0
+0 0 1 0 1 0
+Input Image 6× 6
+1 -1 -1
+-1 1 -1
+-1 -1 1
+Filter 1
+After sliding through the
+entire image.
+3 -1 -3 -1
+-3 -1 0 -3
+-3 -2 0 1
+3 -2 -2 -1
+Output Feature Map
+Deep Neural Network 44 / 1
+
+=== PAGE 45 ===
+Convolution Operation
+stride s = 1
+1 0 0 0 0 1
+0 1 0 0 1 0
+0 0 1 1 0 0
+1 0 0 0 1 0
+0 1 0 0 1 0
+0 0 1 0 1 0
+Input Image 6× 6
+1 -1 -1
+-1 1 -1
+-1 -1 1
+Filter 1
+3 -1 -3 -1
+-3 -1 0 -3
+-3 -2 0 1
+3 -2 -2 -1
+Output Feature Map
+Property 2 is satisﬁed.
+Deep Neural Network 45 / 1
+
+=== PAGE 46 ===
+Convolution Operation
+stride s = 1
+1 0 0 0 0 1
+0 1 0 0 1 0
+0 0 1 1 0 0
+1 0 0 0 1 0
+0 1 0 0 1 0
+0 0 1 0 1 0
+Input Image 6× 6
+Filter 1
+1 -1 -1
+-1 1 -1
+-1 -1 1
+Filter 2
+-1 1 -1
+-1 1 -1
+-1 1 -1
+3 -1 -3 -1
+-3 -1 0 -3
+-3 -2 0 1
+3 -2 -2 -1
+-1 -1 -1 -1
+-1 -1 -2 -1
+-1 -1 -2 1
+-1 0 -4 3
+Feature
+Maps
+Deep Neural Network 46 / 1
+
+=== PAGE 47 ===
+What is a Feature Map?
+Definition
+A feature map (or activation map) is the output produced when a convolutional ﬁlter
+is applied to an input image or previous layer’s output.
+Key Concepts:
+▶ Each ﬁlter detects a speciﬁc pattern (edges, textures, shapes)
+▶ Output of convolution = feature map showing where pattern was detected
+▶ High values in feature map = strong pattern presence
+▶ Low values = weak or absent pattern
+Mathematical Form:
+Feature Mapk (i, j) =
+∑
+m
+∑
+n
+I(i + m, j + n)· Kk (m, n) + bk
+where Kk is the k-th ﬁlter and bk is its bias.
+Deep Neural Network 47 / 1
+
+=== PAGE 48 ===
+Feature Maps: Visual Example
+Input Image
+1 0 0 0 0 0
+0 1 0 1 1 1
+0 0 1 0 0 0
+1 0 0 0 1 0
+0 1 0 0 1 0
+0 0 1 0 1 0
+Different Filters  Different Feature Maps
+Filter 1: Vertical Edge Detector
+-1 0 1
+-1 0 1
+-1 0 1
+⇒ Vertical edges highlighted
+Filter 2: Horizontal Edge Detector
+-1 -1 -1
+0 0 0
+1 1 1
+⇒ Horizontal edges highlighted
+Key Insight: Different ﬁlters create different feature maps, each capturing different
+aspects of the input.
+Deep Neural Network 48 / 1
+
+=== PAGE 49 ===
+Multiple Feature Maps in CNNs
+Single Convolutional Layer with Multiple Filters:
+Input
+32× 32× 3
+64 Filters
+3× 3
+64 Feature Maps
+30× 30× 64
+Important:
+Number of ﬁlters = Number of output feature maps
+Each feature map = One ﬁlter’s response across entire input
+Stack of feature maps = 3D volume (height × width × channels)
+Deep Neural Network 49 / 1
+
+=== PAGE 50 ===
+Receptive Field: Definition
+Definition
+The receptive ﬁeld of a neuron is the region in the input image that affects that
+neuron’s activation value.
+Key Concepts:
+▶ Receptive ﬁeld grows with network depth
+▶ Early layers: small receptive ﬁelds (local patterns)
+▶ Deep layers: large receptive ﬁelds (global context)
+▶ Determined by kernel size, stride, and pooling
+Importance:
+▶ Small receptive ﬁeld: Cannot capture large objects
+▶ Large receptive ﬁeld: Better context understanding
+▶ Trade-off: Computational cost vs. context
+Deep Neural Network 50 / 1
+
+=== PAGE 51 ===
+Receptive Field: Visual Example
+How Receptive Field Grows Through Layers
+Input Image
+10× 10
+Layer 1
+3× 3 RF
+Layer 2
+7× 7 RF
+Each neuron
+sees 3× 3
+Each neuron
+sees 7× 7
+Pattern: Receptive ﬁeld size approximately doubles with each layer (depends on
+architecture).
+Deep Neural Network 51 / 1
+
+=== PAGE 52 ===
+Receptive Field: Calculation
+Formula for receptive ﬁeld in layer l:
+RFl = RFl−1 + (Kl− 1)×
+l−1∏
+i=1
+Si
+RFl = Receptive ﬁeld at layer l
+Kl = Kernel size at layer l
+Si = Stride at layer i
+Example: Sequential 3×3 convolutions
+with stride 1
+Layer 1: RF1 = 3
+Layer 2: RF2 = 3 + (3− 1)× 1 = 5
+Layer 3: RF3 = 5 + (3− 1)× 1 = 7
+Layer 4: RF4 = 7 + (3− 1)× 1 = 9
+Key Insight: Stacking small kernels (3×3) is more efﬁcient than using large kernels
+(9×9) while achieving the same receptive ﬁeld!
+Deep Neural Network 52 / 1
+
+=== PAGE 53 ===
+Learning a Kernel: Overview
+Key Question
+How does the network learn what values to put in the convolutional kernels/ﬁlters?
+Answer: Through Gradient Descent!
+Kernel weights are learnable parameters (like weights in fully connected
+layers)
+Initialized randomly (or with speciﬁc strategies)
+Updated via backpropagation and gradient descent
+Network learns kernels that minimize the loss function
+Process:
+Random kernels
+Training
+−−−→Meaningful edge/texture/pattern detectors
+Deep Neural Network 53 / 1
+
+=== PAGE 54 ===
+Kernels as Parameters
+Convolutional layer parameters:
+For a ﬁlter of size K× K with Cin input channels:
+Parameters per ﬁlter = K× K× Cin + 1
+(The +1 is for the bias term)
+Example: 3×3 ﬁlter, 64 input channels
+▶ Weights: 3× 3× 64 = 576
+▶ Bias: 1
+▶ Total: 577 learnable parameters per ﬁlter
+Gradient Descent Update:
+Knew = Kold−η∂L
+∂K
+whereL is the loss function andη is the learning rate.
+Deep Neural Network 54 / 1
+
+=== PAGE 55 ===
+What Do Learned Kernels Look Like?
+Layer 1: Low-level feature detectors
+Vertical Edge Horizontal Edge Diagonal Edge
+
+−1 0 1
+−1 0 1
+−1 0 1
+
+
+
+
+−1 −1 −1
+0 0 0
+1 1 1
+
+
+
+
+0 −1 −1
+1 0 −1
+1 1 0
+
+
+Characteristics of learned kernels:
+First layers: Edge detectors at various orientations and scales
+Middle layers: Texture and pattern detectors (blob detectors, corner detectors)
+Deep layers: Complex pattern detectors (harder to visualize)
+Important: The network discovers these patterns automatically from data!
+Deep Neural Network 55 / 1
+
+=== PAGE 56 ===
+Learning Kernels: Backpropagation Through
+Convolution
+Forward Pass:
+Output(i, j) =
+∑
+m
+∑
+n
+Input(i + m, j + n)· K (m, n) + b
+Backward Pass (Gradient Calculation):
+Gradient w.r.t. kernel weights:
+∂L
+∂K (m, n) =
+∑
+i
+∑
+j
+∂L
+∂Output(i, j)· Input(i + m, j + n)
+Gradient w.r.t. bias:
+∂L
+∂b =
+∑
+i
+∑
+j
+∂L
+∂Output(i, j)
+Key Insight: Gradient computation is also a convolution-like operation!
+Deep Neural Network 56 / 1
+
+=== PAGE 57 ===
+Padding
+Why Padding?
+Without padding: Output size = Input size - Kernel size + 1
+Information at borders gets less attention
+Deep networks would shrink feature maps rapidly
+Types of Padding
+Valid Padding: No padding (output smaller than input)
+Same Padding: Pad to keep output size = input size
+Full Padding: Maximum padding
+Same Padding Calculation
+For kernel size k and stride s = 1: Padding = (k− 1)/2
+Deep Neural Network 57 / 1
+
+=== PAGE 58 ===
+Convolution with Padding
+Input Image with padding 8×8
+0 0 0 0 0 0 0 0
+0 1 0 0 0 0 1 0
+0 0 1 0 0 1 0 0
+0 0 0 1 1 0 0 0
+0 1 0 0 0 1 0 0
+0 0 1 0 0 1 0 0
+0 0 0 1 0 1 0 0
+0 0 0 0 0 0 0 0
+*
+Filter1
+1 -1 -1
+-1 1 -1
+-1 -1 1
+Deep Neural Network 58 / 1
+
+=== PAGE 59 ===
+Stride
+Stride determines how much the kernel moves at each step.
+Stride = 1: Move kernel one pixel at a time (standard)
+Stride = 2: Move kernel two pixels at a time (downsampling)
+Stride> 1: Reduces output size, acts as downsampling
+Output Size Calculation
+For input size n, kernel size k, padding p, stride s:
+Output size = n + 2p− k
+s + 1
+Result must be an integer for valid convolution. So take ﬂoor of the result.
+Deep Neural Network 59 / 1
+
+=== PAGE 60 ===
+Convolution Operation with Stride
+stride s = 3
+1 0 0 0 0 1
+0 1 0 0 1 0
+0 0 1 1 0 0
+1 0 0 0 1 0
+0 1 0 0 1 0
+0 0 1 0 1 0
+Input Image 6× 6
+1 -1 -1
+-1 1 -1
+-1 -1 1
+Filter1
+3 -1
+3 -1
+Feature Map 2x2
+Deep Neural Network 60 / 1
+
+=== PAGE 61 ===
+Strided Convolution
+Standard Stride (s = 1): Move ﬁlter one pixel at a time
+Strided Convolution (s> 1): Skip pixels to downsample
+Output size formula:
+O =
+⌊
+n + 2p− k
+s
+⌋
++ 1
+where n = input size, p = padding, k = kernel size, s = stride
+Purpose of Strided Convolutions:
+▶ Spatial downsampling: Reduce feature map size
+▶ Replace pooling: Learn downsampling instead of ﬁxed operation
+▶ Computational efﬁciency: Fewer computations in subsequent layers
+▶ Increase receptive ﬁeld: Larger context per neuron
+Deep Neural Network 61 / 1
+
+=== PAGE 62 ===
+Strided Convolution: Example
+Stride = 2 Example:
+1
+7
+13
+19
+25
+31
+2
+8
+14
+20
+26
+32
+3
+9
+15
+21
+27
+33
+4
+10
+16
+22
+28
+34
+5
+11
+17
+23
+29
+35
+6
+12
+18
+24
+30
+36
+3× 3 kernel
+1 2
+3 4
+Input: 6× 6 Output: 2× 2
+(stride=2)
+With stride = 2: Output size = 6−3
+2 + 1 = 2
+Trade-off: Lose spatial resolution but gain computational efﬁciency
+Deep Neural Network 62 / 1
+
+=== PAGE 63 ===
+Dilated (Atrous) Convolution
+Definition
+Dilated convolution (also called atrous convolution) inserts spaces (holes) between
+kernel elements to increase receptive ﬁeld without increasing parameters.
+Dilation rate r: Number of pixels between kernel elements
+r = 1: Standard convolution (no dilation)
+r = 2: One pixel gap between kernel elements
+r = 3: Two pixel gaps between elements
+Effective receptive ﬁeld:
+keff = k + (k− 1)(r− 1)
+where k = kernel size, r = dilation rate
+Example: 3× 3 kernel with r = 2  effective 5× 5 receptive ﬁeld
+Deep Neural Network 63 / 1
+
+=== PAGE 64 ===
+Dilated Convolution: Visual Example
+Standard vs. Dilated Convolution
+Standard (r = 1)
+Receptive ﬁeld: 3× 3
+Dilated (r = 2)
+Receptive ﬁeld: 5× 5
+Key Advantage: Same number of parameters (9), but larger receptive ﬁeld!
+Deep Neural Network 64 / 1
+
+=== PAGE 65 ===
+Dilated Convolution: Applications and Benefits
+When to Use Dilated Convolutions:
+▶ Semantic segmentation: Need large receptive ﬁeld while maintaining resolution
+▶ Dense prediction tasks: Object detection, depth estimation
+▶ Audio processing: WaveNet uses dilated convolutions for sequence modeling
+Beneﬁts:
+1 Larger receptive ﬁeld without pooling or striding
+2 Preserve spatial resolution (no downsampling)
+3 Same parameter count as standard convolution
+4 Multi-scale context by using different dilation rates
+Trade-offs:
+▶ May lose ﬁne-grained local information
+▶ Gridding artifacts possible (mitigated with varying dilation rates)
+▶ Slightly more memory usage during forward pass
+Deep Neural Network 65 / 1
+
+=== PAGE 66 ===
+Strided vs. Dilated Convolution: Comparison
+Property Strided Conv Dilated Conv
+Output size Reduced Same as input
+Receptive ﬁeld Increased Increased
+Parameters Same Same
+Downsampling Y es No
+Resolution loss Y es No
+Typical use Classiﬁcation Segmentation
+Summary:
+Strided convolution: Reduce spatial dimensions, typically for classiﬁcation
+Dilated convolution: Increase receptive ﬁeld while maintaining resolution, for
+dense predictions
+Both are alternatives to pooling for different purposes
+Deep Neural Network 66 / 1
+
+=== PAGE 67 ===
+Multiple Channels: Introduction
+Reality Check
+Real images have multiple channels:
+RGB images: 3 channels (Red, Green, Blue)
+Grayscale: 1 channel
+Feature maps in CNNs: Typically 64, 128, 256, or 512 channels
+Questions:
+1 How does convolution work with multi-channel inputs?
+2 How do we get multi-channel outputs?
+3 How many parameters do we need?
+Deep Neural Network 67 / 1
+
+=== PAGE 68 ===
+Multi-Channel Input: Single Filter
+Convolution with 3-channel input (e.g., RGB image):
+Input Image
+H× W× 3
+R
+G
+B
+Filter
+k× k× 3
+Output
+H′× W′× 1
+∗ =
+Key Point: Filter has same depth as input!
+Output(i, j) =
+3∑
+c=1
+∑
+m
+∑
+n
+I(i + m, j + n, c)· K (m, n, c) + b
+Deep Neural Network 68 / 1
+
+=== PAGE 69 ===
+Multi-Channel Convolution: Mathematical
+Detail
+For input I∈ RH×W×Cin and kernel K∈ Rk×k×Cin:
+Step 1: For each channel c, compute 2D convolution:
+Oc(i, j) =
+∑
+m
+∑
+n
+I(i + m, j + n, c)· K (m, n, c)
+Step 2: Sum across all input channels:
+O(i, j) =
+Cin∑
+c=1
+Oc(i, j) + b =
+Cin∑
+c=1
+∑
+m
+∑
+n
+I(i + m, j + n, c)· K (m, n, c) + b
+Result: One ﬁlter produces one output channel (feature map)
+Parameters per ﬁlter: k× k× Cin + 1 (bias)
+Example: 3× 3 ﬁlter, 64 input channels = 3× 3× 64 + 1 = 577 parameters
+Deep Neural Network 69 / 1
+
+=== PAGE 70 ===
+Multi-Channel Input and Output
+To get multiple output channels: Use multiple ﬁlters!
+Input
+H× W× Cin
+Filter 1Filter 2Filter 3
+Cout ﬁlters
+each k× k× Cin
+Output
+H′× W′× Cout
+General Rule:
+Input : H× W× Cin
+Filters : Cout ﬁlters of size k× k× Cin
+Output : H′× W′× Cout
+Total parameters : (k× k× Cin + 1)× Cout
+Deep Neural Network 70 / 1
+
+=== PAGE 71 ===
+Multi-Channel Example: Numerical
+Setup:
+Input: 4× 4× 2 (2 channels)
+Filter: 3× 3× 2 (must match input depth)
+Output: 2× 2× 1 (one ﬁlter, stride=1, no padding)
+Input Channel 1:
+
+
+1 2 3 0
+4 5 6 1
+7 8 9 2
+0 1 2 3
+
+ Input Channel 2:
+
+
+0 1 0 1
+1 0 1 0
+0 1 0 1
+1 0 1 0
+
+
+Filter Channel 1:
+
+
+1 0 −1
+1 0 −1
+1 0 −1
+
+ Filter Channel 2:
+
+
+0 1 0
+1 0 1
+0 1 0
+
+
+Computation at position (0,0):
+Sum from Ch1 = 1(1) + 2(0) + 3(−1) + 4(1) + 5(0) + 6(−1) + 7(1) + 8(0) + 9(−1) =−6
+Sum from Ch2 = 0(0) + 1(1) + 0(0) + 1(1) + 0(0) + 1(1) + 0(0) + 1(1) + 0(0) = 4
+Output(0, 0) =−6 + 4 + b =−2 + b
+Deep Neural Network 71 / 1
+
+=== PAGE 72 ===
+Channel Evolution in Deep CNNs
+Typical pattern: Increase channels while decreasing spatial dimensions
+224× 224
+×3
+Input
+112× 112
+×64
+Conv1
+56× 56×128
+Conv2
+28× 28
+×256
+Conv3
+14× 14
+×512
+Conv4
+Why this pattern?
+Early layers: High resolution, few channels (local patterns)
+Deep layers: Low resolution, many channels (semantic features)
+Maintains roughly constant computational cost per layer
+Total information capacity: H× W× C approximately constant
+Deep Neural Network 72 / 1
+
+=== PAGE 73 ===
+Multi-Channel Convolution: Key Takeaways
+1 Input channels: Filter depth = Input depth (must match)
+2 Output channels: Number of ﬁlters = Number of output channels
+3 Parameters: (k× k× Cin + 1)× Cout
+4 Computation: Each ﬁlter operates on all input channels simultaneously
+Important Relationships:
+One ﬁlter  One output channel (feature map)
+More ﬁlters  More output channels  Network can learn more diverse
+features
+Typical progression: Channels increase with depth (3  64  128  256 
+512)
+Memory consideration: Deep networks trade spatial resolution for channel depth.
+Memory∝ H× W× C
+Deep Neural Network 73 / 1
+
+=== PAGE 74 ===
+Pooling Operations
+What Pooling Layers Do
+Spatial Downsampling: Reduce height and width dimensions but preserve
+channel depth.
+Translation Invariance: Make features less sensitive to small shifts.
+Computational Efﬁciency: Reduce number of computations in subsequent
+layers.
+Overﬁtting Reduction: Act as a form of regularization.
+Pooling layers are parameter-free but still important for network performance
+Global Average Pooling (GAP) is used to replace fully connected layers.
+Two types
+1 Max pooling
+2 Average pooling
+Deep Neural Network 74 / 1
+
+=== PAGE 75 ===
+Max Pooling
+Takes maximum value in each region
+Most common pooling operation
+Preserves strongest activations
+output = max(inputs in window)
+Input 4× 4
+2 4 7 4
+6 6 9 8
+3 4 8 3
+7 5 3 6
+→
+Max pooling
+k = 2
+s = 2
+→
+Output
+2× 2
+6 9
+7 8
+Deep Neural Network 75 / 1
+
+=== PAGE 76 ===
+A verage Pooling
+Takes average of values in region
+Smoother downsampling
+Used in ﬁnal layers sometimes
+output = 1
+k 2 (inputs in window)
+Input 4× 4
+2 4 7 4
+6 6 9 8
+3 4 8 3
+7 5 3 6
+→
+Average pooling
+k = 2
+s = 2
+→
+Output
+2× 2
+4.5 7
+4.75 5
+Deep Neural Network 76 / 1
+
+=== PAGE 77 ===
+1Ö 1 Convolution: Introduction
+Definition
+A 1×1 convolution uses a kernel of size 1× 1× Cin to perform a weighted sum
+across channels at each spatial location.
+At First Glance:
+Seems pointless: No spatial information, just a single pixel!
+But actually very powerful: ”Network in Network”
+What it does:
+Combines information across channels
+Acts as a learned linear combination
+Does NOT look at neighboring pixels
+Applied independently at each spatial position
+Deep Neural Network 77 / 1
+
+=== PAGE 78 ===
+1Ö 1 Convolution: How It Works
+Input: H× W× Cin
+Kernel: 1× 1× Cin
+Output: H× W× 1 (for one ﬁlter)
+Input
+H× W× 64
+1× 1× 64
+Filter
+Output
+H× W× 1
+At each spatial position (i, j):
+Output(i, j) =
+Cin∑
+c=1
+Input(i, j, c)· wc + b
+It’s essentially a fully connected layer applied at each position!
+Deep Neural Network 78 / 1
+
+=== PAGE 79 ===
+1Ö 1 Convolution: Key Applications
+1. Dimensionality Reduction (Channel Reduction)
+28× 28
+×256
+Filters
+1× 1
+×64
+28× 28
+×64
+Reduces channels from 256  64 while preserving spatial dimensions.
+2. Adding Non-linearity
+Input
+1×1 Conv
+−−−−−→Linear combination
+ReLU
+−−→Non-linear features
+3. Computational Efﬁciency
+Reduce channels before expensive 3×3 or 5×5 convolutions
+Used extensively in Inception and ResNet architectures
+Deep Neural Network 79 / 1
+
+=== PAGE 80 ===
+1Ö 1 Convolution: Bottleneck Architecture
+Example: Reducing computation in deep networks
+Without 1×1 Conv:
+256 ch
+256 ch
+5× 5
+Parameters:
+= 5× 5× 256× 256 = 1, 638, 400
+With 1×1 Conv:
+256 ch
+64 ch
+64 ch
+256 ch
+1× 1
+5× 5
+1× 1
+Parameters:
+= 256×64+52×642 +64×256 = 147, 456
+11× reduction in parameters! This is the ”bottleneck” design pattern.
+Deep Neural Network 80 / 1
+
+=== PAGE 81 ===
+ReLU Activation Function
+Definition
+ReLU (Rectiﬁed Linear Unit) is a simple and powerful activation function that
+outputs the input directly if positive, otherwise outputs zero.
+Key Properties
+Non-linear: Enables learning complex patterns
+Sparse: Many outputs are exactly zero
+Computationally efﬁcient: Simple max operation
+Non-saturating: No upper bound on positive values
+Usage in CNNs ReLU is the default choice for activation functions in CNNs and is
+typically applied after each convolutional layer:
+Conv Layer Output→ ReLU→ Next Layer
+Deep Neural Network 81 / 1
+
+=== PAGE 82 ===
+ReLU Activation Function
+ReLU Function Graph
+ReLU(x) = max( 0, x) =
+{
+x if x > 0
+0 if x≤ 0
+x
+ReLU(x)
+0
+x
+00
+-2 -1 1 2
+1
+2
+ReLU Derivative Graph
+d
+dx ReLU(x) =
+
+
+
+1 if x > 0
+0 if x < 0
+undeﬁned if x = 0
+x
+d
+dx ReLU(x)
+0
+1
+0-2 -1 1 2
+1
+Deep Neural Network 82 / 1
+
+=== PAGE 83 ===
+ReLU Activation Function
+Advantages of ReLU
+Solves Vanishing Gradient Problem: Gradient is either 0 or 1 (no saturation for
+positive values)
+Computational Efﬁciency: No expensive operations (exp, log, etc.)
+Sparse Representation: Naturally produces sparse networks
+Biological Plausibility: Similar to neuron ﬁring patterns
+Scale Invariant: ReLU(αx) = α· ReLU(x) forα> 0
+Disadvantages of ReLU
+Dying ReLU Problem: Neurons can become permanently inactive (output
+always 0)
+Not Zero-Centered: Output is always non-negative
+Non-Differentiable at Zero: Can cause issues in some optimization scenarios
+Deep Neural Network 83 / 1
+
+=== PAGE 84 ===
+Convolution + ReLu + Max Pooling
+Input Image 6× 6
+1 0 0 0 0 1
+0 1 0 0 1 0
+0 0 1 1 0 0
+1 0 0 0 1 0
+0 1 0 0 1 0
+0 0 1 0 1 0
+Filter
+-1 1 -1
+-1 1 -1
+-1 1 -1
+Convolve, s=1
+-1 -1 -1 -1
+-1 -1 -2 -1
+-1 -1 -2 1
+-1 0 -4 3
+Apply ReLU
+0 0 0 0
+0 0 0 0
+0 0 0 1
+0 0 0 3
+Maxpool
+k=2, s=2
+0 0
+0 3
+Deep Neural Network 84 / 1
+
+=== PAGE 85 ===
+Fully Connected (Dense) Layer
+Definition
+A Fully Connected (FC) Layer or Dense Layer is a layer where every neuron is
+connected to every neuron in the previous layer, performing a linear transformation
+followed by an activation function.
+Role in CNN Architecture
+Feature Flattening: Convert spatial features to vector:
+(H× W× C)→ (H· W· C)
+Classiﬁcation Head: Map features to class scores
+Dimensionality Control: Adjust feature vector size
+Non-linear Mapping: Learn complex decision boundaries
+Typical CNN Flow:
+Conv Layers→ Flatten→ FC Layer(s)→ Output
+Deep Neural Network 85 / 1
+
+=== PAGE 86 ===
+Fully Connected (Dense) Layer
+y = f (Wx + b)
+x∈ Rn: Input Vector
+W∈ Rm×n: Weight matrix
+b∈ Rm: Bias vector
+f (·): Activation function
+y∈ Rm: Output vector
+Parameter Count
+Weights: n× m parameters
+Biases: m parameters
+Total: n× m + m = m(n + 1)
+FC Layer Architecture
+x1
+x2
+x3
+x4
+Input Layer
+(n = 4)
+y1
+y2
+y3
+Output Layer
+(m = 3)
+w11
+w31
+W
+b1
+b2
+b3
+Deep Neural Network 86 / 1
+
+=== PAGE 87 ===
+FC Layer - Numerical Example
+Given: Input x = [2,−1, 3], weights and biases for 2 output neurons
+Weight Matrix: W =
+[
+0.5 −0.2 0 .1
+−0.3 0 .4 0 .2
+]
+, Bias: b =
+[
+0.1
+−0.2
+]
+Step 1: Linear transformation
+z1 = 0.5(2) + (−0.2)(−1) + 0.1(3) + 0.1 = 1.0 + 0.2 + 0.3 + 0.1 = 1.6
+z2 = (−0.3)(2) + 0.4(−1) + 0.2(3) + (−0.2) =−0.6− 0.4 + 0.6− 0.2 =−0.6
+Step 2: Apply activation (ReLU)
+y1 = ReLU(1.6) = 1.6 (1)
+y2 = ReLU(−0.6) = 0.0 (2)
+Result: y = [1.6, 0.0]
+Parameters: 3× 2 + 2 = 8 total parameters
+Deep Neural Network 87 / 1
+
+=== PAGE 88 ===
+FC - Advantages and Disadvantages
+Advantages:
+Universal Approximation: Can learn
+any function
+Flexible Output Size: Any input 
+any output dimension
+Non-linear Transformations:
+Complex mappings
+Feature Integration: Combines all
+spatial information
+Disadvantages:
+Parameter Heavy: Many parameters
+ overﬁtting risk
+Spatial Information Loss: No spatial
+structure preservation
+Fixed Input Size: Requires
+consistent input dimensions
+Computational Cost: Matrix
+multiplication overhead
+Modern Alternatives
+Global Average Pooling (GAP): Replace FC with average pooling
+1×1 Convolutions: Maintain spatial structure while reducing channels
+Deep Neural Network 88 / 1
+
+=== PAGE 89 ===
+Softmax Activation Function
+Definition
+Softmax is an activation function that converts a vector of real numbers into a
+probability distribution, commonly used in the output layer for multi-class
+classiﬁcation.
+Usage in CNNs Softmax is typically used in the ﬁnal layer for multi-class classiﬁca-
+tion:
+Final Conv/FC Layer→ Softmax→ Class Probabilities
+Deep Neural Network 89 / 1
+
+=== PAGE 90 ===
+Softmax Activation Function
+For input vector z = [z1, z2,..., zK ]:
+Softmax(zi) = ezi
+∑K
+j=1 ezj
+Where:
+zi is the i-th element of input vector
+K is the number of classes
+Output:σ(z) = [σ1,σ 2,...,σ K ]
+Derivative
+∂σi
+∂zj
+=
+{
+σi(1−σi) if i = j
+−σiσj if i̸= j
+Softmax Visualization (3 Classes)
+z1
+z2
+z3
+(1, 0, 0)
+(0, 1, 0)
+(0, 0, 1)
+σ(z)
+2-Simplex (Valid outputs)
+Deep Neural Network 90 / 1
+
+=== PAGE 91 ===
+Softmax - Numerical Example
+Given logits: z = [2.0, 1.0, 0.1] for 3 classes
+Step 1: Calculate exponentials
+
+
+ez1
+ez2
+ez3
+
+ =
+
+
+e2.0
+e1.0
+e0.1
+
+ =
+
+
+7.389
+2.718
+1.105
+
+
+Step 2: Calculate sum
+3∑
+j=1
+ezj = 7.389 + 2.718 + 1.105 = 11.212
+Step 3: Calculate softmax probabilities
+
+
+σ1
+σ2
+σ3
+
+ =
+
+
+7.389
+11.2122.718
+11.2121.105
+11.212
+
+ =
+
+
+0.659
+0.242
+0.099
+
+
+Deep Neural Network 91 / 1
+
+=== PAGE 92 ===
+Table of Contents
+1 Computer Vision Tasks
+2 Image Basics and Image Classification Challenges
+3 Introduction to Convolutional Networks
+4 CNN Components
+5 CNN Architecture Design
+6 Popular CNN Architectures
+7 Transfer Learning
+8 CNN Applications
+9 Implementation Considerations
+10 Summary
+Deep Neural Network 92 / 1
+
+=== PAGE 93 ===
+Typical CNN Architecture
+Input
+32×32×3
+Conv1
+28×28×6
+Pool1
+14×14×6
+Conv2
+10×10×16
+Pool2
+5×5×16
+FC
+120
+Output
+10
+Pattern: CONV  POOL  CONV  POOL  FC  OUTPUT
+Early layers: Detect low-level features (edges, corners)
+Middle layers: Combine features (shapes, textures)
+Later layers: High-level concepts (objects, faces)
+Spatial size decreases, depth increases
+Deep Neural Network 93 / 1
+
+=== PAGE 94 ===
+Number of Parameters in Convolutional Layer
+For a convolutional layer with:
+Kernel size: K× K
+Input channels: Cin
+Output channels (number of ﬁlters): Cout
+Bias: Y es/No, Where bias = 1 if bias is used, 0 otherwise
+Total Parameters = (K× K× Cin + bias)× Cout
+Parameters are independent of input spatial dimensions (height, width)
+Each ﬁlter has the same depth as input channels
+Number of parameters grows quadratically with kernel size
+Adding more ﬁlters increases parameters linearly
+Deep Neural Network 94 / 1
+
+=== PAGE 95 ===
+Number of Parameters in Convolutional Layer
+Example 1: First Convolutional
+Layer
+▶ Input: RGB image
+(224× 224× 3)
+▶ Kernel size: 5× 5
+▶ Number of ﬁlters: 64
+▶ Bias: Y es
+Calculation:
+▶ Parameters per ﬁlter
+= 5× 5× 3 + 1 = 76
+▶ Total parameters
+= 76× 64 = 4, 864
+Example 2: Deeper Convolutional
+Layer
+▶ Input: Feature map
+(56× 56× 128)
+▶ Kernel size: 3× 3
+▶ Number of ﬁlters: 256
+▶ Bias: Y es
+Calculation:
+▶ Parameters per ﬁlter
+= 3× 3× 128 + 1 = 1, 153
+▶ Total parameters
+= 1, 153× 256 = 295, 168
+Deep Neural Network 95 / 1
+
+=== PAGE 96 ===
+Number of Parameters in Pooling Layers
+Key Insight
+Pooling layers have ZERO learnable parameters!
+Why Zero Parameters?
+Pooling operations are ﬁxed mathematical functions: max or average
+No weights or biases to learn
+Only hyperparameters: pool size k and stride s
+Deep Neural Network 96 / 1
+
+=== PAGE 97 ===
+Number of Parameters in Pooling Layers
+Max Pooling Example
+Input: (56× 56× 128)
+Pool size: 2× 2
+Stride: 2
+Output: (28× 28× 128)
+Parameters: 0
+Average Pooling Example
+Input: (56× 56× 128)
+Pool size: 2× 2
+Stride: 2
+Output: (28× 28× 128)
+Parameters: 0
+Deep Neural Network 97 / 1
+
+=== PAGE 98 ===
+Design Patterns for Deep Networks
+How do we design effective deep CNN architectures?
+Key Design Patterns (Common to successful architectures):
+1 Spatial reduction + Channel expansion
+2 Repetitive building blocks
+3 Skip/residual connections
+4 Bottleneck designs
+5 Multi-scale feature extraction
+Goal: Balance between:
+Model capacity (expressiveness)
+Computational efﬁciency
+Memory requirements
+Training stability
+Deep Neural Network 98 / 1
+
+=== PAGE 99 ===
+Pattern 1: Spatial Reduction + Channel Expansion
+Core Principle: As we go deeper, reduce spatial dimensions and increase channels
+H× W
+C
+H
+2× W
+2
+2C
+H
+4× W
+4
+4C
+H
+8× W
+8
+8C
+Rationale:
+Early: High resolution for capturing ﬁne details
+Later: More channels for complex semantic features
+Maintains computational balance: H× W× C≈ constant
+Implementation:
+Pooling layers (max/average)
+Strided convolutions (learnable downsampling)
+Typically double channels when halving spatial dimensions
+Deep Neural Network 99 / 1
+
+=== PAGE 100 ===
+Pattern 2: Repetitive Building Blocks
+Instead of arbitrary layers, use repeated modular blocks
+VGG Block:
+Multiple 3×3 convs + pooling
+Conv 3×3
+Conv 3×3
+MaxPool
+VGG Block
+ResNet Block:
+Convs + skip connection
+Conv 3×3
+Conv 3×3
++
+ResNet Block
+Beneﬁts: Modularity, easier to scale, proven designs
+Deep Neural Network 100 / 1
+
+=== PAGE 101 ===
+Pattern 3: Skip/Residual Connections
+Problem: Deep networks suffer from vanishing gradients
+Solution: Add identity shortcuts (skip connections)
+x Weight Weight + y
+identity
+F (x)
+y = F (x) + x
+Key Beneﬁts:
+Easier gradient ﬂow during backpropagation
+Network can learn identity mapping if needed
+Enables training of very deep networks (100+ layers)
+Used in ResNet, DenseNet, U-Net
+Deep Neural Network 101 / 1
+
+=== PAGE 102 ===
+Pattern 4: Bottleneck Designs
+Goal: Reduce computational cost without sacriﬁcing performance
+Strategy: Use 1×1 convolutions to reduce dimensions before expensive operations
+8× parameter reduction! Used in ResNet-50/101/152, Inception, MobileNet
+Standard:
+256 ch
+Conv 3×3
+256 ch
+590K params
+Bottleneck:
+256 ch
+1×1 Conv
+64 ch
+Conv 3×3
+64 ch
+1×1 Conv
+256 ch
+70K params
+Deep Neural Network 102 / 1
+
+=== PAGE 103 ===
+Pattern 5: Multi-Scale Feature Extraction
+Idea: Process input at multiple scales simultaneously
+Inception Module Example:
+Input
+1×1 3×3 5×5 Pool
+Concatenate
+Beneﬁts:
+Capture features at different scales
+More robust to object size variations
+Network decides which scale is important
+Deep Neural Network 103 / 1
+
+=== PAGE 104 ===
+How to Choose Architecture Depth
+Key Considerations:
+1 Task complexity
+▶ Simple: MNIST  5-10 layers sufﬁcient
+▶ Complex: ImageNet  50-152 layers
+▶ Very complex: Medical imaging  100+ layers
+2 Dataset size
+▶ Small dataset (< 10K): Shallow network (avoid overﬁtting)
+▶ Medium (10K-100K): Moderate depth (20-50 layers)
+▶ Large (> 1M): Very deep (50-200 layers)
+3 Computational budget
+▶ Mobile/edge: MobileNet, EfﬁcientNet (10-20 layers)
+▶ Desktop/server: ResNet-50, VGG-16 (16-50 layers)
+▶ Data center: ResNet-152, EfﬁcientNet-B7 (100+ layers)
+Start shallow, add depth if underﬁtting and you have enough data
+Deep Neural Network 104 / 1
+
+=== PAGE 105 ===
+Architecture Depth: Practical Guidelines
+Empirical observations:
+Network Layers Params Use Case
+LeNet-5 5 60K MNIST, simple tasks
+AlexNet 8 60M ImageNet (2012)
+VGG-16 16 138M High accuracy, features
+ResNet-50 50 25M General purpose
+ResNet-152 152 60M State-of-art accuracy
+EfﬁcientNet-B0 18 5M Mobile, efﬁcient
+Trends:
+Modern architectures: 50-200 layers with skip connections
+Efﬁcient architectures: 10-30 layers with smart design
+Depth alone is not enough: Need proper training techniques
+Warning: Very deep networks require:
+Batch normalization
+Residual connections
+Careful initialization
+Large datasets
+Deep Neural Network 105 / 1
+
+=== PAGE 106 ===
+Trade-offs: Depth vs. Width
+Depth: Number of layers (vertical stacking)
+Width: Number of channels per layer (horizontal expansion)
+Aspect Deeper (More Layers) Wider (More Channels)
+Feature complexity Higher Moderate
+Receptive ﬁeld Larger Same
+Parameters Sub-linear growth Quadratic growth
+Training difﬁculty Harder (vanishing grad) Easier
+Overﬁtting risk Lower (if regularized) Higher
+Inference speed Slower (sequential) Faster (parallel)
+Example:
+ResNet-50: Deep (50 layers), moderate width (256-2048 channels)
+Wide ResNet: Fewer layers (16-28), very wide (up to 10× channels)
+Current consensus: Depth + Width both matter; optimal ratio depends on task
+Deep Neural Network 106 / 1
+
+=== PAGE 107 ===
+Depth vs. Width: Practical Recommendations
+When to go deeper:
+▶ Large, diverse datasets (ImageNet, COCO)
+▶ Complex tasks requiring hierarchical features
+▶ When you can use skip connections
+▶ Sufﬁcient computational resources
+When to go wider:
+▶ Smaller, more homogeneous datasets
+▶ Need faster training/inference
+▶ Limited to shallow networks (no residual connections)
+▶ Ensemble-like behavior (different ﬁlters learn different patterns)
+Hybrid approach (EfﬁcientNet):
+▶ Scale depth, width, AND resolution together
+▶ Use compound scaling: depthd× widthw× resolutionr = 2
+▶ Achieves better accuracy-efﬁciency trade-off
+Deep Neural Network 107 / 1
+
+=== PAGE 108 ===
+Design Decision Framework
+1 Start with baseline
+▶ Use proven architecture (ResNet, EfﬁcientNet)
+▶ Transfer learning if possible
+2 Estimate requirements
+▶ Dataset size  depth constraint
+▶ Computational budget  width/depth trade-off
+▶ Input resolution  receptive ﬁeld needs
+3 Iterate systematically
+▶ Underﬁtting?  Add depth or width
+▶ Overﬁtting?  Regularize (dropout, data aug) before reducing capacity
+▶ Too slow?  Reduce width or use efﬁcient blocks
+4 Apply design patterns
+▶ Always: Spatial reduction + channel expansion
+▶ Deep networks: Skip connections mandatory
+▶ Tight budget: Bottleneck designs
+Deep Neural Network 108 / 1
+
+=== PAGE 109 ===
+Table of Contents
+1 Computer Vision Tasks
+2 Image Basics and Image Classification Challenges
+3 Introduction to Convolutional Networks
+4 CNN Components
+5 CNN Architecture Design
+6 Popular CNN Architectures
+7 Transfer Learning
+8 CNN Applications
+9 Implementation Considerations
+10 Summary
+Deep Neural Network 109 / 1
+
+=== PAGE 110 ===
+LeNet-5 (1998)
+Architecture
+INPUT  CONV  POOL  CONV  POOL  FC  FC  OUTPUT
+Purpose: Handwritten digit recognition (MNIST)
+Key Features:
+▶ First successful CNN architecture
+▶ Used sigmoid/tanh activations
+▶ Subsampling layers (average pooling)
+Parameters: 60K
+Input: 32× 32 grayscale images
+Deep Neural Network 110 / 1
+
+=== PAGE 111 ===
+LeNet-5 Architecture
+Deep Neural Network 111 / 1
+
+=== PAGE 112 ===
+AlexNet (2012)
+Key Innovations
+Used ReLU activations (instead of sigmoid/tanh)
+Dropout for regularization
+Data augmentation
+GPU acceleration
+Local Response Normalization (LRN)
+Architecture: 8 layers (5 CONV + 3 FC)
+Parameters: 60M
+Input: 224× 224× 3
+Achievement: Won ImageNet 2012 (Top-5 error: 15.3
+Impact: Sparked the deep learning revolution
+Deep Neural Network 112 / 1
+
+=== PAGE 113 ===
+AlexNet Architecture
+Deep Neural Network 113 / 1
+
+=== PAGE 114 ===
+VGGNet (2014)
+Key Principles
+Very small (3×3) convolution ﬁlters
+Deep networks (16-19 layers)
+Simple and uniform architecture
+Only 3×3 conv and 2×2 pooling throughout
+VGG-16 Conﬁguration:
+13 CONV layers + 3 FC layers
+All CONV layers: 3×3 ﬁlters, stride 1, pad 1
+All pooling: 2×2 max pool, stride 2
+Advantages:
+Simple, homogeneous architecture
+Two 3×3 conv≈ one 5×5 conv (fewer parameters)
+More non-linearities
+Deep Neural Network 114 / 1
+
+=== PAGE 115 ===
+VGGNet Architecture
+Deep Neural Network 115 / 1
+
+=== PAGE 116 ===
+Network in Network (NiN) - 2013
+Core Innovation
+Replace linear convolution ﬁlters with ”micro neural networks” (MLPconv layers) to
+increase model discriminability with fewer parameters.
+Key Ideas:
+MLPconv: Mini multi-layer perceptron instead of linear ﬁlter
+1×1 Convolutions: Add non-linearity and cross-channel pooling
+Global Average Pooling: Replace fully connected layers
+Reduces overﬁtting: Fewer parameters than traditional CNNs
+Impact:
+Introduced 1×1 convolutions to deep learning
+Inspired Inception and other modern architectures
+Global average pooling became standard practice
+Deep Neural Network 116 / 1
+
+=== PAGE 117 ===
+NiN: MLPconv Layer
+Traditional Convolution:
+Linear ﬁlter + ReLU
+y = max(0, w T x + b)
+Traditional Conv
+Input patch
+Linear ﬁlter
+ReLU
+Output
+MLPconv (NiN)
+Input patch
+1×1 Conv + ReLU
+1×1 Conv + ReLU
+1×1 Conv + ReLU
+Output
+MLPconv (NiN):
+Multi-layer perceptron applied to local
+patch
+h1 = max(0, w T
+1 x + b1)
+h2 = max(0, w T
+2 h1 + b2)
+y = max(0, w T
+3 h2 + b3)
+Deep Neural Network 117 / 1
+
+=== PAGE 118 ===
+NiN: Architecture Structure
+NiN Block = Conv layer + two
+1×1 conv layers
+Conv 5×5 or 3×3
+1×1 Conv + ReLU
+1×1 Conv + ReLU
+Spatial
+Channel
+Channel
+NiN Block
+Complete NiN Architecture:
+Layer Conﬁguration Output Size
+Input RGB image 224× 224× 3
+NiN Block 1 11×11 conv, 96 ﬁlters 54× 54× 96
+MaxPool 3×3, stride 2 26× 26× 96
+NiN Block 2 5×5 conv, 256 ﬁlters 26× 26× 256
+MaxPool 3×3, stride 2 12× 12× 256
+NiN Block 3 3×3 conv, 384 ﬁlters 12× 12× 384
+MaxPool 3×3, stride 2 5× 5× 384
+NiN Block 4 3×3 conv, 1000 ﬁlters 5× 5× 1000
+Global Avg Pool Average each channel 1× 1× 1000
+Softmax Classiﬁcation 1000 classes
+Deep Neural Network 118 / 1
+
+=== PAGE 119 ===
+NiN: Global A verage Pooling
+Problem with FC layers:
+▶ Millions of parameters (prone to
+overﬁtting)
+▶ Fixed input size requirement
+▶ No spatial correspondence
+For each channel c:
+Outputc = 1
+H× W
+H∑
+i=1
+W∑
+j=1
+FeatureMapc(i, j)
+Beneﬁts: No parameters! More
+robust, no overﬁtting from FC
+layers
+Global Average Pooling (GAP):
+Feature Maps
+H× W× C
+Average
+each map
+C values
+Output Vector
+1× 1× C
+Deep Neural Network 119 / 1
+
+=== PAGE 120 ===
+NiN: Key Takeaways
+Contributions
+1 1×1 Convolutions: First to extensively use for adding non-linearity
+2 MLPconv: More expressive local models
+3 Global Average Pooling: Eliminates FC layers, reduces overﬁtting
+4 Fewer Parameters: Despite deeper, fewer params than AlexNet
+Impact on Later Architectures:
+GoogLeNet: Adopted 1×1 convs in Inception modules
+ResNet: Uses 1×1 convs in bottleneck blocks
+MobileNet: Core building block is 1×1 convolutions
+Modern CNNs: GAP is now standard instead of FC layers
+Deep Neural Network 120 / 1
+
+=== PAGE 121 ===
+GoogLeNet/Inception (2014) - Overview
+Key Innovation: Inception Module
+Use multiple ﬁlter sizes in parallel to capture features at different scales, then
+concatenate results.
+Motivation:
+Objects appear at different scales in images
+Hard to choose optimal ﬁlter size (1×1? 3×3? 5×5?)
+Solution: Use all of them!
+Key Achievements:
+Winner: ImageNet ILSVRC 2014 (6.67% top-5 error)
+Depth: 22 layers (very deep for 2014)
+Parameters: 5M (12× fewer than AlexNet!)
+Architecture: Stack of inception modules
+Deep Neural Network 121 / 1
+
+=== PAGE 122 ===
+Naive Inception Module
+Initial Idea: Parallel paths with different receptive ﬁelds
+Previous Layer
+1×1 Conv 3×3 Conv 5×5 Conv 3×3 MaxPool
+Filter Concatenation
+Next Layer
+Problem: Computational cost explodes!
+Example: Input 256 channels, output 256 channels each path  Millions of operations
+Deep Neural Network 122 / 1
+
+=== PAGE 123 ===
+Inception Module with Dimensionality
+Reduction
+Solution: Add 1×1 convolutions before expensive operations
+Input: 28× 28× 256
+1×1, 64
+Direct 1×1, 96
+3×3, 128
+Reduce
+1×1, 16
+5×5, 32
+Reduce
+3×3 Pool
+1×1, 32
+Pool
+Concatenate: 28× 28× 256
+64 + 128 + 32 + 32 = 256 channels
+Key Insight: 1×1 convs reduce channels before expensive 3×3 and 5×5 operations
+Deep Neural Network 123 / 1
+
+=== PAGE 124 ===
+Inception Module: Computational Savings
+Without 1×1 reduction (naive):
+▶ 3×3 conv: 28× 28× 256× 128× 3× 3≈ 230M ops
+▶ 5×5 conv: 28× 28× 256× 32× 5× 5≈ 160M ops
+▶ Total:∼390M operations
+With 1×1 reduction:
+▶ 1×1 reduce: 28× 28× 256× 96× 1× 1≈ 19M ops
+▶ 3×3 conv: 28× 28× 96× 128× 3× 3≈ 86M ops
+▶ 1×1 reduce: 28× 28× 256× 16× 1× 1≈ 3M ops
+▶ 5×5 conv: 28× 28× 16× 32× 5× 5≈ 10M ops
+▶ Total:∼118M operations
+Result: 3.3× reduction in computation! This is the bottleneck principle that
+became standard in deep networks.
+Deep Neural Network 124 / 1
+
+=== PAGE 125 ===
+GoogLeNet Architecture
+Overall Structure: 22 layers deep
+Layer Type Output Size Details
+Conv 7×7, stride 2 112× 112× 64
+MaxPool 3×3, stride 2 56× 56× 64
+Conv 3×3, stride 1 56× 56× 192
+MaxPool 3×3, stride 2 28× 28× 192
+Inception (3a) 28× 28× 256 1st block
+Inception (3b) 28× 28× 480
+MaxPool 3×3, stride 2 14× 14× 480
+Inception (4a-4e) 14× 14× 512− 832 5 blocks
+MaxPool 3×3, stride 2 7× 7× 832
+Inception (5a-5b) 7× 7× 832− 1024 2 blocks
+Global AvgPool 1× 1× 1024 NiN style
+Dropout (40%) 1× 1× 1024 Regularization
+FC + Softmax 1000 classes Output
+Total: 9 Inception modules stacked with strategic pooling for downsampling
+Deep Neural Network 125 / 1
+
+=== PAGE 126 ===
+Inception Module: Design Philosophy
+Why does Inception work so well?
+1 Multi-scale feature extraction
+▶ Different ﬁlters capture different scales
+▶ Network learns which scale is important per layer
+2 Sparse connections
+▶ Not all inputs connected to all outputs
+▶ Mimics biological neural networks
+3 Efﬁcient computation
+▶ 1×1 bottlenecks reduce dimensions
+▶ Much fewer parameters than VGG
+4 Increased network depth and width
+▶ Can go deeper without computational explosion
+▶ Multiple paths increase model capacity
+Auxiliary Classiﬁers: GoogLeNet added intermediate classiﬁers during training to
+combat vanishing gradients (removed at test time)
+Deep Neural Network 126 / 1
+
+=== PAGE 127 ===
+Inception V ariants
+Evolution of Inception Architecture:
+Version Y ear Key Innovation
+Inception v1 (GoogLeNet) 2014 Original inception module
+Inception v2 2015 Batch normalization
+Inception v3 2015 Factorized convolutions (3×3  3×1 + 1×3)
+Inception v4 2016 Combined with residual connections
+Inception-ResNet 2016 Hybrid: Inception + skip connections
+Factorization Example (v3):
+Replace expensive 5×5 with two 3×3:
+▶ 5×5 conv: 25n2 operations
+▶ Two 3×3 convs: 9n2 + 9n2 = 18n2 operations
+▶ Savings: 28% fewer operations, same receptive ﬁeld
+Further: Replace 3×3 with 3×1 + 1×3:
+▶ 3×3 conv: 9n2 operations
+▶ 3×1 + 1×3: 3n2 + 3n2 = 6n2 operations
+▶ Savings: 33% fewer operations
+Deep Neural Network 127 / 1
+
+=== PAGE 128 ===
+ResNet (2015) - The Depth Problem
+Surprising Discovery
+Deeper networks performed worse than shallow networks on training set!
+0 20 40 60 80 10015
+20
+25
+30
+35
+Training Iterations
+Training Error
+18-layer
+56-layer
+Problem: Not overﬁtting (training error is higher!), but optimization difﬁculty
+Hypothesis: Deeper networks struggle to learn even identity mappings
+Deep Neural Network 128 / 1
+
+=== PAGE 129 ===
+ResNet: The Residual Learning Idea
+Key Insight: Instead of learning H(x) directly, learn the residual F (x) = H(x)− x
+Traditional Block:
+Learn target mapping directly:
+H(x) = layers(x)
+x
+Conv
+Conv
+H(x)
+Residual Block:
+Learn the difference (residual):
+H(x) = F (x) + x
+x
+Conv
+Conv
++
+H(x)
+x
+F (x)
+identity
+Why easier? If identity is
+optimal, network just needs
+to learn F (x) = 0 (push
+weights to zero), which is
+easier than learning identity
+explicitly!
+Deep Neural Network 129 / 1
+
+=== PAGE 130 ===
+Basic Residual Block
+x
+3×3 Conv, 64
+Batch Norm
+ReLU
+3×3 Conv, 64
+Batch Norm
++
+ReLU
+y
+identity
+F (x)
+y = F (x) + x
+Building Block for
+ResNet-18 and
+ResNet-34:
+Key Components:
+▶ Two 3×3 convolutions
+▶ Batch normalization
+after each conv
+▶ ReLU activation (one in
+middle, one at end)
+▶ Identity skip connection
+(red dashed)
+Deep Neural Network 130 / 1
+
+=== PAGE 131 ===
+Bottleneck Residual Block
+x 256 ch
+1×1 Conv, 64
+BN + ReLU
+3×3 Conv, 64
+BN + ReLU
+1×1 Conv, 256
+BN
++
+ReLU
+y 256 ch
+Reduce
+Process
+Expand
+Used in ResNet-50, ResNet-101,
+ResNet-152 for efﬁciency:
+Bottleneck Strategy:
+1×1 reduce  3×3 process  1×1
+expand
+Parameter savings:
+256×64+64×64×9+64×256 =
+70K vs. 256× 256× 9 = 590K
+(8.4× reduction!)
+Deep Neural Network 131 / 1
+
+=== PAGE 132 ===
+ResNet: Handling Dimension Mismatch
+Problem: What if input and output
+dimensions don’t match?
+Solution: Projection Shortcut
+When dimensions change (spatial
+or channel):
+Projection:
+▶ 1×1 convolution with stride=2
+(downsample spatially)
+▶ Adjusts number of channels
+▶ Enables skip connection even
+when dimensions change x 56× 56× 64
+Conv + BN
+Conv + BN
++
+y 28× 28× 128
+1×1 Conv
+stride=2
+Match
+dimensions
+Deep Neural Network 132 / 1
+
+=== PAGE 133 ===
+ResNet Architecture F amily
+Layer ResNet-18 ResNet-34 ResNet-50 ResNet-101
+Conv1 7×7, 64, stride 2
+Conv2 x [3×3, 64] × 2/3 [1×1,64; 3×3,64; 1×1,256] × 3
+×2 ×3 ×3 ×3
+Conv3 x [3×3, 128] × 2/4 [1×1,128; 3×3,128; 1×1,512] × 4/23
+×2 ×4 ×4 ×23
+Conv4 x [3×3, 256] × 2/6 [1×1,256; 3×3,256; 1×1,1024] × 6
+×2 ×6 ×6 ×6
+Conv5 x [3×3, 512] × 2/3 [1×1,512; 3×3,512; 1×1,2048] × 3
+×2 ×3 ×3 ×3
+Total Layers 18 34 50 101
+Parameters 11.7M 21.8M 25.6M 44.5M
+Top-5 Error 10.2% 9.6% 7.7% 7.1%
+Deep Neural Network 133 / 1
+
+=== PAGE 134 ===
+Why Do Residual Connections Work?
+Multiple explanations:
+1 Gradient Flow
+▶ Skip connections create ”gradient highways”
+▶ Backprop: ∂L
+∂x = ∂L
+∂y· (1 + ∂F
+∂x )
+▶ Gradient always has direct path (the ”1” term)
+2 Ensemble Behavior
+▶ Network behaves like ensemble of shallow networks
+▶ Each path through skip connections = different network
+▶ 2n implicit paths in n-block network
+3 Feature Reuse
+▶ Earlier features directly accessible to later layers
+▶ No information bottleneck
+▶ Layers can reﬁne features instead of recreating them
+Deep Neural Network 134 / 1
+
+=== PAGE 135 ===
+ResNet: Key Takeaways
+Revolutionary Impact ResNet enabled training of networks with 100+ layers, winning
+ImageNet 2015 with 3.6% error (superhuman performance on ImageNet!)
+Core Contributions:
+1 Residual Learning: Learn F (x) = H(x)− x instead of H(x)
+2 Skip Connections: Identity shortcuts for gradient ﬂow
+3 Very Deep Networks: 50-152 layers trainable (even 1000+ demonstrated)
+4 Bottleneck Design: Efﬁcient deep networks using 1×1 convolutions
+Impact on Field:
+Skip connections now standard in almost all architectures
+DenseNet, U-Net, EfﬁcientNet all use residual-style connections
+Transfer learning: ResNet features widely used as backbones
+Enabled modern very deep networks (Transformers also use residuals!)
+Deep Neural Network 135 / 1
+
+=== PAGE 136 ===
+Table of Contents
+1 Computer Vision Tasks
+2 Image Basics and Image Classification Challenges
+3 Introduction to Convolutional Networks
+4 CNN Components
+5 CNN Architecture Design
+6 Popular CNN Architectures
+7 Transfer Learning
+8 CNN Applications
+9 Implementation Considerations
+10 Summary
+Deep Neural Network 136 / 1
+
+=== PAGE 137 ===
+Transfer Learning Concept
+Definition
+Using a pre-trained model on one task as the starting point for a related task
+Why Transfer Learning?
+Limited Data: Small datasets beneﬁt from pre-trained features
+Computational Efﬁciency: Avoid training from scratch
+Better Performance: Often achieves better results
+Feature Reusability: Low-level features are transferable
+Common Scenario
+Source Task: ImageNet classiﬁcation (1.2M images, 1000 classes)
+Target Task: Y our speciﬁc classiﬁcation problem
+Assumption: Similar low-level visual features
+Deep Neural Network 137 / 1
+
+=== PAGE 138 ===
+ImageNet Data
+Deep Neural Network 138 / 1
+
+=== PAGE 139 ===
+ImageNet Data
+Deep Neural Network 139 / 1
+
+=== PAGE 140 ===
+Transfer Learning Strategies
+Strategy 1: Feature Extraction
+Freeze pre-trained layers
+Train only classiﬁer (ﬁnal layer)
+Use when: Small dataset, similar to pre-trained data
+Strategy 2: Fine-tuning
+Initialize with pre-trained weights
+Train entire network with low learning rate
+Use when: Medium dataset, somewhat similar data
+Strategy 3: Selective Fine-tuning
+Freeze early layers, ﬁne-tune later layers
+Balance between feature extraction and ﬁne-tuning
+Use when: Medium dataset, different but related data
+Deep Neural Network 140 / 1
+
+=== PAGE 141 ===
+Transfer Learning Guidelines
+Dataset Size
+Data Similarity
+Small Large
+Different
+Similar
+Feature Extraction
+Freeze conv layers
+Train classiﬁer only
+Fine-tuning
+Small learning rate
+All layers
+Train from scratch
+or selective
+Fine-tuning
+Train from scratch
+Large dataset
+Different domain
+Deep Neural Network 141 / 1
+
+=== PAGE 142 ===
+Table of Contents
+1 Computer Vision Tasks
+2 Image Basics and Image Classification Challenges
+3 Introduction to Convolutional Networks
+4 CNN Components
+5 CNN Architecture Design
+6 Popular CNN Architectures
+7 Transfer Learning
+8 CNN Applications
+9 Implementation Considerations
+10 Summary
+Deep Neural Network 142 / 1
+
+=== PAGE 143 ===
+Image Classification
+Task
+Assign a single label to an entire image
+Examples: CIFAR-10, ImageNet, medical image diagnosis
+Architecture: Standard CNN  Global Average Pooling/FC  Softmax
+Loss Function: Cross-entropy loss
+Metrics: Accuracy, Top-k accuracy
+Key Considerations
+Data augmentation crucial for generalization
+Class imbalance handling
+Proper train/validation/test splits
+Deep Neural Network 143 / 1
+
+=== PAGE 144 ===
+Object Detection
+Task
+Locate and classify multiple objects in an image
+Output: Bounding boxes + class labels
+Approaches:
+▶ Two-stage: R-CNN, Fast R-CNN, Faster R-CNN
+▶ One-stage: YOLO, SSD
+Challenges: Multiple scales, varying object sizes, real-time requirements
+Deep Neural Network 144 / 1
+
+=== PAGE 145 ===
+Semantic Segmentation
+Task
+Classify every pixel in the image
+Output: Dense pixel-wise predictions
+Architectures:
+▶ FCN: Fully Convolutional Networks
+▶ U-Net: Encoder-decoder with skip connections
+▶ DeepLab: Atrous convolutions, multi-scale features
+Applications: Medical imaging, autonomous driving, satellite imagery
+Deep Neural Network 145 / 1
+
+=== PAGE 146 ===
+Other CNN Applications
+Computer Vision Tasks
+Face Recognition: Identity veriﬁcation, face detection
+Style Transfer: Artistic style application
+Image Generation: GANs, VAEs
+Super-Resolution: Enhance image quality
+Beyond Computer Vision
+Natural Language Processing: Text classiﬁcation, sentiment analysis
+Audio Processing: Speech recognition, music analysis
+Time Series: 1D convolutions for sequential data
+Graph Neural Networks: Graph convolutions
+Deep Neural Network 146 / 1
+
+=== PAGE 147 ===
+Table of Contents
+1 Computer Vision Tasks
+2 Image Basics and Image Classification Challenges
+3 Introduction to Convolutional Networks
+4 CNN Components
+5 CNN Architecture Design
+6 Popular CNN Architectures
+7 Transfer Learning
+8 CNN Applications
+9 Implementation Considerations
+10 Summary
+Deep Neural Network 147 / 1
+
+=== PAGE 148 ===
+Practical Implementation Tips
+Data Preprocessing
+▶ Normalize pixel values (0-1 or standardize)
+▶ Data augmentation: rotation, ﬂipping, cropping, color jittering
+▶ Proper train/validation/test splits
+Architecture Design
+▶ Start simple, add complexity gradually
+▶ Use batch normalization for faster training
+▶ Apply dropout for regularization
+▶ Monitor validation performance
+Training Strategy
+▶ Use appropriate learning rate scheduling
+▶ Early stopping to prevent overﬁtting
+▶ Gradient clipping for stability
+▶ Use pre-trained models when possible
+Deep Neural Network 148 / 1
+
+=== PAGE 149 ===
+Common Pitfalls and Solutions
+Overﬁtting
+▶ Symptoms: High training accuracy, poor validation accuracy
+▶ Solutions: More data, data augmentation, dropout, L2 regularization
+Underﬁtting
+▶ Symptoms: Poor performance on both training and validation
+▶ Solutions: Larger model, more training time, lower regularization
+Vanishing/Exploding Gradients
+▶ Solutions: Proper initialization, batch normalization, residual connections
+Computational Efﬁciency
+▶ Use appropriate batch sizes
+▶ Mixed precision training
+▶ Model compression techniques
+Deep Neural Network 149 / 1
+
+=== PAGE 150 ===
+Table of Contents
+1 Computer Vision Tasks
+2 Image Basics and Image Classification Challenges
+3 Introduction to Convolutional Networks
+4 CNN Components
+5 CNN Architecture Design
+6 Popular CNN Architectures
+7 Transfer Learning
+8 CNN Applications
+9 Implementation Considerations
+10 Summary
+Deep Neural Network 150 / 1
+
+=== PAGE 151 ===
+Key Takeaways
+Core Concepts
+CNNs exploit spatial structure through local connectivity and parameter
+sharing
+Convolution, pooling, and non-linear activations are building blocks
+Hierarchical feature learning: edges  shapes  objects
+Architecture Evolution
+LeNet  AlexNet  VGG  GoogLeNet  ResNet  Modern architectures
+Key innovations: ReLU, dropout, batch normalization, residual connections
+Trend: Deeper networks with better optimization techniques
+Deep Neural Network 151 / 1
+
+=== PAGE 152 ===
+Practical Guidelines
+Start with transfer learning when possible
+Data augmentation is crucial for generalization
+Monitor both training and validation metrics
+Use appropriate regularization techniques
+Implement a simple CNN from scratch
+Experiment with different architectures on CIFAR-10
+Try transfer learning with pre-trained models
+Explore data augmentation techniques
+Deep Neural Network 152 / 1
+
+=== PAGE 153 ===
+References
+Zhang, A., Lipton, Z. C., Li, M., & Smola, A. J. (2023). Dive into deep learning .
+Cambridge University Press. Chapters 6 and 7.
+Goodfellow, I., Bengio, Y ., Courville, A. (2016).Deep Learning. MIT Press.
+LeCun, Y ., Bottou, L., Bengio, Y ., & Haffner, P . (1998). Gradient-based learning
+applied to document recognition. Proceedings of the IEEE , 86(11), 2278-2324.
+Krizhevsky, A., Sutskever, I., & Hinton, G. E. (2012). ImageNet classiﬁcation with deep
+convolutional neural networks. Advances in NIPS.
+Simonyan, K., & Zisserman, A. (2014). Very deep convolutional networks for
+large-scale image recognition. arXiv preprint arXiv:1409.1556 .
+Szegedy, C., et al. (2015). Going deeper with convolutions. Proceedings of the IEEE
+CVPR.
+He, K., Zhang, X., Ren, S., & Sun, J. (2016). Deep residual learning for image
+recognition. Proceedings of the IEEE CVPR .
+Deep Neural Network 153 / 1

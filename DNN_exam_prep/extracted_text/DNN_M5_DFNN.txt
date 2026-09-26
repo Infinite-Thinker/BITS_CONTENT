@@ -1,0 +1,1124 @@
+=== PAGE 1 ===
+DEEP NEURAL NETWORK
+MODULE # 5 : D EEP FEED -F ORWARD
+NEURAL NETWORKS
+DNN Team
+BITS Pilani WILP
+
+=== PAGE 2 ===
+With grateful acknowledgement to the authors who have
+generously made their course materials freely available online.
+Deck prepared by Seetha Parameswaran.
+BITS Pilani WILP Deep Learning 2 / 1
+
+=== PAGE 3 ===
+Table of Contents
+1 Motivation: The XOR Problem
+2 Non-Linearity in Neural Networks
+3 The Four Components of DFNN
+4 Training DFNN
+5 Making Predictions
+6 Impact of Depth and Width
+7 DFNN Architecture Design
+8 Implementation Tips
+9 Summary
+BITS Pilani WILP Deep Learning 3 / 1
+
+=== PAGE 4 ===
+Linear Models Have Limitations
+Recall: Linear models uses a single neuron with activation function f (·)
+ˆy = f (wT x + b) (1)
+Problem: Many real-world relationships are non-linear
+Image recognition (pixel intensities  object classes)
+Natural language understanding (words  sentiment)
+Medical diagnosis (symptoms  disease probability)
+Game playing (board state  optimal move)
+Linear models cannot solve non-linearly separable problems!
+BITS Pilani WILP Deep Learning 4 / 1
+
+=== PAGE 5 ===
+The XOR Problem
+XOR (Exclusive OR): A classic non-linearly separable problem
+Truth Table:
+x1 x2 y (XOR)
+0 0 0
+0 1 1
+1 0 1
+1 1 0
+Visual Representation:
+x1
+x2
+0
+1
+1
+0
+No linear separator!
+Challenge: No single straight line can separate the two classes!
+BITS Pilani WILP Deep Learning 5 / 1
+
+=== PAGE 6 ===
+Why Single Neuron F ails on XOR
+Single neuron model:
+ˆy =σ(w1x1 + w2x2 + b) (2)
+whereσ is any activation function.
+Decision boundary: w1x1 + w2x2 + b = 0 (a line/hyperplane)
+x1
+x2
+Fails
+Fails
+Conclusion: We need models that can learn non-linear decision boundaries!
+BITS Pilani WILP Deep Learning 6 / 1
+
+=== PAGE 7 ===
+Solution: Multi-Layer Perceptron (MLP)
+Key Idea: Stack multiple layers of neurons with non-linear activations
+x1
+x2
+Input Layer
+h1
+h2
+Hidden Layer
+ˆy
+Output Layer
+Non-linear activation functions
+enable non-linear boundaries
+BITS Pilani WILP Deep Learning 7 / 1
+
+=== PAGE 8 ===
+MLP Solves XOR
+Architecture: 2 inputs  2 hidden units  1 output
+How it works:
+Hidden layer creates new feature representations
+Each hidden unit learns a linear separator
+Output layer combines these separators
+Non-linear activation enables complex boundaries
+x1
+x2
+Input Space
+Hidden layer
+h1
+h2
+Hidden Space
+Separable!
+BITS Pilani WILP Deep Learning 8 / 1
+
+=== PAGE 9 ===
+Table of Contents
+1 Motivation: The XOR Problem
+2 Non-Linearity in Neural Networks
+3 The Four Components of DFNN
+4 Training DFNN
+5 Making Predictions
+6 Impact of Depth and Width
+7 DFNN Architecture Design
+8 Implementation Tips
+9 Summary
+BITS Pilani WILP Deep Learning 9 / 1
+
+=== PAGE 10 ===
+What is Non-Linearity?
+Definition
+A function f is non-linear if it does not satisfy the linearity property:
+f (ax1 + bx2)̸= a f (x1) + b f (x2) (3)
+for all scalars a, b and inputs x1, x2.
+Why non-linearity matters:
+Without non-linearity, deep networks collapse to single-layer models
+Non-linear activations enable learning complex patterns
+BITS Pilani WILP Deep Learning 10 / 1
+
+=== PAGE 11 ===
+Common Activation Functions
+Activation functions introduce non-linearity
+z
+σ(z)
+Sigmoid
+σ(z) = 1
+1+e−z
+z
+tanh(z)
+Tanh
+tanh(z) = ez −e−z
+ez +e−z
+z
+ReLU(z)
+ReLU
+ReLU(z) = max( 0, z)
+BITS Pilani WILP Deep Learning 11 / 1
+
+=== PAGE 12 ===
+Activation Function Properties
+Property Sigmoid Tanh ReLU Leaky ReLU
+Range (0, 1) (−1, 1) [0,∞) (−∞,∞)
+Zero-centered    
+Differentiable    at 0  at 0
+Vanishing gradient High Moderate No No
+Computational cost High High Low Low
+Typical use Output layer Hidden layer Hidden layer Hidden layer
+Modern preference: ReLU and variants for hidden layers
+Fast computation (simple thresholding)
+No vanishing gradient for positive values
+Sparse activation (biological plausibility)
+BITS Pilani WILP Deep Learning 12 / 1
+
+=== PAGE 13 ===
+Why ReLU Works Well?
+ReLU: f (z) = max( 0, z)
+Advantages:
+1 Computational efﬁciency
+▶ Simple comparison and multiplication
+▶ Much faster than sigmoid/tanh (no exponentials)
+2 Avoids vanishing gradients
+▶ Gradient is 1 for z > 0, ﬂows unchanged through network
+▶ Enables training of very deep networks
+3 Sparse activation
+▶ Many neurons output exactly 0
+▶ More efﬁcient representations
+▶ Closer to biological neurons
+Caveat: ”Dying ReLU” problem when neurons always output 0
+Solution: Use Leaky ReLU, PReLU, or ELU variants
+BITS Pilani WILP Deep Learning 13 / 1
+
+=== PAGE 14 ===
+Table of Contents
+1 Motivation: The XOR Problem
+2 Non-Linearity in Neural Networks
+3 The Four Components of DFNN
+4 Training DFNN
+5 Making Predictions
+6 Impact of Depth and Width
+7 DFNN Architecture Design
+8 Implementation Tips
+9 Summary
+BITS Pilani WILP Deep Learning 14 / 1
+
+=== PAGE 15 ===
+Deep Feed-Forward Neural Network (DFNN)
+Definition
+A DFNN is a neural network with one or more hidden layers between input and
+output layers, where information ﬂows forward through non-linear transformations.
+Complete system requires four components:
+1 Data: Input features and target outputs
+2 Model: Multi-layer architecture with non-linear activations
+3 Objective Function: Loss function to minimize
+4 Learning Algorithm: Backpropagation with gradient descent
+This is the same framework as linear models, but with added depth and non-linearity!
+BITS Pilani WILP Deep Learning 15 / 1
+
+=== PAGE 16 ===
+Data Representation
+Dataset: D ={(x(i), y(i))}N
+i=1 (4)
+Input Design Matrix: X∈ RN×d =
+
+
+x(1)T
+x(2)T
+...
+x(N)T
+
+ =
+
+
+x (1)
+1 x (1)
+2 ··· x (1)
+d
+x (2)
+1 x (2)
+2 ··· x (2)
+d
+... ... ... ...
+x (N)
+1 x (N)
+2 ··· x (N)
+d
+
+ (5)
+Target Matrix: Y∈ RN×K =
+
+
+y(1)T
+y(2)T
+...
+y(N)T
+
+ (6)
+where K is the output dimension (1 for regression,C for classiﬁcation withC classes).
+BITS Pilani WILP Deep Learning 16 / 1
+
+=== PAGE 17 ===
+Mini-Batch Representation
+For computational efﬁciency, we process data in mini-batches
+Mini-batch of size B : B ={(x(i), y(i))}i∈batch (7)
+Mini-batch input matrix: XB∈ RB×d (8)
+Mini-batch target matrix: YB∈ RB×K (9)
+Common batch sizes: B∈{ 32, 64, 128, 256}
+Balances computational efﬁciency with gradient stability
+Enables parallelization on GPUs
+BITS Pilani WILP Deep Learning 17 / 1
+
+=== PAGE 18 ===
+DFNN Architecture
+Network with L layers:
+x1
+x2
+x3
+...
+xd
+Input
+x∈ Rd
+...
+Hidden 1
+h(1)∈ Rn1
+...
+Hidden 2
+h(2)∈ Rn2
+···
+ˆy1
+ˆy2
+...
+Output
+ˆy∈ RK
+Notation:
+L: Number of layers
+(including output,
+excluding input)
+nℓ: Number of units in
+layerℓ
+d = n0: Input
+dimension
+K = nL: Output
+dimension
+BITS Pilani WILP Deep Learning 18 / 1
+
+=== PAGE 19 ===
+Layer-wise Computation
+For each layerℓ = 1, 2,..., L:
+Parameters: W(ℓ)∈ Rnℓ−1×nℓ (weight matrix) (10)
+b(ℓ)∈ Rnℓ (bias vector) (11)
+Initial condition: h(0) = x (input) (12)
+Pre-activation (linear transformation): z(ℓ) = h(ℓ−1)W(ℓ) + b(ℓ)∈ Rnℓ (13)
+Activation (non-linear transformation): h(ℓ) =σ(ℓ)(z(ℓ))∈ Rnℓ (14)
+Final output: ˆy = h(L) (15)
+whereσ(ℓ) is the activation function for layerℓ (applied element-wise).
+BITS Pilani WILP Deep Learning 19 / 1
+
+=== PAGE 20 ===
+Vectorized Computation for Mini-Batch
+For mini-batch XB∈ RB×d:
+Initial: H(0) = XB (16)
+Layer ℓ computation: Z(ℓ) = H(ℓ−1)W(ℓ) + 1Bb(ℓ)T∈ RB×nℓ (17)
+H(ℓ) =σ(ℓ)(Z(ℓ))∈ RB×nℓ (18)
+Final: ˆYB = H(L)∈ RB×K (19)
+where:
+H(ℓ)∈ RB×nℓ contains activations for all B examples
+1B∈ RB×1 is a vector of ones (for broadcasting bias)
+Activationσ(ℓ) applied element-wise to entire matrix
+BITS Pilani WILP Deep Learning 20 / 1
+
+=== PAGE 21 ===
+Total Parameters in Network
+Parameter count for layerℓ:
+Parameters(ℓ) = nℓ−1× nℓ + nℓ = nℓ(nℓ−1 + 1) (20)
+Total parameters in network:
+Total =
+L∑
+ℓ=1
+nℓ(nℓ−1 + 1) (21)
+Example: Network with 3-layer architecture 784→ 256→ 128→ 10 neurons
+Layer 1: 784 × 256 + 256 = 200,960
+Layer 2: 256 × 128 + 128 = 32,896
+Layer 3: 128 × 10 + 10 = 1,290
+Total: 235 ,146 parameters
+Deep networks can have millions to billions of parameters!
+BITS Pilani WILP Deep Learning 21 / 1
+
+=== PAGE 22 ===
+Loss Functions for Different Tasks
+The loss function depends on the task:
+1. Regression (continuous output):
+MSE: ℓ(ˆy, y) = 1
+2∥ˆy− y∥2 = 1
+2
+K∑
+k=1
+(ˆyk− yk )2 (22)
+2. Binary Classiﬁcation (K = 1, output in (0, 1)):
+BCE: ℓ(ˆy, y) =−[y log(ˆy) + (1− y) log(1− ˆy)] (23)
+3. Multi-class Classiﬁcation (K = C classes):
+CCE: ℓ(ˆy, y) =−
+C∑
+k=1
+yk log(ˆyk ) (24)
+where y is one-hot encoded and ˆy from softmax activation.
+BITS Pilani WILP Deep Learning 22 / 1
+
+=== PAGE 23 ===
+Total Loss Over Mini-Batch
+Loss for single example:
+ℓ(i) =ℓ(ˆy(i), y(i)) (25)
+Average loss over mini-batchB of size B:
+J(W, b) = 1
+B
+∑
+i∈B
+ℓ(i) = 1
+B
+∑
+i∈B
+ℓ(ˆy(i), y(i)) (26)
+where W ={W(1), W(2),..., W(L)} and b ={b(1), b(2),..., b(L)} represent all net-
+work parameters.
+Goal: Find parameters that minimize J:
+W∗, b∗ = arg min
+W,b
+J(W, b) (27)
+BITS Pilani WILP Deep Learning 23 / 1
+
+=== PAGE 24 ===
+Mini-Batch Stochastic Gradient Descent
+Core idea: Update parameters using gradients from mini-batches
+Update rule for layerℓ:
+W(ℓ)← W(ℓ)−η ∂J
+∂W(ℓ) (28)
+b(ℓ)← b(ℓ)−η ∂J
+∂b(ℓ) (29)
+whereη >0 is the learning rate.
+Challenge: How to compute ∂J
+∂W(ℓ) and ∂J
+∂b(ℓ) efﬁciently?
+Solution: Backpropagation algorithm!
+Efﬁciently computes gradients using chain rule
+Key innovation that enabled deep learning
+BITS Pilani WILP Deep Learning 24 / 1
+
+=== PAGE 25 ===
+Training Algorithm: Mini-Batch SGD
+Algorithm 1: DFNN Training with Mini-Batch SGD (Part 1: Forward Pass)
+Input: DatasetD, architecture (n0, n1,..., nL), learning rateη, batch size B, epochs T
+Output: Trained parameters{W(ℓ), b(ℓ)}L
+ℓ=1
+1 forℓ = 1 to L do
+2 Initialize W(ℓ)∈ Rnℓ−1×nℓ randomly;
+3 Initialize b(ℓ)∈ Rnℓ to zeros;
+4 for epoch t = 1 to T do
+5 Shufﬂe datasetD;
+6 for each mini-batchB of size B do
+// Forward Pass
+7 H(0)← XB;
+8 forℓ = 1 to L do
+9 Z(ℓ)← H(ℓ−1)W(ℓ) + 1Bb(ℓ)T ;
+10 H(ℓ)←σ(ℓ)(Z(ℓ));
+11 ˆYB← H(L);
+12 J← 1
+B
+∑
+i∈Bℓ(ˆy(i), y(i)) // Compute Loss
+BITS Pilani WILP Deep Learning 25 / 1
+
+=== PAGE 26 ===
+Training Algorithm: Mini-Batch SGD
+Algorithm 2: DFNN Training with Mini-Batch SGD (Part 2: BackProp & Update)
+// Backward Pass (Backpropagation)
+13 δ(L)← ∂J
+∂Z(L) // Output layer gradient Depends on loss & activation
+14 forℓ = L− 1 to 1 do
+15 δ(ℓ)← (δ(ℓ+1)W(ℓ+1)T )⊙σ′(ℓ)(Z(ℓ)) // Backpropagate through hidden layers
+16 forℓ = 1 to L do
+17 ∂J
+∂W(ℓ)← 1
+B H(ℓ−1)Tδ(ℓ) // Compute parameter gradients
+18 ∂J
+∂b(ℓ)← 1
+B 1T
+Bδ(ℓ);
+// Update parameters
+19 forℓ = 1 to L do
+20 W(ℓ)← W(ℓ)−η ∂J
+∂W(ℓ) ;
+21 b(ℓ)← b(ℓ)−η ∂J
+∂b(ℓ) ;
+BITS Pilani WILP Deep Learning 26 / 1
+
+=== PAGE 27 ===
+Table of Contents
+1 Motivation: The XOR Problem
+2 Non-Linearity in Neural Networks
+3 The Four Components of DFNN
+4 Training DFNN
+5 Making Predictions
+6 Impact of Depth and Width
+7 DFNN Architecture Design
+8 Implementation Tips
+9 Summary
+BITS Pilani WILP Deep Learning 27 / 1
+
+=== PAGE 28 ===
+Forward Pass: Computing Predictions
+Given input x∈ Rd, compute output ˆy∈ RK
+h(0) = x h(1) h(2) ··· h(L) = ˆy
+W(1), b(1) W(2), b(2) W(L), b(L)
+z(1) = h(0)W(1) + b(1) h(1) =σ(1)(z(1))
+BITS Pilani WILP Deep Learning 28 / 1
+
+=== PAGE 29 ===
+Forward Pass Algorithm
+Algorithm 3: Forward Propagation
+Input: Input x∈ Rd, Parameters{W(ℓ), b(ℓ)}L
+ℓ=1
+Output: Prediction ˆy∈ RK , All activations{h(ℓ)}L
+ℓ=0
+// Initialize with input
+1 h(0)← x;
+// Forward through all layers
+2 forℓ = 1 to L do
+// Linear transformation
+3 z(ℓ)← h(ℓ−1)W(ℓ) + b(ℓ);
+// Non-linear activation
+4 h(ℓ)←σ(ℓ)(z(ℓ));
+// Store activations for backpropagation
+// Output is final layer activation
+5 ˆy← h(L);
+6 return ˆy,{h(ℓ), z(ℓ)}L
+ℓ=1;
+BITS Pilani WILP Deep Learning 29 / 1
+
+=== PAGE 30 ===
+Forward Pass: Vectorized for Mini-Batch
+For mini-batch XB∈ RB×d :
+Initialize: H(0) = XB∈ RB×d (30)
+For each layerℓ = 1,..., L :
+Z(ℓ) = H(ℓ−1)W(ℓ) + 1Bb(ℓ)T∈ RB×nℓ (31)
+H(ℓ) =σ(ℓ)(Z(ℓ))∈ RB×nℓ (32)
+Output predictions :
+ˆYB = H(L)∈ RB×K (33)
+Computational complexity : O(B
+L∑
+ℓ=1
+nℓ−1nℓ) per forward pass (34)
+BITS Pilani WILP Deep Learning 30 / 1
+
+=== PAGE 31 ===
+Loss Computation
+After forward pass, compute loss for the mini-batch:
+Per-example loss: ℓ(i) =ℓ(ˆy(i), y(i)) (35)
+Average loss over mini-batch: J = 1
+B
+B∑
+i=1
+ℓ(i) (36)
+Common loss functions:
+Regression: MSE = 1
+2∥ˆy(i)− y(i)∥2
+Binary Classiﬁcation: BCE =−[y (i) log(ˆy (i)) + (1− y (i)) log(1− ˆy (i))]
+Multi-class: CCE =−
+C∑
+k=1
+y (i)
+k log(ˆy (i)
+k )
+This loss quantiﬁes how wrong our predictions are.
+BITS Pilani WILP Deep Learning 31 / 1
+
+=== PAGE 32 ===
+Output Layer Gradient
+First step of backpropagation: compute gradient w.r.t. output layer pre-activation
+Output layer gradient:
+δ(L) = ∂J
+∂Z(L)∈ RB×K (37)
+For common loss-activation pairs: (for all 3, the output gradient is same.)
+1 MSE + Identity: (Regression)
+2 BCE + Sigmoid: (Binary classiﬁcation)
+3 CCE + Softmax: (Multi-class classiﬁcation)
+δ(L) = 1
+B (ˆY− Y) (38)
+Notice the elegant form when loss and activation are paired correctly!
+BITS Pilani WILP Deep Learning 32 / 1
+
+=== PAGE 33 ===
+Backpropagation: The Key Algorithm
+Purpose
+Backpropagation efﬁciently computes gradients of the loss w.r.t. all parameters by
+applying the chain rule backward through the network.
+Key insight: Use chain rule recursively
+Notation: Deﬁne error signal for layerℓ:
+δ(ℓ) = ∂J
+∂Z(ℓ)∈ RB×nℓ (39)
+Two main steps:
+1 Backpropagate error signals:δ(L)→δ(L−1)→···→ δ(1)
+2 Compute parameter gradients using error signals
+BITS Pilani WILP Deep Learning 33 / 1
+
+=== PAGE 34 ===
+Backpropagating Error Signals
+Given: δ(ℓ+1) = ∂J
+∂Z(ℓ+1) Compute: δ(ℓ) = ∂J
+∂Z(ℓ)
+Chain rule: δ(ℓ) = ∂J
+∂Z(ℓ) = ∂J
+∂H(ℓ)
+∂H(ℓ)
+∂Z(ℓ) (40)
+Derivation: ∂J
+∂H(ℓ) = ∂J
+∂Z(ℓ+1)
+∂Z(ℓ+1)
+∂H(ℓ) =δ(ℓ+1)W(ℓ+1)T (41)
+∂H(ℓ)
+∂Z(ℓ) =σ′(ℓ)(Z(ℓ)) (element-wise derivative) (42)
+Backpropagation equation:
+δ(ℓ) = (δ(ℓ+1)W(ℓ+1)T )⊙σ′(ℓ)(Z(ℓ)) (43)
+where⊙ denotes element-wise multiplication (Hadamard product).
+BITS Pilani WILP Deep Learning 34 / 1
+
+=== PAGE 35 ===
+Computing Parameter Gradients
+Given error signalδ(ℓ), compute gradients w.r.t. parameters:
+Weight gradient: ∂J
+∂W(ℓ) = ∂J
+∂Z(ℓ)
+∂Z(ℓ)
+∂W(ℓ) = 1
+B H(ℓ−1)Tδ(ℓ)∈ Rnℓ−1×nℓ (44)
+Bias gradient: ∂J
+∂b(ℓ) = ∂J
+∂Z(ℓ)
+∂Z(ℓ)
+∂b(ℓ) = 1
+B 1T
+Bδ(ℓ)∈ Rnℓ (45)
+where 1B∈ RB×1 is a vector of ones.
+Key: Error signalδ(ℓ) is shared for both weight and bias gradients!
+BITS Pilani WILP Deep Learning 35 / 1
+
+=== PAGE 36 ===
+Backpropagation Algorithm
+Algorithm 4: Backpropagation
+Input: Loss J, Activations{H(ℓ), Z(ℓ)}L
+ℓ=1, Weights{W(ℓ)}L
+ℓ=1
+Output: Gradients{ ∂J
+∂W(ℓ), ∂J
+∂b(ℓ)}L
+ℓ=1
+// Compute output layer error signal
+1 δ(L)← ∂J
+∂Z(L) // Depends on loss function
+// Backpropagate error signals
+2 forℓ = L− 1 to 1 do
+3 δ(ℓ)← (δ(ℓ+1)W(ℓ+1)T )⊙σ′(ℓ)(Z(ℓ));
+// Compute parameter gradients
+4 forℓ = 1 to L do
+5 ∂J
+∂W(ℓ)← 1
+B H(ℓ−1)Tδ(ℓ);
+6 ∂J
+∂b(ℓ)← 1
+B 1T
+Bδ(ℓ);
+7 return{ ∂J
+∂W(ℓ), ∂J
+∂b(ℓ)}L
+ℓ=1;
+BITS Pilani WILP Deep Learning 36 / 1
+
+=== PAGE 37 ===
+Activation Function Derivatives
+Common activation derivatives (for backpropagation):
+1. Sigmoid:
+σ(z) = 1
+1 + e−z σ′(z) = σ(z)(1−σ(z)) (46)
+2. Tanh:
+tanh(z) = ez− e−z
+ez + e−z tanh′(z) = 1− tanh2(z) (47)
+3. ReLU:
+ReLU(z) = max( 0, z) ReLU′(z) =
+{
+1 if z > 0
+0 if z≤ 0
+(48)
+BITS Pilani WILP Deep Learning 37 / 1
+
+=== PAGE 38 ===
+Computational Efficiency of Backpropagation
+Why backpropagation is efﬁcient:
+Naive approach: Compute each ∂J
+∂W (ℓ)
+ij
+independently
+Requires one forward pass per parameter
+Complexity: O(P× Cforward) where P = total parameters
+For millions of parameters, this is intractable!
+Backpropagation: Reuses intermediate computations
+One forward pass + one backward pass
+Complexity: O(Cforward + Cbackward)≈ 2× O(Cforward)
+Backward pass has same complexity as forward pass
+Speedup: P
+2 (e.g.,∼ 100,000× for P = 200,000)
+Key insight: Dynamic programming via chain rule!
+BITS Pilani WILP Deep Learning 38 / 1
+
+=== PAGE 39 ===
+Parameter Update Step
+After computing gradients, update all parameters:
+For each layerℓ = 1,..., L: (Vector form for single example)
+W(ℓ)← W(ℓ)−ηh(ℓ−1)Tδ(ℓ) (49)
+b(ℓ)← b(ℓ)−ηδ (ℓ) (50)
+whereη >0 is the learning rate.
+This moves parameters in the direction that reduces the loss!
+BITS Pilani WILP Deep Learning 39 / 1
+
+=== PAGE 40 ===
+Table of Contents
+1 Motivation: The XOR Problem
+2 Non-Linearity in Neural Networks
+3 The Four Components of DFNN
+4 Training DFNN
+5 Making Predictions
+6 Impact of Depth and Width
+7 DFNN Architecture Design
+8 Implementation Tips
+9 Summary
+BITS Pilani WILP Deep Learning 40 / 1
+
+=== PAGE 41 ===
+Using Trained DFNN for Prediction
+After training, prediction is simply forward propagation:
+Input: New example xnew∈ Rd
+Process:
+1 Initialize: h(0) = xnew
+2 Forℓ = 1 to L:
+z(ℓ) = h(ℓ−1)W(ℓ) + b(ℓ) (51)
+h(ℓ) =σ(ℓ)(z(ℓ)) (52)
+3 Output: ˆynew = h(L)
+Interpretation depends on task:
+Regression: ˆynew is the predicted continuous value
+Binary classiﬁcation: ˆynew> 0.5  class 1, else class 0
+Multi-class: arg maxk ˆyk,new is the predicted class
+BITS Pilani WILP Deep Learning 41 / 1
+
+=== PAGE 42 ===
+Batch Prediction
+Efﬁciently predict for multiple examples:
+Input: Test set Xtest∈ RNtest×d
+Vectorized forward pass:
+H(0) = Xtest (53)
+Z(ℓ) = H(ℓ−1)W(ℓ) + 1Ntestb(ℓ)T (54)
+H(ℓ) =σ(ℓ)(Z(ℓ)) (55)
+ˆYtest = H(L)∈ RNtest×K (56)
+Advantages:
+Efﬁcient matrix operations (GPU acceleration)
+All predictions in one forward pass
+Essential for large-scale deployment
+BITS Pilani WILP Deep Learning 42 / 1
+
+=== PAGE 43 ===
+Table of Contents
+1 Motivation: The XOR Problem
+2 Non-Linearity in Neural Networks
+3 The Four Components of DFNN
+4 Training DFNN
+5 Making Predictions
+6 Impact of Depth and Width
+7 DFNN Architecture Design
+8 Implementation Tips
+9 Summary
+BITS Pilani WILP Deep Learning 43 / 1
+
+=== PAGE 44 ===
+Network Depth vs Width
+Two ways to increase model capacity:
+Depth (more layers):
+Deep
+Properties:
+Hierarchical features
+More expressive
+Better generalization
+Width (more units per layer):
+Wide
+Properties:
+More parallel features
+Higher capacity
+Risk of overﬁtting
+BITS Pilani WILP Deep Learning 44 / 1
+
+=== PAGE 45 ===
+Why Depth Matters?
+Deep networks learn hierarchical representations:
+Low-level features (edges, textures)
+Mid-level features (parts, shapes)
+High-level features (objects, concepts)
+Simple
+Complex
+Deep networks can
+represent exponentially
+more functions than
+shallow ones with the same
+number of parameters!
+Example: Image classiﬁcation
+Layer 1: Detect edges and colors
+Layer 2: Combine into textures and simple shapes
+Layer 3: Recognize object parts (eyes, wheels)
+Layer 4+: Identify complete objects (faces, cars)
+BITS Pilani WILP Deep Learning 45 / 1
+
+=== PAGE 46 ===
+Universal Approximation Theorem
+Theorem (Cybenko, 1989; Hornik et al., 1989)
+A feed-forward network with a single hidden layer containing a ﬁnite number of
+neurons can approximate any continuous function on a compact subset of Rn,
+given an appropriate activation function.
+What this means:
+Theoretically, even shallow networks are powerful
+BUT: May require exponentially many hidden units
+Deep networks are much more parameter-efﬁcient
+Practice:
+Deep networks learn better representations
+Achieve better performance with fewer parameters
+Generalize better to new data
+Depth enables
+efﬁcient learning of
+hierarchical structure!
+BITS Pilani WILP Deep Learning 46 / 1
+
+=== PAGE 47 ===
+Challenges with Very Deep Networks
+Problems that arise with increasing depth:
+1. Vanishing Gradients:
+Gradients become exponentially small in early layers
+Network fails to learn useful features
+Solution: ReLU activations, careful initialization, normalization
+2. Exploding Gradients:
+Gradients become exponentially large
+Causes numerical instability (NaN/Inf values)
+Solution: Gradient clipping, proper initialization
+3. Degradation Problem:
+Very deep networks harder to optimize
+Training error may increase with depth
+Solution: Residual connections (ResNets), skip connections
+BITS Pilani WILP Deep Learning 47 / 1
+
+=== PAGE 48 ===
+Table of Contents
+1 Motivation: The XOR Problem
+2 Non-Linearity in Neural Networks
+3 The Four Components of DFNN
+4 Training DFNN
+5 Making Predictions
+6 Impact of Depth and Width
+7 DFNN Architecture Design
+8 Implementation Tips
+9 Summary
+BITS Pilani WILP Deep Learning 48 / 1
+
+=== PAGE 49 ===
+Design Considerations
+Key decisions when designing a DFNN:
+1 Number of layers L
+▶ How deep should the network be?
+2 Units per layer n1, n2,..., nL
+▶ How wide should each layer be?
+3 Activation functionsσ(ℓ)
+▶ Which non-linearity for each layer?
+4 Output layer design
+▶ Depends on task (regression vs classiﬁcation)
+5 Regularization
+▶ How to prevent overﬁtting?
+No universal answer - depends on problem, data, and computational resources!
+BITS Pilani WILP Deep Learning 49 / 1
+
+=== PAGE 50 ===
+Output Layer Design
+Output layer depends on the task:
+1. Regression (continuous values):
+Units: K = dimension of output
+Activation: Identity (linear)
+Loss: Mean Squared Error (MSE)
+2. Binary Classiﬁcation (2 classes):
+Units: K = 1
+Activation: Sigmoidσ(z) = 1
+1+e−z
+Loss: Binary Cross-Entropy (BCE)
+3. Multi-class Classiﬁcation (C classes):
+Units: K = C
+Activation: Softmax softmax(z)k = ezk
+∑C
+j=1 ezj
+Loss: Categorical Cross-Entropy (CCE)
+BITS Pilani WILP Deep Learning 50 / 1
+
+=== PAGE 51 ===
+General Architecture Guidelines
+1. Start Simple:
+Begin with 2-3 hidden layers
+10-100 units per layer (depending on problem scale)
+Gradually increase complexity if needed
+2. Common Patterns:
+Decreasing width: n1 > n2 >··· > nL
+▶ Funnel architecture (compression)
+Constant width: n1 = n2 =··· = nL−1
+▶ Uniform representation
+Hourglass: Wide  Narrow  Wide
+▶ Learns compressed representations
+3. Scale with Data:
+More data  can support larger networks
+Less data  keep networks smaller to avoid overﬁtting
+BITS Pilani WILP Deep Learning 51 / 1
+
+=== PAGE 52 ===
+Hidden Layer Activation Functions
+Activation When to Use Avoid When
+ReLU Default choice Very deep networks
+Fast, no vanishing gradient (dying ReLU)
+Leaky ReLU Deep networks Never (safe choice)
+Fixes dying ReLU
+Tanh Small networks Very deep networks
+Zero-centered (vanishing gradient)
+Sigmoid Avoid for hidden layers Hidden layers
+(only for binary output) (strong saturation)
+Modern recommendation:
+Default: ReLU for hidden layers
+Alternative: Leaky ReLU, ELU for very deep networks
+Avoid: Sigmoid/Tanh in hidden layers (unless speciﬁc reason)
+BITS Pilani WILP Deep Learning 52 / 1
+
+=== PAGE 53 ===
+Regularization Techniques
+Prevent overﬁtting with:
+1. L2 Regularization (Weight Decay):
+2. Dropout:
+3. Early Stopping:
+4. Batch Normalization:
+Note: Y ou will learn about this in Module 10 and 11
+BITS Pilani WILP Deep Learning 53 / 1
+
+=== PAGE 54 ===
+Table of Contents
+1 Motivation: The XOR Problem
+2 Non-Linearity in Neural Networks
+3 The Four Components of DFNN
+4 Training DFNN
+5 Making Predictions
+6 Impact of Depth and Width
+7 DFNN Architecture Design
+8 Implementation Tips
+9 Summary
+BITS Pilani WILP Deep Learning 54 / 1
+
+=== PAGE 55 ===
+Parameter Initialization
+Proper initialization is critical for training success!
+ Bad: Zero initialization
+ Good: Random initialization
+Xavier/Glorot Initialization for Sigmoid / Tanh
+He Initialization for ReLU
+Biases: Initialize to zero: b(ℓ) = 0
+Note: Y ou will learn about this in Module 10 and 11
+BITS Pilani WILP Deep Learning 55 / 1
+
+=== PAGE 56 ===
+Training Hyperparameters to Tune
+1. Learning Rate η:
+Start with: η∈{ 0.001, 0.01, 0.1}
+Consider adaptive methods (Adam withη = 0.001)
+2. Batch Size B:
+Common: B∈{ 32, 64, 128, 256}
+Larger batch  faster but may hurt generalization
+Smaller batch  better generalization but slower
+Limited by GPU memory
+3. Number of Epochs T:
+Use early stopping based on validation loss
+Typically 50-200 epochs for moderate datasets
+Monitor for overﬁtting
+BITS Pilani WILP Deep Learning 56 / 1
+
+=== PAGE 57 ===
+Feature Preprocessing
+Preprocess features before training:
+1. Normalization/Standardization:
+Standardization (recommended)
+Min-Max Scaling
+Apply same transformation to validation/test sets
+2. Handle Missing Values:
+Impute with mean/median/mode
+Or use indicator variables
+3. Encode Categorical Variables:
+One-hot encoding for nominal categories
+Ordinal encoding for ordered categories
+BITS Pilani WILP Deep Learning 57 / 1
+
+=== PAGE 58 ===
+Monitoring Training Progress
+Track metrics during training:
+Epoch
+Loss
+Training loss
+Validation loss
+Stop here
+Overﬁtting
+What to monitor:
+Training loss (should decrease steadily)
+Validation loss (should decrease then plateau/increase)
+Training/validation accuracy (for classiﬁcation)
+Gradient norms (detect vanishing/exploding gradients)
+BITS Pilani WILP Deep Learning 58 / 1
+
+=== PAGE 59 ===
+Diagnosing Training Issues
+Symptom Diagnosis Solution
+Loss = NaN/Inf Numerical instability Decrease η, check gradients, normalize
+inputs
+Loss not decreas-
+ing
+Learning rate too small
+OR bug
+Increaseη, verify gradient computation
+Loss oscillating Learning rate too large Decreaseη, use learning rate schedule
+Training loss ↓,
+validation loss↑
+Overﬁtting Add regularization, dropout, more data
+Both losses high Underﬁtting Increase capacity (wider/deeper), train
+longer
+Slow convergence Poor initialization OR bad
+features
+Use proper init (He/Xavier), normalize
+features
+Gradients  0 Vanishing gradients Use ReLU, better init, batch normalization
+Gradients  ∞ Exploding gradients Gradient clipping, decreaseη
+BITS Pilani WILP Deep Learning 59 / 1
+
+=== PAGE 60 ===
+Debugging Checklist
+Before training:
+Features normalized/standardized
+Data split into train/val/test
+Output layer matches task (sigmoid for binary, softmax for multi-class)
+Loss function matches output activation
+Weights initialized properly (not all zeros!)
+During training:
+Loss decreasing on training set
+Validation loss tracked separately
+Gradients neither vanishing nor exploding
+No NaN/Inf values in loss or activations
+Training accuracy improving
+Sanity checks:
+Try overﬁtting a small batch (should reach 0 loss)
+Verify shapes of all matrices/tensors
+Test forward pass before adding backprop
+BITS Pilani WILP Deep Learning 60 / 1
+
+=== PAGE 61 ===
+Implementation Best Practices
+1. Vectorization:
+Always use matrix operations, never loops over examples
+Enables GPU acceleration
+2. Modular Code:
+Separate forward pass, loss, backward pass functions
+Test each component independently
+3. Numerical Stability:
+Use stable implementations (e.g., log-sum-exp for softmax)
+Clip gradients if needed:∥∇∥> threshold
+Monitor for NaN/Inf values
+4. Reproducibility:
+Set random seeds
+Save hyperparameters
+Track experiments systematically
+BITS Pilani WILP Deep Learning 61 / 1
+
+=== PAGE 62 ===
+Table of Contents
+1 Motivation: The XOR Problem
+2 Non-Linearity in Neural Networks
+3 The Four Components of DFNN
+4 Training DFNN
+5 Making Predictions
+6 Impact of Depth and Width
+7 DFNN Architecture Design
+8 Implementation Tips
+9 Summary
+BITS Pilani WILP Deep Learning 62 / 1
+
+=== PAGE 63 ===
+Key Takeaways
+Non-linearity is essential for learning complex patterns; without it, deep
+networks collapse to linear models.
+DFNN = stacked layers with non-linear activations, enabling hierarchical
+feature learning.
+Four components: Data, Model (architecture), Objective (loss), Learning
+(backpropagation + SGD).
+Backpropagation efﬁciently computes gradients using chain rule; enables
+training deep networks.
+Depth enables learning hierarchical features and improves expressiveness.
+Width increases capacity within each layer but requires more data.
+Proper initialization, normalization, and regularization are critical for successful
+training.
+ReLU is the default activation for hidden layers; use task-speciﬁc activations
+for output.
+BITS Pilani WILP Deep Learning 63 / 1
+
+=== PAGE 64 ===
+The Power of Deep Learning
+x
+Raw Input
+h(1)
+Features
+h(2)
+Patterns
+h(3)
+Concepts
+ˆy
+Prediction
+W(1) W(2) W(3) W(4)
+Learns hierarchical representations automatically
+from data through gradient-based optimization
+Deep learning has revolutionized:
+Computer vision (object detection, segmentation)
+Natural language processing (translation, generation)
+Speech recognition and synthesis
+Game playing (Go, Chess, StarCraft)
+Scientiﬁc discovery (protein folding, drug discovery)
+BITS Pilani WILP Deep Learning 64 / 1
+
+=== PAGE 65 ===
+What Next?
+Specialized Architectures:
+Convolutional Neural Networks (CNNs): For images and spatial data
+Recurrent Neural Networks (RNNs): For sequences and time series
+Transformers: For attention-based models (GPT, BERT)
+Graph Neural Networks: For graph-structured data
+Advanced Topics:
+Optimization algorithms (Adam, RMSprop, AdaGrad)
+Advanced regularization (Dropout, Batch Normalization)
+Transfer learning and pre-training
+Model interpretability and explainability
+Efﬁcient inference and model compression
+DFNNs are the foundation - master them ﬁrst!
+BITS Pilani WILP Deep Learning 65 / 1
+
+=== PAGE 66 ===
+To become Proficient
+1. Implement from scratch:
+Write forward pass, backpropagation manually
+Verify with gradient checking
+Train on simple datasets (XOR, MNIST)
+2. Use frameworks effectively:
+PyTorch, TensorFlow, JAX handle backprop automatically
+But understanding the math makes debugging easier
+Focus on architecture design and hyperparameter tuning
+3. Experiment and iterate:
+Start simple, gradually increase complexity
+Track experiments systematically
+Learn from failures (most time spent debugging!)
+4. Study successful architectures:
+Read papers, examine code implementations
+Understand design choices and motivations
+BITS Pilani WILP Deep Learning 66 / 1
+
+=== PAGE 67 ===
+References
+Goodfellow et al. ”Deep Learning” - Chapter 6
+http://www.deeplearningbook.org/
+Zhang et al. ”Dive into Deep Learning” - Chapters 4, 5https://d2l.ai/
+Nielsen, M. ”Neural Networks and Deep Learning”
+http://neuralnetworksanddeeplearning.com/
+BITS Pilani WILP Deep Learning 67 / 1

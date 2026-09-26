@@ -1,0 +1,474 @@
+--- PAGE 1 ---
+Math Foundation Solutions
+Q Answer the following questions with justifications.
+(1) Given the characteristic equation of a matrix A, can we compute the
+characteristic equation of cA where c is a non-zero scalar without know-
+ing the entries of A? If so, show how to do it using detailed calculations.
+Otherwise explain why it is not possible. Clearly state all your assump-
+tions
+(2 Marks)
+(2) Consider an inner product space with an inner product ⟨x, y⟩ = xTAy
+defined with the help of matrix A defined below.
+A =
+
+5.5 −1.5
+−1.5 5 .5
+
+Consider two vectors a = [1 5] T and b = [2 7] T in the inner product
+space.
+(a) Find the distance d(a, b) = ∥a − b∥ between vectors a and b in the
+above inner product space where ∥ · ∥is the norm induced by the
+inner product.
+(2 marks)
+(b) Find the angle between vectors a and b in the above inner product
+space.
+(2 marks)
+A Answers
+(1) The characteristic equation of the matrix cA is det(cA − λI) = 0. We
+can rewrite this as det(c(A − λ
+c I)) = 0 which can then be written as
+cndet(A − λ
+c I) = 0 or det(A − λ
+c I) = 0. Let µ = λ
+c , and assume that the
+characteristic equation det(A − µI) = 0 can be written in terms of the
+polynomial µn +an−1µn−1 +. . . a1µ+a0 = 0. Substituting λ/c = µ in this
+polynomial we get ( λ
+c )n + an−1( λ
+c )n−1 + . . . a1( λ
+c ) + a0 = 0. Multiplying
+throught by cn we finally get λn + can−1λn−1 + . . . a1cn−1λ + a0cn = 0.
+Thus we see that the characteristic equation of cA can be obtained by
+taking the coefficient ak of the kth term of the characteristic equation
+of A and multiplying it by cn−k. Thus there is no need to look at the
+entries of the matrix A.
+Marking Scheme: 1 Mark → expanding the determinant det(A− λ
+c I),
+and obtaining the equation λn + can−1λn−1 + . . . a1cn−1λ + a0cn = 0. 1
+Mark → remaining argument.
+(2) (a)
+(d(a, b))2 =
+1 − 2 5 − 7 
+5.5 −1.5
+−1.5 5 .5
+ 
+1 − 2
+5 − 7
+
+= 21.5
+d(a, b) = 4.63
+1
+crackbitswilp.in
+
+--- PAGE 2 ---
+(b)
+cos (θ) = aTAb
+∥a∥|b∥ = aTAb√
+aTAa
+√
+bTAb
+cos (θ) = 178√
+128
+√
+249.5 = 0.005573
+θ = 89.6 deg
+Marking Scheme: 1 mark each for proper construction of equation.
+1 mark for correct numerical answer
+crackbitswilp.in
+
+--- PAGE 3 ---
+Q Answer the following for the given matrix:
+A =
+
+
+−3 6 −1 1 −7
+1 −2 2 3 −1
+2 −4 5 8 −4
+
+
+(A) Using elementary row operations, write the matrix in its row echelon
+form
+(2 marks)
+(B) Let V be a vector subspace spanned by the columns of matrix A. Find
+the basis and dimension of V.
+(2 marks)
+(C) Let V be a vector subspace spanned by vectors x, such that Ax = 0.
+Find the basis and dimension of V.
+(2 marks)
+(D) Give the set of linearly independent rows of A. What is the number of
+vectors in this set?
+(2 marks)
+A Answers
+(A)
+A =
+
+
+−3 6 −1 1 −7
+1 −2 2 3 −1
+2 −4 5 8 −4
+
+ R1↔R2
+− − − − →
+
+
+1 −2 2 3 −1
+−3 6 −1 1 −7
+2 −4 5 8 −4
+
+
+R2←R2 + 3∗ R1,R3←R3 − 2 ∗ R1,R2←R2/5,R3←R3 − R2,R1←R1 − 2 ∗ R2
+− − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − →
+
+
+1 −2 0 −1 3
+0 0 1 2 −2
+0 0 0 0 0
+
+
+NOTE: REF is not unique.
+1 Mark for correct elementary row operations, 1 Mark for getting
+correct pivot columns
+(B) column number 1 and column number 3 have pivot.
+Basis of column space is:
+
+
+−3
+1
+2
+
+
+
+
+−1
+2
+5
+
+
+(1 mark)
+Rank of col space = dimension of V = 2 (1 mark)
+(C) From REF, the null space is:
+
+
+x
+r
+y
+s
+t
+
+
+=
+
+
+2
+1
+0
+0
+0
+
+
+r +
+
+
+1
+0
+−2
+1
+0
+
+
+s +
+
+
+−3
+0
+2
+0
+1
+
+
+t
+crackbitswilp.in
+
+--- PAGE 4 ---
+basis = 
+
+2
+1
+0
+0
+0
+
+
+,
+
+
+1
+0
+−2
+1
+0
+
+
+,
+
+
+−3
+0
+2
+0
+1
+
+
+(1 mark)
+Rank of null space = dimension of V = 3 (1 mark)
+(D) From REF, row 1 and row 2 form basis of row space (1 mark)
+Rank of row space = 2 (1 mark)
+crackbitswilp.in
+
+--- PAGE 5 ---
+Q Answer the following for the given matrix:
+A =
+
+
+2 1
+1 0
+0 1
+
+
+(A) Obtain the left-singular vectors of A.
+(3 marks)
+(B) Obtain the right-singular vectors of A.
+(3 marks)
+(C) Obtain the singular value matrix Σ. What is the spectral norm of A?
+(2 marks)
+A Answers
+(A)
+A =
+
+
+2 1
+1 0
+0 1
+
+ , AT =
+
+2 1 0
+1 0 1
+
+, AAT =
+
+
+5 2 1
+2 1 0
+1 0 1
+
+
+eigenvalues and eigenvectors of AAT :
+λ1 = σ2
+1 = 6, u1 =
+5 2 1 T
+, ∥u1∥ =
+√
+30
+λ2 = σ2
+2 = 1, u2 =
+0 −1
+2 1T
+, ∥u2∥ =
+√
+5
+2
+λ3 = σ2
+3 = 0, u3 =
+−1 2 1 T
+, ∥u3∥ =
+√
+6
+Singular value matrix:
+Σ =
+
+
+√
+6 0
+0
+√
+1
+0 0
+
+
+Left singular vectors
+U =
+ u1
+∥u1∥
+u2
+∥u2∥
+u3
+∥u3∥
+
+Marking Scheme: 1 mark for getting eigenvalues, 1 mark for eigen-
+vectors, 1 mark for construction of U
+(B) Right Singular vectors:
+v1 = 1
+σ1
+AT u1 = 1√
+6
+
+2 1 0
+1 0 1
+ 
+
+5
+2
+1
+
+ 1√
+30 =
+
+2
+1
+ 6√
+6
+√
+30
+v2 = 1
+σ2
+AT u2 =
+
+2 1 0
+1 0 1
+ 
+
+0
+1
+2
+1
+
+ 2√
+5 =
+
+−1
+2
+ 1√
+5
+Marking Scheme: 1 mark for getting eigenvalues, 1 mark for eigen-
+vectors, 1 mark for construction of U
+crackbitswilp.in
+
+--- PAGE 6 ---
+(C) Singular value matrix:
+Σ =
+
+
+√
+6 0
+0
+√
+1
+0 0
+
+
+Spectral norm =
+√
+6 Marking Scheme: 1 mark for matrix, 1 mark for
+spectral norm
+crackbitswilp.in
+
+--- PAGE 7 ---
+Q Answer the following
+(1) Compute the following for the functionf (x1, x2) = ex1+x1x2−log (1 +x2).
+(A) The expression for gradient, its dimension and its value at (1 , 2).
+(2 marks)
+(B) The expression for the Hessian matrix, its dimension and its value
+at (1, 2).
+(2 marks)
+(C) The derivative d f
+dt using chain rule of differentiation when x1 = t2 +
+2at, x2 = sin (t).
+(2 marks)
+(2) Define f : R2 → R as f (x) = ( Ax − b)T (Ax − b) where A =
+
+1 4
+4 1
+
+,
+b =
+
+4
+4
+
+. Find Taylor’s polynomial of degree 1 of f at [1, 1].
+(2 Marks)
+A Answers
+(1) (A)
+∇xf =
+h
+∂f
+∂x1
+∂f
+∂x2
+i
+=
+ex1 + x2 x1 − 1
+1+x2
+
+∇xf (1, 2) =
+e1 + 2 2
+3
+
+Marking Scheme: 1 mark for expression, 1 mark for value at (1,2)
+(B)
+∇2
+xf =
+"
+∂2f
+∂x12
+∂2f
+∂x1∂x2
+∂2f
+∂x1∂x2
+∂2f
+∂x22
+#
+=
+ex1 1
+1 1
+(1+x2)2
+
+∇2
+xf (1, 2) =
+
+e1 1
+1 1
+9
+
+Marking Scheme: 1 mark for expression, 1 mark for value at (1,2)
+(C)
+d f
+dt = ∂f
+∂x1
+∂x1
+∂t + ∂f
+∂x2
+∂x2
+∂t
+= (ex1 + x2)(2t + 2a) + (x1 − 1
+1 + x2
+)(cos t)
+= (e(t2+2at) + sin t)(2t + 2a) + (t2 + 2at − 1
+1 + sin(t) ) cost
+Marking Scheme: 1 mark for chain rule expression, 1 mark for final
+solution
+crackbitswilp.in
+
+--- PAGE 8 ---
+(2) Using the identity, we get ∇xf (x) = 2(Ax − b)T A.
+Therefore, we have
+f ([1, 1]T ) = 2
+∇xf ([1, 1]T ) = [10 , 10]
+Therefore, if x = [x1, x2]T , Taylor’s Polynomial is defined as
+T1f (x) = f ([1, 1]T ) + ∇xf ([1, 1]T )[(x1 − 1), (x2 − 1)]T ,
+= 10 x1 + 10x2 − 18
+Marking scheme: 0.5 Marks for computing f ([1, 1]T ), 2 Marks for com-
+puting ∇xf and 0.5 Marks for ∇xf ([1, 1]T ). 1 Mark for the computing
+Taylor’s polynomial.
+crackbitswilp.in

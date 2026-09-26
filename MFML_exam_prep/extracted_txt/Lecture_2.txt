@@ -1,0 +1,751 @@
+--- PAGE 1 ---
+BITSPilani
+MFMLANDMFDS
+MFML and MFDS Team
+WILPD - CSIS
+--- PAGE 2 ---
+BITSPilani
+* ZC416 Mathematical Foundations for
+Machine Learning / Data Science
+Topic: # 2 Vector Spaces
+1 / 42
+--- PAGE 3 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+VECTORSPACES
+We would like to shift focus from systems of linear
+equations and their solutions to vector spaces.
+Vector spaces are structured spaces in which vectors live.
+What do we mean by ”structure” here?
+2 / 42
+--- PAGE 4 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+GROUPS
+We already have some notion about the structure of a
+vector space, i.e adding two vectors returns a vector,
+multiplying a vector by a scalar also returns a vector.
+To formalize these notions, we need the concept of aGroup
+A Group is a set G and an operation⊗:G×G→G
+defined on G. Then(G,⊗)is called a group if the following
+properties hold:
+▶ Closure of G under⊗:∀x,y∈G,x⊗y∈G
+▶ Associativity:∀x,y,z∈G,(x⊗y)⊗z=x⊗(y⊗z)
+▶ Neutral or Identity element:∋e∈G,∀x∈G x⊗e=x
+▶ Inverse element:∀x∈G,∋y∈G,x⊗y=y⊗x=e
+If in addition to all the above properties we have
+∀x,y∈G,x⊗y=y⊗x then(G,⊗)is an Abelian group
+3 / 42
+--- PAGE 5 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+SOME EXAMPLES
+(Z,+)is an Abelian group. We can see that all the
+aforementioned properties hold.
+What about(N 0,+)? This is not a group since there is no
+inverse element for an arbitrary element in it.
+(Z, .)whereZis the set of integers, and.is product. It has
+the identity element but there exist elements in it that don’t
+have an inverse.
+4 / 42
+--- PAGE 6 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+VECTORSPACES
+We will now consider sets that are just like groups in terms
+of its properties with respect to an inner operation+, and
+also have an outer operation called.which denotes the
+multiplication of a vectorx∈Gby a scalarλ∈R.
+The inner operation can be viewed as a form of addition
+while the outer operation can be viewed as a form of
+scaling.
+A real-valued vector space is a setV= (V,+, .)with
+operations+, .such that+ :V × V → Vand
+.:R× V → Vwhere(V,+)is an Abelian group, and the
+following properties hold:
+▶ Distributivity
+▶ associativity with respect to the outer operation.
+▶ there exists a neutral or identity element with respect to the
+outer operation.
+5 / 42
+--- PAGE 7 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+VECTORSPACES
+Let us look at the properties of a Vector Space more carefully:
+Distributivity:∀λ∈R,x,y∈ V, λ.(x+y) =λ.x+λ.yand
+∀λ, ψ∈R,(λ+ψ).x=λ.x+ψ.x
+Associativity with respect to the outer operation:
+∀λ, ψ∈R,x∈ V, λ.(ψ.x) = (λψ).x
+Neutral element with respect to the outer operation:
+∀x∈ V, 1.x=x
+The elementsx∈ Vare called vectors.
+The neutral element with respect to(V,+)is the zero
+vector[0,0, . . .0]T and the inner operation is called vector
+addition.
+6 / 42
+--- PAGE 8 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+EXAMPLES OF VECTOR SPACES
+Consider some examples of vector spaces, for exampleV=R n
+We can define addition:
+x+y=(x 1,x 2, . . .xn) + (y1,y 2, . . .yn) =
+(x1 +y 1,x 2 +y 2, . . .xn +y n)
+Multiplication by scalars:
+λx=λ(x1,x 2, . . .xn) = (λx 1, λx2, . . . λxn),∀λ∈R,x∈R n.
+7 / 42
+--- PAGE 9 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+ANOTHER EXAMPLE
+What we call a vector need not be the standard column vector
+that we are accustomed to treating as a vector. We can think
+ofm×nmatrices as vectors and create a vector space out of
+them. ThusV=R m×n with addition and multiplication defined
+as below:
+AdditionA+B=
+
+
+a11 +b 11 . . .a1n +b 1n
+...
+an1 +b n1 . . .ann +b nn
+
+ is defined
+element-wise for two matricesA,B∈ V.
+Multiplication by scalars:λA=
+
+
+λa11 . . . λa1n
+...
+λan1 . . . λann
+
+
+8 / 42
+--- PAGE 10 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+VECTOR SUBSPACES
+LetV= (V,+, .)be a vector space and letU ⊆ V,U ̸= Φ.
+thenU= (U,+, .)is called a vector subspace ofVifUis a
+vector space with the vector space operations + and .
+restricted toU × UandR× U.
+We use the notationU⊆Vto denote thatUis a vector
+subspace ofV.
+IfU⊆VandVis a vector space, thenUnaturally inherits
+many properties directly fromVbecause they hold for allx
+∈V, and in particular for allx∈U⊆V. These properties
+include the Abelian group property, associativity,
+distributivity, and the neutral element.
+9 / 42
+--- PAGE 11 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+ESTABLISHING VECTOR SUBSPACES
+How do we show if(U,+, .)is subspace ofV?
+We need to show that
+U ̸= Φ
+Closure ofUwith respect to the outer and inner operations,
+i.e∀λ∈R,∀x,∈ U, λx∈ Uand∀x,y∈ U,x+y∈ U.
+10 / 42
+--- PAGE 12 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+EXAMPLES
+LetV=R 2 andUbe they-axis. . IsU= (U,+, .)a
+subspace ofV= (V,+, .)? Answer: Y es, because the
+addition of any two vectors on they-axis remains on the
+y-axis so closure with respect to the addition operation is
+satisfied. Also any vector on they-axis when scaled by any
+real number (including 0) will yield a vector ony-axis.
+What about when we shift they-axis one unit to the right,
+i.eU={x=1}? Answer: We no longer have a vector
+subspace since scaling with respect to the outer operation
+does not have the closure property.
+11 / 42
+--- PAGE 13 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+MORE EXAMPLES
+What about the subset ofR 2 that represents a square
+around the origin , i.e−1≤x≤1,−1≤y≤1? This is
+again not a subspace.
+This subspace is of particular interest to us called the
+nullspace of a matrix, i.e the set of solutions to a linear
+system of equationsAx=0. Why is this a vector
+subspace?
+12 / 42
+--- PAGE 14 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+LINEAR COMBINATION AND LINEAR
+INDEPENDENCE
+We know that we can stay in a vector space by adding
+vectors belonging to the space, and scaling them?
+We are now interested in a different question→can we
+come up with a set of vectors such that every vector in the
+vector space can be represented as a sum of these vectors
+with scaling as necessary?
+The answer is yes. A set of vectors capable of representing
+all vectors in a vector space is called a basis.
+To explore the question of finding a basis, we need to learn
+the concepts of linear combination and linear
+independence.
+13 / 42
+--- PAGE 15 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+LINEAR COMBINATION
+Consider a vector spaceVand a set of vectorsx 1,x 2,. . .
+xk ∈V. Then everyv∈Vthat is of the formv=λ 1x1 +
+λ2x2 . . .+λk xk is a linear combination of the vectorsx 1,
+x2,. . .xk.
+Note that the0can be written trivially as a linear
+combination of the givenkvectorsx is. We are however
+interested in non-trivial linear combinations of vectors to get
+the0-vector.
+14 / 42
+--- PAGE 16 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+LINEAR(IN)DEPENDENCE
+Consider a vector spaceVandkvectorsx 1,x 2,. . .
+xk ∈V. Then if there is a non-trivial linear combination of
+the given vectors such that 0= Pi=k
+i=1 λi xi where at least
+one of theλ is is non-zero, then the vectorsx 1,x 2,. . .xk
+are linearly dependent.
+Put another way, if the only way we can combine vectors to
+get the0-vector is by letting all theλ i be zero, then the
+vectors are linearly independent.
+15 / 42
+--- PAGE 17 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+LINEAR(IN)DEPENDENCE
+What does the concept of linear independence capture? If
+the vectors are linearly dependent we can write one of the
+vectors in terms of the others, so that vector is redundant.
+On the other hand, when the vectors are linearly
+independent, each vector brings something to the table
+which the other vectors collectively cannot replace.
+16 / 42
+--- PAGE 18 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+LINEAR INDEPENDENCE
+kvectors in a vector space are either linearly independent
+or linearly dependent. There is no third option.
+If at least one of the vectorsx 1,x 2,. . .xk is the 0-vector,
+then the vectors are linearly dependent. Why? Apply the
+definition to see that this is the case. We can choose a
+non-zeroλfor the 0-vector and zeroλs for all the other
+vectors to get the linear combination to be zero.
+If all the vectorsx 1,x 2,. . .xk are non-zero, then the
+vectors are linearly dependent if and only if one of them is a
+linear combination of the others.
+17 / 42
+--- PAGE 19 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+USINGGAUSSIAN ELIMINATION TO CHECK FOR
+LINEAR INDEPENDENCE
+A practical way of checking whether a bunch of vectors are
+linearly independent is to fill out the columns of a matrix
+with the given vectors and then perform Gaussian
+elimination to get the row-echelon form
+The pivot columns indicate all the vectors that are linearly
+independent, and they are all on the left.
+The non-pivot columns can be expressed as a linear
+combination of the pivot columns
+18 / 42
+--- PAGE 20 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+EXAMPLE
+Let us start with the matrix
+
+1 2 3
+2 4 4
+
+Gaussian elimination of this matrix will give rise to the
+following row-echelon form
+
+1 2 3
+0 0−2
+
+The pivot columns are the first and the third column and we
+see that the second column which is a non-pivot column
+can be expressed as a linear combination of the pivot
+columns to its left, which is just twice the first column.
+19 / 42
+--- PAGE 21 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+ANOTHER EXAMPLE
+Consider the vectorsx 1 =
+
+
+1
+2
+−3
+4
+
+,x 2 =
+
+
+1
+1
+0
+2
+
+,x 3 =
+
+
+−1
+−2
+1
+1
+
+
+To check for linear independence we set up the equation withλs
+as follows:λ 1x1 +λ 2x2 +λ 3x3 =0.
+As before we put the given vectors into a matrix to get:
+
+
+1 1−1
+2 1−2
+−3 0 1
+4 2 1
+
+
+.
+20 / 42
+--- PAGE 22 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+ANOTHER EXAMPLE CONTINUED
+We now perform Gaussian elimination on this matrix to identify
+pivot and non-pivot columns. If all columns are pivot columns
+then the given three vectors are linearly independent. After Gaus-
+sian elimination we get
+
+
+1 1−1
+0 1 0
+0 0 1
+0 0 0
+
+
+.
+Note that all columns are pivot columns, so we conclude that the
+original three vectors are linearly independent. The only way to
+combine those vectors and get the 0-vector is to take 0s as the
+λs.
+21 / 42
+--- PAGE 23 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+MORE ON LINEAR INDEPENDENCE
+Let us say that we have a bunch ofkindependent vectors
+b1,b 2,. . .bk
+We now havemvectorsx 1,x 2,. . .xm, each of which is
+some linear combination of the vectorsb i.
+The goal is to find under what conditions the vectorsx i are
+linearly independent.
+Can we express the criterion of linear independence of the
+xis in terms of the way in which we combine theb is to get
+thex is?
+22 / 42
+--- PAGE 24 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+MORE ON LINEAR INDEPENDENCE
+We have the following equations:
+x1 =
+i=kX
+i=1
+λi1 bi;
+x2 =
+i=kX
+i=1
+λi2 bi;
+...
+xm =
+i=kX
+i=1
+λimbi;
+23 / 42
+--- PAGE 25 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+MORE ON LINEAR INDEPENDENCE
+We can define a matrixB= [b 1,b 2, . . .bk ]whose columns
+are the original linearly independent vectorsb 1,b 2 . . .bk
+and then we see thatx j =Bλ j whereλ j is a vector of
+coefficients.
+Now to test whetherx 1,x 2 . . .xm are linearly independent,
+we set up the equation
+Pj=m
+j=0 ψj xj =0 and check whether
+theψ js have to be zero. This means
+j=mX
+j=1
+ψj xj =
+j=mX
+j=1
+ψj Bλj =B
+j=mX
+j=1
+ψjλj
+24 / 42
+--- PAGE 26 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+MORE ON LINEAR INDEPENDENCE
+Now
+Pj=m
+j=1 ψjλj =v, a vector soBvis a linear combination of
+the column vectors ofB, and the only way a linear combination
+of the columns ofBcan be equal to zero if all the combining
+coefficients are zero. This means thatv=0= Pj=m
+j=1 ψjλj.
+The fact that
+Pj=m
+j=0 ψj xj =0 implies that
+Pj=m
+j=1 ψjλj =0 means
+thatx 1,x 2, . . .xm are linearly independent if and only ifλ1,λ 2, . . .λm
+are linearly independent.
+25 / 42
+--- PAGE 27 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+EXAMPLE
+Consider the following set of equations:
+x1 =b 1 −2b 2 +b 3 −b 4
+x2 =−4b 1 −2b 2 +4b 4
+x3 =2b 1 +3b 2 −b 3 −3b 4
+x4 =17b 1 −10b 2 +11b 3 +b 4
+26 / 42
+--- PAGE 28 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+EXAMPLE
+We would like to find if the vectorsx 1,x 2,x 3,x 4 are linearly inde-
+pendent. Following the theory established in the last slides we
+check if the vectors corresponding to theλ js are linearly inde-
+pendent.
+We therefore need to check whether the vectors
+
+
+1
+−2
+1
+−1
+
+ ,
+
+
+−4
+−2
+0
+4
+
+ ,
+
+
+2
+3
+−1
+−3
+
+ ,
+
+
+17
+−10
+11
+1
+
+ (1)
+are linearly independent.
+27 / 42
+--- PAGE 29 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+EXAMPLE
+We form a matrix consisting of all these column vectors:
+A=
+
+
+1−4 2 17
+−2−2 3−10
+1 0−1 11
+−1 4−3 1
+
+
+and perform Gaussian elimination to get the reduced row-echelon
+form.
+28 / 42
+--- PAGE 30 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+EXAMPLE
+We get the following matrix:
+B=
+
+
+1 0 0−7
+0 1 0−15
+0 0 1−18
+0 0 0 0
+
+
+Clearly there is a non-trivial way of combining the columns of the
+above matrix to get the0-vector , i.e take 7×the first column,
+add it to 15×the second column, add the result to 18×the third
+column and add the result to the fourth column to get0. Thus the
+original set of vectorsx 1,x 2,x 3,x 4 are not linearly independent.
+29 / 42
+--- PAGE 31 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+INSIGHT FROM THE EXAMPLE
+We had a set ofkvectorsb i which we combined linearly to
+getmvectorsx i.
+Determining whether themvectorsx i were linearly
+independent boiled down to checking if the column vectors
+of ak×mmatrix were linearly independent.
+We performed Gaussian elimination on this matrix to get
+the reduced row-echelon form.
+30 / 42
+--- PAGE 32 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+INSIGHT FROM THE EXAMPLE
+Here is an interesting insight: ifm>k, we have more
+columns than rows and there can only be as many pivots
+as there are non-zero rows, so the number of pivots and
+therefore the number of pivot columns is less thank.
+We are thereforeguaranteedto have non-pivot columns in
+this case, so that we can express the non-pivot columns in
+terms of the pivot columns to their left and get a non-trivial
+linear combination of the columns to get the0vector. This
+would make themvectorsx i linearly dependent.
+31 / 42
+--- PAGE 33 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+BASIS OF VECTOR SPACE
+Do there exist a set of vectors in a vector space which
+”span” the entire space?
+What we mean here is that any vectorv∈Vcan be
+generated as a linear combination of the vectors in
+question.
+Is such a set of vectors unique to the vector space?
+Are all sets capable of generating all vectors in a vector
+space of the same size?
+32 / 42
+--- PAGE 34 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+GENERATING SET AND BASIS
+Consider a vector spaceV= (V,+, .)and a set of vectors
+A={x 1,x 2, . . .xk } ⊆V.
+If every vectorv∈Vcan be expressed as a linear
+combination of the vectorsx 1,x 2, . . .xk, thenAis called a
+generating setofV.
+The set of all linear combinations of the vectors inAis
+known as thespanofA.
+IfAspans the vector spaceVwe writeV=span[A].
+33 / 42
+--- PAGE 35 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+BASIS AS SMALLEST GENERATING SET
+Consider a vector spaceV= (V,+, .)andA ⊆ V.
+A generating setAofVis called minimal if there is no
+smaller set ˜Asuch that ˜A ⊂ A ⊆ Vthat spansV.
+Every linearly independent generating set ofVis minimal
+and is called a basis ofV.
+34 / 42
+--- PAGE 36 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+CHARACTERIZATIONS OF A BASIS
+The following statements are equivalent:
+Bis a basis ofV.
+Bis a minimal generating set.
+Bis a maximal linearly independent set of vectors inV
+such that adding a vector to it will make it a linearly
+dependent set.
+Every vectorx∈Vis a linear combination of vectors from
+B, and every linear combination is unique. This means that
+ifx= Pi=k
+i=1 λi bi = Pi=k
+i=1 ψi bi, thenλ i =ψ i,1≤i≤k.
+35 / 42
+--- PAGE 37 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+BASIS IS NOT UNIQUE
+Consider the spaceR 3. The canonical basis is
+
+1
+0
+0
+
+ ,
+
+
+0
+1
+0
+
+ ,
+
+
+0
+0
+1
+
+
+Another basis forR 3 is
+
+
+1
+0
+0
+
+ ,
+
+
+1
+1
+0
+
+ ,
+
+
+1
+1
+1
+
+
+Y et another basis forR3 is
+
+
+0.5
+0.8
+0.4
+
+ ,
+
+
+1.8
+0.3
+0.3
+
+ ,
+
+
+−2.2
+−3.3
+1.5
+
+
+36 / 42
+--- PAGE 38 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+NOT A BASIS
+Is any linear independent set a basis?
+No, we can have a linearly independent set that has too few
+vectors to become a basis
+As an example, consider the following set of vectors inR 4
+
+
+1
+2
+3
+4
+
+ ,
+
+
+2
+−1
+0
+2
+
+ ,
+
+
+1
+1
+0
+4
+
+
+Why is the above not a basis?
+37 / 42
+--- PAGE 39 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+SOME PROPERTIES
+Vector spaces can be finite or infinite-dimensional.
+We consider only finite-dimensional vector spaces.
+In a finite-deimensional vector spaceV, the number of
+vectors in the basis is known asdim(V).
+IfU⊆V, thendim(U)≤dim(V).
+dim(U) =dim(V)if and only ifU=V.
+38 / 42
+--- PAGE 40 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+DIMENSION OF A VECTOR SPACE
+Is the size of the basis merely the number of components in
+the vector?
+So far, that has been the case.
+But consider the vector spacespan(
+
+0
+1
+
+)- the vector has
+two components, but the basis is just one vector. All vectors
+in this vector space are multiples of the vector
+
+0
+1
+
+.
+39 / 42
+--- PAGE 41 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+FINDING A BASIS
+There are three steps to finding a basis for a vector space. A
+basis of a subspaceU=span(x 1, . . . ,xm)⊆R n can be found
+by executing the following steps:
+Write the spanning vectors as columns of a matrixA.
+Determine the row-echelon form ofA.
+The spanning vectors associated with the pivot columns
+are a basis ofU.
+40 / 42
+--- PAGE 42 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+EXAMPLE
+Consider the vector subspaceU⊆R 5 which is spanned by
+the following vectors:
+x1 =
+
+
+1
+2
+−1
+−1
+−1
+
+
+,x 2 =
+
+
+2
+−1
+1
+2
+−2
+
+
+,x 3 =
+
+
+3
+−4
+3
+5
+−3
+
+
+,x 4
+
+
+−1
+8
+−5
+−6
+1
+
+
+We would like to check if the vectorsx 1,x 2,x 3,x 4 constitute
+a basis for the subspaceU.
+We therefore need to check whether the given vectors are
+linearly independent or not.
+41 / 42
+--- PAGE 43 ---
+BITSPilani
+Thank you
+42 / 42

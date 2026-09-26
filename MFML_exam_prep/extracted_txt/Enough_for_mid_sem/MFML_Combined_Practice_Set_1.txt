@@ -1,0 +1,5557 @@
+--- PAGE 1 ---
+WILP , BITS Pilani · Mathematical Foundations for Machine Learning (ZC416)
+Practice Set
+Linear Algebra, Analytic Geometry, Decompositions,
+Vector Calculus, Optimisation and Backpropagation
+62 exam-style problems across 12 topics · every problem fully solved, step by step
+Prof. Saurabh
+How to read this document
+Each topic opens with a page listing the formulas that topic needs, and then the problems of
+that topic, one after another. Every problem is laid out the same way:
+• Navy box — the problem, with the marks for each part.
+• Gold box — what the question is testing, and the order to attack it in. Read this before the
+solution and try the problem yourself.
+• Steel STEP badges — the worked solution, one computation per line; each badge is tagged
+with the part it answers.
+• Green answer line — the final result for every part.
+• Grey box — where marks are actually lost on this kind of problem.
+• Answers at a glance — the numbers only, for quick self-checking.
+--- PAGE 2 ---
+Topic map
+What each topic drills, and where to find it
+# Topic What it drills Problems
+1 Linear systems, Gaussian
+elimination, RREF
+REF/RREF, rank, 0/1/∞ solutions, free
+variables, a parameter in the system
+1–6
+2 Vector spaces, subspaces,
+independence, basis,
+dimension
+subspace tests and counter-examples,
+independence, k for dependence, basis of a
+span and of a solution set, extending a basis
+7–15
+3 The dot product, norms &
+inner products
+orthogonality and similarity from the dot
+product, ℓ1/ℓ2/ℓ∞ norms, distances, weighted
+inner products, projection
+16–20
+4 Orthogonality, Gram–Schmidt,
+orthogonal matrices
+Gram–Schmidt, orthonormal bases, projection
+onto a span, Q⊤Q = I preserving lengths and
+angles
+21–23
+5 Eigenvalues & eigenvectors characteristic polynomial, algebraic and
+geometric multiplicity, eigenvalues in symbols,
+rotation eigenvalues, p(A), AB vs BA
+24–30
+6 Eigen decomposition
+(diagonalization)
+A = PDP −1 and A = PDP ⊤, repeated and
+zero eigenvalues, matrix powers
+31–32
+7 SVD & singular values full SVD of a small matrix, singular values
+from AA ⊤, rank, spectral and Frobenius norm,
+SVD against eigendecomposition
+33–36
+8 Cholesky decomposition deriving L entry by entry, eigenvalues of L,
+determinant, solving with L, existence
+conditions
+37–38
+9 Positive definiteness &
+quadratic forms
+Sylvester’s criterion with parameters,
+semidefiniteness, validity of an inner product,
+sums of squares
+39–41
+10 Gradient, directional
+derivative, tangent planes
+partial derivatives and gradients, Jacobians,
+vector gradient identities, directional
+derivatives, implicit tangent planes,
+linearization and its error
+42–49
+11 Taylor expansion, Hessian,
+critical points
+T2 in one and two variables, the 1
+2 h⊤ Hh form,
+stationary points, the second-derivative test,
+reading an expansion backwards
+50–57
+12 Automatic differentiation &
+backpropagation
+forward pass, local derivatives, backward pass,
+the fan-out (sum) rule, sigmoid and tanh
+neurons, one gradient-descent step
+58–62
+--- PAGE 3 ---
+Contents
+Topic 1: Linear Systems, Gaussian Elimination & RREF 6
+Problem 1: Three unknowns, one answer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+Problem 2: When the numbers refuse . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+Problem 3: A homogeneous system . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+Problem 4: Rank of a matrix on its own . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+Problem 5: A system with two dials . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+Problem 6: Four unknowns, one parameter: when is the system consistent? . . . . . . . . . . . . 15
+Topic 2: Vector Spaces, Subspaces, Linear Independence, Basis & Dimension 18
+Problem 7: The plane x + y + z = 0 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+Problem 8: The right half-plane is not a subspace . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+Problem 9: Independence of three vectors in R3 . . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+Problem 10: The classic dependent triple . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+Problem 11: A non-standard basis of R3 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+Problem 12: Is this a basis of the plane W? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+Problem 13: For which k are three vectors dependent? . . . . . . . . . . . . . . . . . . . . . . . 23
+Problem 14: Basis and dimension of a span . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24
+Problem 15: A subspace of R4 from two equations, and extending its basis . . . . . . . . . . . . 25
+Topic 3: The Dot Product, Norms & Inner Products 28
+Problem 16: The dot product as an orthogonality test . . . . . . . . . . . . . . . . . . . . . . . . 28
+Problem 17: The dot product as a similarity score . . . . . . . . . . . . . . . . . . . . . . . . . . 30
+Problem 18: Orthogonal complement, angle and basis in R3 . . . . . . . . . . . . . . . . . . . . 31
+Problem 19: A weighted inner product on R2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 33
+Problem 20: Projection in a weighted inner product . . . . . . . . . . . . . . . . . . . . . . . . . 34
+Topic 4: Orthogonality, Gram–Schmidt & Orthogonal Matrices 36
+Problem 21: Gram–Schmidt on three vectors, then verify . . . . . . . . . . . . . . . . . . . . . . 36
+Problem 22: Gram–Schmidt in R4 and a projection onto a span . . . . . . . . . . . . . . . . . . . 37
+Problem 23: An orthogonal matrix: lengths, angles and the rotation it performs . . . . . . . . . . . 38
+Topic 5: Eigenvalues & Eigenvectors 40
+Problem 24: Eigen-analysis of a 3 × 3 matrix . . . . . . . . . . . . . . . . . . . . . . . . . . . . 40
+Problem 25: Parametric eigen-analysis . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 41
+Problem 26: Is the 3 × 3 matrix diagonalizable? . . . . . . . . . . . . . . . . . . . . . . . . . . . 42
+Problem 27: Powers without brute force: determinant and trace . . . . . . . . . . . . . . . . . . . 43
+Problem 28: Eigenvalues of a matrix polynomial p(A) . . . . . . . . . . . . . . . . . . . . . . . . 44
+Problem 29: AB and BA share their eigenvalues . . . . . . . . . . . . . . . . . . . . . . . . . . 45
+Problem 30: Eigenvalues and eigenvectors of a rotation . . . . . . . . . . . . . . . . . . . . . . . 46
+Topic 6: Eigen Decomposition (Diagonalization) 48
+--- PAGE 4 ---
+MFML · ZC416 · Practice Set Contents
+Problem 31: Eigendecomposition A = PDP −1 . . . . . . . . . . . . . . . . . . . . . . . . . . . 48
+Problem 32: Eigendecomposition of a rank-deficient symmetric matrix, and a matrix power . . . . 49
+Topic 7: SVD & Singular Values 51
+Problem 33: Full SVD of a 3 × 2 matrix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 51
+Problem 34: Full SVD of a 2 × 3 matrix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 52
+Problem 35: Capstone: eigendecomposition vs. SVD of one matrix . . . . . . . . . . . . . . . . . 53
+Problem 36: Singular values, rank, norms and the first singular vectors of a 2 × 3 matrix . . . . . 54
+Topic 8: Cholesky Decomposition 57
+Problem 37: Cholesky factor of a 3 × 3 matrix, and what it buys you . . . . . . . . . . . . . . . . 57
+Problem 38: When does a Cholesky factor exist? (a parameter) . . . . . . . . . . . . . . . . . . . 59
+Topic 9: Positive Definiteness & Quadratic Forms 61
+Problem 39: Classifying A(t) by eigenvalues . . . . . . . . . . . . . . . . . . . . . . . . . . . . 61
+Problem 40: Which bilinear forms are inner products? . . . . . . . . . . . . . . . . . . . . . . . . 62
+Problem 41: Positive (semi)definiteness with two parameters, and the quadratic form . . . . . . . 63
+Topic 10: Gradient, Directional Derivative & Tangent Planes 66
+Problem 42: Partial derivatives and the gradient from scratch . . . . . . . . . . . . . . . . . . . . 66
+Problem 43: Gradient with exponential and trigonometric terms . . . . . . . . . . . . . . . . . . . 67
+Problem 44: Jacobian of a vector-valued map . . . . . . . . . . . . . . . . . . . . . . . . . . . . 68
+Problem 45: Vector gradient identities and a non-symmetric quadratic . . . . . . . . . . . . . . . 70
+Problem 46: Linearization (tangent plane) of a two-variable function . . . . . . . . . . . . . . . . 71
+Problem 47: Gradient, directional derivative and the steepest direction . . . . . . . . . . . . . . . 72
+Problem 48: Normal vector and tangent plane of an implicitly defined surface . . . . . . . . . . . 73
+Problem 49: Linearization of a two-variable model and its error . . . . . . . . . . . . . . . . . . . 74
+Topic 11: Taylor Expansion, Hessian & Critical-Point Classification 76
+Problem 50: Second-order Taylor expansion of ex sin y at the origin . . . . . . . . . . . . . . . . . 76
+Problem 51: Linear and quadratic estimates of
+√
+4.2 . . . . . . . . . . . . . . . . . . . . . . . . . 77
+Problem 52: One variable: MVT and a Taylor estimate . . . . . . . . . . . . . . . . . . . . . . . . 78
+Problem 53: Second-order Taylor about a non-stationary point . . . . . . . . . . . . . . . . . . . 79
+Problem 54: A quadratic function: Taylor is exact . . . . . . . . . . . . . . . . . . . . . . . . . . . 81
+Problem 55: Four stationary points, all three types . . . . . . . . . . . . . . . . . . . . . . . . . . 82
+Problem 56: A mixed term: determinant route and eigenvalue route . . . . . . . . . . . . . . . . . 84
+Problem 57: Read a Taylor expansion backwards . . . . . . . . . . . . . . . . . . . . . . . . . . 85
+Topic 12: Automatic Differentiation & Backpropagation 87
+Problem 58: Pure chain (warm-up) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 87
+Problem 59: Fan-out in the middle, with a reciprocal . . . . . . . . . . . . . . . . . . . . . . . . . 88
+Problem 60: Diagnose a recorded backward pass . . . . . . . . . . . . . . . . . . . . . . . . . . 89
+Problem 61: Sigmoid neuron with squared loss and one GD step . . . . . . . . . . . . . . . . . . 91
+4
+--- PAGE 5 ---
+MFML · ZC416 · Practice Set Contents
+Problem 62: Tanh neuron with an incoming error signal . . . . . . . . . . . . . . . . . . . . . . . 92
+5
+--- PAGE 6 ---
+MFML · ZC416 · Practice Set Topic 1 · Linear Systems & RREF
+Topic 1
+Linear Systems, Gaussian Elimination & RREF
+Reduce an augmented matrix, state the rank, decide whether there are no solutions, one solution or
+infinitely many, and write the general solution — with and without a parameter in the system.
+Formulas you need for this topic
+• Augmented matrix [A | b]. Legal row operations: Ri ↔ Rj, Ri → cRi with c ̸= 0, Ri → Ri + cR j.
+• rank = number of pivots in any echelon form = number of nonzero rows.
+• rank A < rank[A | b]: no solution. rank A = rank[A | b] =n: exactly one. = r < n: infinitely many,
+with n − r free variables.
+• rank A + nullity A = n. General solution = particular solution + null-space part.
+• A parameter inside A controls the rank; a parameter inside b controls consistency. Never divide by a
+parameter without splitting into cases.
+Problem 1 · Three unknowns, one answer
+Use Gauss–Jordan elimination to solve
+x + y + z = 6
+2x − y + z = 3
+x + 2y − z = 2
+Confirm your classification with the rank criterion.
+How to attempt this (the plan)
+What it tests: handling three rows without losing track, and using a row swap to dodge fractions.
+Plan: clear column 1 with two operations; swap rows to get a pivot equal to 1; clear column 2
+below; read the ranks (classify); then normalise the last pivot and clear upward, column 3 first,
+then column 2; read the answer and substitute back.
+Worked solution
+STEP 1 setup Augmented matrix. Here n = 3.
+
+
+1 1 1 6
+2 −1 1 3
+1 2 −1 2
+
+
+STEP 2 REF Clear column 1 below the pivot. Two operations, both using R1. For R2 →
+R2 − 2R1:
+2 − 2 = 0, −1 − 2 = −3, 1 − 2 = −1, 3 − 12 = −9.
+For R3 → R3 − R1:
+1 − 1 = 0, 2 − 1 = 1, −1 − 1 = −2, 2 − 6 = −4.
+
+
+1 1 1 6
+0 −3 −1 −9
+0 1 −2 −4
+
+
+6
+--- PAGE 7 ---
+MFML · ZC416 · Practice Set Topic 1 · Linear Systems & RREF
+STEP 3 REF Swap to get a friendly pivot. Taking−3 as the second pivot would force fractions
+immediately, so swap R2 ↔ R3: 
+
+1 1 1 6
+0 1 −2 −4
+0 −3 −1 −9
+
+
+STEP 4 REF Clear below the second pivot with R3 → R3 + 3R2:
+−3 + 3(1) =0, −1 + 3(−2) =−7, −9 + 3(−4) =−21.
+
+
+1 1 1 6
+0 1 −2 −4
+0 0 −7 −21
+
+
+This is REF, with three pivots.
+STEP 5 rank Classify before finishing: rank(A) =3, rank([ A | b]) =3, n = 3. All equal, so
+exactly one solution exists.
+STEP 6 RREF Normalise the third pivot: R3 → −1
+7 R3 gives [ 0 0 1 | 3 ].
+
+
+1 1 1 6
+0 1 −2 −4
+0 0 1 3
+
+
+STEP 7 RREF Clear column 3 above the pivot. R2 → R2 + 2R3:
+−2 + 2(1) =0, −4 + 2(3) =2.
+Then R1 → R1 − R3:
+1 − 1 = 0, 6 − 3 = 3.
+
+
+1 1 0 3
+0 1 0 2
+0 0 1 3
+
+
+STEP 8 RREF Clear column 2 above the pivot with R1 → R1 − R2:
+1 − 1 = 0, 3 − 2 = 1.
+
+
+1 0 0 1
+0 1 0 2
+0 0 1 3
+
+
+This is the RREF.
+STEP 9 check Check in the originals:
+1 + 2 + 3 = 6 ✓, 2 (1) − 2 + 3 = 3 ✓, 1 + 2(2) − 3 = 2 ✓.
+Answer. x = 1, y = 2, z = 3. Unique, since rank(A) =rank([A | b]) =3 = n.
+Where marks are lost
+Going upward in the wrong order: clear column 3 before column 2. If you clean column 2 first,
+the later column-3 operation puts new entries back into column 2. Doing two operations that
+7
+--- PAGE 8 ---
+MFML · ZC416 · Practice Set Topic 1 · Linear Systems & RREF
+share a source row in one step and losing track of which row was used. Dropping the sign when
+computing −1 + 3(−2) =−7.
+Answers at a glance
+x = 1, y = 2, z = 3; rank(A) =rank([ A | b]) =3 = n, unique.
+Problem 2 · When the numbers refuse
+Show that the following system has no solution, and identify the exact row of the reduced
+matrix that proves it.
+x + y + z = 3
+2x + 3y + z = 5
+3x + 4y + 2z = 10
+How to attempt this (the plan)
+What it tests: spotting inconsistency, and saying why in rank language rather than by feel. Plan:
+clear column 1, clear column 2, look for a row [ 0 0 0 | c ] with c ̸= 0; then compare rank(A) with
+rank([ A | b]).
+Worked solution
+STEP 1 setup Augmented matrix.
+
+
+1 1 1 3
+2 3 1 5
+3 4 2 10
+
+
+STEP 2 REF Clear column 1. With R2 → R2 − 2R1:
+2 − 2 = 0, 3 − 2 = 1, 1 − 2 = −1, 5 − 6 = −1.
+With R3 → R3 − 3R1:
+3 − 3 = 0, 4 − 3 = 1, 2 − 3 = −1, 10 − 9 = 1.
+
+
+1 1 1 3
+0 1 −1 −1
+0 1 −1 1
+
+
+Rows 2 and 3 now agree on the left of the bar but disagree on the right.
+STEP 3 REF Clear below the second pivot with R3 → R3 − R2:
+0 − 0 = 0, 1 − 1 = 0, −1 − (−1) =0, 1 − (−1) =2.
+
+
+1 1 1 3
+0 1 −1 −1
+0 0 0 2
+
+
+STEP 4 row Read the fatal row. Row 3 is [ 0 0 0 | 2 ]. As an equation it says
+0 · x + 0 · y + 0 · z = 2, that is 0 = 2,
+8
+--- PAGE 9 ---
+MFML · ZC416 · Practice Set Topic 1 · Linear Systems & RREF
+which no choice of x, y, z can make true.
+STEP 5 rank Say it with ranks. Inside the first three columns there are two pivots, so
+rank(A) = 2. Across all four columns there are three pivots, because row 3 has its pivot
+in the b column, so rank([A | b]) = 3. Since rank(A) = 2 < 3 = rank([ A | b]), the system is
+inconsistent.
+STEP 6 why Where it came from. R1 + R2 = [3 4 2 ] on the left, matching row 3 exactly. So
+the left sides satisfy eq1 + eq2 = eq3, but the right sides give 3 + 5 = 8 ̸= 10.
+Answer. No solution. The row [ 0 0 0 | 2 ] proves it; in rank terms rank(A) = 2 <
+rank([ A | b]) =3.
+Where marks are lost
+Carrying on to RREF, or trying to write a solution, after a row [ 0 · · ·0 | c ] with c ̸= 0 has
+appeared. Saying “inconsistent” without pointing to the row or without naming both ranks.
+Computing rank(A) and rank([ A | b]) from two separate eliminations instead of reading both
+off one reduced augmented matrix.
+Answers at a glance
+No solution; row [ 0 0 0 | 2 ]; rank(A) =2 < rank([ A | b]) =3.
+Problem 3 · A homogeneous system
+Determine whether the system below has a solution other than x = y = z = 0. If it does, find
+every solution and give a basis for the null space of the coefficient matrix.
+x + 2y + 3z = 0
+2x + 5y + 7z = 0
+3x + 7y + 10z = 0
+How to attempt this (the plan)
+What it tests: whether you realise consistency is automatic here, so the only real question is
+r versus n. Plan: reduce A (the zero column stays zero); read r; if r < n there are non-trivial
+solutions; go to RREF, name the free variable, write the solution as tv and quote v as the basis;
+check rank–nullity.
+Worked solution
+STEP 1 setup Augmented matrix, with a zero column on the right.
+
+
+1 2 3 0
+2 5 7 0
+3 7 10 0
+
+
+That last column stays zero through every row operation, so we may track onlyA and remember
+the 0.
+STEP 2 REF Clear column 1. R2 → R2 − 2R1:
+2 − 2 = 0, 5 − 4 = 1, 7 − 6 = 1.
+9
+--- PAGE 10 ---
+MFML · ZC416 · Practice Set Topic 1 · Linear Systems & RREF
+R3 → R3 − 3R1:
+3 − 3 = 0, 7 − 6 = 1, 10 − 9 = 1.
+
+
+1 2 3 0
+0 1 1 0
+0 1 1 0
+
+
+STEP 3 REF Clear below the second pivot. R3 → R3 − R2 gives a zero row:
+
+
+1 2 3 0
+0 1 1 0
+0 0 0 0
+
+
+STEP 4 rank Classify. rank(A) =2 and rank([ A | 0]) =2; they are equal automatically, so the
+system is consistent. Since r = 2 < 3 = n, there is 3 − 2 = 1 free variable, hence infinitely many
+solutions. So non-trivial solutions do exist.
+STEP 5 RREF Reduce to RREF. Clear column 2 above the pivot with R1 → R1 − 2R2:
+1 − 0 = 1, 2 − 2 = 0, 3 − 2 = 1.
+
+
+1 0 1 0
+0 1 1 0
+0 0 0 0
+
+
+STEP 6 solve Solve. Pivots in columns 1 and 2, so x and y are basic and z is free. Set z = t.
+Row 1 gives x + z = 0, so x = −t. Row 2 gives y + z = 0, so y = −t.
+STEP 7 vector Vector form:
+
+
+x
+y
+z
+
+ = t
+
+
+−1
+−1
+1
+
+ , t ∈ R.
+There is no constant vector out front. A homogeneous system always has xp = 0, so the answer
+is pure null space.
+STEP 8 check Check. Take t = 1, giving (−1, −1, 1):
+−1 + 2(−1) +3(1) =0 ✓, −2 − 5 + 7 = 0 ✓, −3 − 7 + 10 = 0 ✓.
+STEP 9 check Rank–nullity check: rank(A) =2, nullity(A) =1, and 2 + 1 = 3 = n ✓.
+Answer. Non-trivial solutions exist. Every solution is t(−1, −1, 1), t ∈ R, and a basis for the
+null space is {(−1, −1, 1)⊤}.
+Where marks are lost
+Writing the null space as “(−1, −1, 1)” alone: the null space is the whole set {t(−1, −1, 1) : t ∈
+R}, and the single vector is a basis for it. Forgetting that the trivial solution is still included
+(t = 0). Wasting time checking consistency: a homogeneous system is never inconsistent.
+10
+--- PAGE 11 ---
+MFML · ZC416 · Practice Set Topic 1 · Linear Systems & RREF
+Answers at a glance
+Non-trivial solutions exist; solutions t(−1, −1, 1); null-space basis {(−1, −1, 1)⊤}; rank = 2,
+nullity = 1.
+Problem 4 · Rank of a matrix on its own
+For the matrix
+A =
+
+
+1 2 3 4
+2 4 6 8
+1 3 5 7
+2 5 8 11
+
+
+(a) find rank (A); [2]
+(b) decide whether Ax = 0 has a non-trivial solution, and if so find a basis for the null space;
+[2]
+(c) verify the rank–nullity theorem. [1]
+How to attempt this (the plan)
+What it tests: rank as a property of a matrix without any b attached, plus the link from rank
+straight to the null space. Plan: (a) clear column 1 with three operations, move the zero row
+down, clear the last row, count pivots. (b) compare r with n = 4; go to RREF, set the two free
+variables to s, t, and split the solution into two vectors. (c) add rank + nullity.
+Worked solution
+STEP 1 (a) Look before you compute. Row 2 is exactly 2× row 1. Also row 1 plus row 3 is
+[ 2 5 8 11 ], which is row 4. So two of the four rows are combinations of the others and the rank
+should come out as 2.
+STEP 2 (a) Clear column 1. Three operations, all using R1:
+R2 → R2 − 2R1 : [ 2 − 2, 4 − 4, 6 − 6, 8 − 8 ] = [0 0 0 0 ]
+R3 → R3 − R1 : [ 1 − 1, 3 − 2, 5 − 3, 7 − 4 ] = [0 1 2 3 ]
+R4 → R4 − 2R1 : [ 2 − 2, 5 − 4, 8 − 6, 11 − 8 ] = [0 1 2 3 ]
+
+
+1 2 3 4
+0 0 0 0
+0 1 2 3
+0 1 2 3
+
+
+STEP 3 (a) Move the zero row down. REF requires zero rows at the bottom, so swapR2 ↔ R3:
+
+
+1 2 3 4
+0 1 2 3
+0 0 0 0
+0 1 2 3
+
+
+11
+--- PAGE 12 ---
+MFML · ZC416 · Practice Set Topic 1 · Linear Systems & RREF
+STEP 4 (a) Clear the last row. R4 → R4 − R2 gives another zero row:
+
+
+1 2 3 4
+0 1 2 3
+0 0 0 0
+0 0 0 0
+
+
+This is REF. Two nonzero rows, so two pivots, in columns 1 and 2. Hence rank(A) =2.
+STEP 5 (b) Decide on non-trivial solutions. Here n = 4 and r = 2, so n − r = 2 > 0.
+A homogeneous system with rank below the number of unknowns always has non-trivial
+solutions. So yes.
+STEP 6 (b) Reduce to RREF. Both pivots are already 1. Clear column 2 above with R1 →
+R1 − 2R2:
+1 − 0 = 1, 2 − 2 = 0, 3 − 4 = −1, 4 − 6 = −2.
+
+
+1 0 −1 −2
+0 1 2 3
+0 0 0 0
+0 0 0 0
+
+
+STEP 7 (b) Write the equations. Pivot columns 1 and 2, so x1, x2 are basic; columns 3 and 4
+have no pivots, so x3, x4 are free:
+x1 − x3 − 2x4 = 0, x2 + 2x3 + 3x4 = 0.
+STEP 8 (b) Introduce parameters. Put x3 = s and x4 = t. Then
+x1 = s + 2t, x2 = −2s − 3t.
+STEP 9 (b) Split into two vectors, grouping the s terms and the t terms:
+
+
+x1
+x2
+x3
+x4
+
+ = s
+
+
+1
+−2
+1
+0
+
+ + t
+
+
+2
+−3
+0
+1
+
+ .
+Each vector comes from setting one free variable to 1 and the other to 0; the 1/0 pattern in the
+bottom two slots also proves the two vectors are independent.
+STEP 10 (b) Check both against row 4 of the original, [ 2 5 8 11 ]:
+2(1) +5(−2) +8(1) +11(0) =2 − 10 + 8 = 0 ✓
+2(2) +5(−3) +8(0) +11(1) =4 − 15 + 11 = 0 ✓
+STEP 11 (c) Rank–nullity. nullity(A) =2 because the basis has two vectors, and
+rank(A) +nullity(A) =2 + 2 = 4 = n ✓.
+Answer. rank(A) = 2. Non-trivial solutions exist; a null-space basis is
+{(1, −2, 1, 0)⊤, (2, −3, 0, 1)⊤}, so nullity(A) =2 and 2 + 2 = 4.
+12
+--- PAGE 13 ---
+MFML · ZC416 · Practice Set Topic 1 · Linear Systems & RREF
+Where marks are lost
+Counting nonzero entries, or nonzero rows of the original matrix, instead of pivots in echelon
+form. Leaving the zero row in the middle and calling the matrix REF. Writing only one null-space
+vector when there are two free variables. Sign slips in 3 − 4 = −1 and 4 − 6 = −2 when clearing
+above the pivot.
+Answers at a glance
+(a) rank(A) =2 (b) yes; basis {(1, −2, 1, 0)⊤, (2, −3, 0, 1)⊤} (c) 2 + 2 = 4 = n.
+Problem 5 · A system with two dials
+Consider the system
+x + y + z = 6
+x + 2y + 3z = 14
+x + 2y + az = b
+where a and b are real constants. Find all values of a and b for which the system has
+(a) a unique solution, and give the solution in terms of a and b; [3]
+(b) no solution; [1]
+(c) infinitely many solutions, and give the general solution. [2]
+How to attempt this (the plan)
+What it tests: eliminating while a pivot might secretly be zero. The classic way to lose marks is
+to divide by a − 3 without checking whether it is zero. Plan: reduce with the safe pivots (both
+equal to 1) until the whole problem sits in one row [ 0 0 a − 3 | b − 14 ]; then split into a ̸= 3 (back
+substitute), a = 3 with b ̸= 14 (contradiction), a = 3 with b = 14 (one free variable, go to RREF).
+Worked solution
+STEP 1 setup Augmented matrix. Here n = 3.
+
+
+1 1 1 6
+1 2 3 14
+1 2 a b
+
+
+STEP 2 REF Clear column 1. The pivot is a plain 1 and does not depend on a or b, so this step
+is always safe. R2 → R2 − R1:
+1 − 1 = 0, 2 − 1 = 1, 3 − 1 = 2, 14 − 6 = 8.
+R3 → R3 − R1:
+1 − 1 = 0, 2 − 1 = 1, a − 1, b − 6.
+
+
+1 1 1 6
+0 1 2 8
+0 1 a − 1 b − 6
+
+
+STEP 3 REF Clear below the second pivot. The second pivot is 1, again free of a and b, so
+R3 → R3 − R2 is safe:
+1 − 1 = 0, (a − 1) − 2 = a − 3, (b − 6) − 8 = b − 14.
+13
+--- PAGE 14 ---
+MFML · ZC416 · Practice Set Topic 1 · Linear Systems & RREF
+
+
+1 1 1 6
+0 1 2 8
+0 0 a − 3 b − 14
+
+
+STEP 4 row Stop and look at row 3. Everything depends on the single row
+[ 0 0 a − 3 | b − 14 ], i.e. (a − 3)z = b − 14.
+Whether this row carries a pivot, a contradiction, or vanishes decides the whole problem. Do
+not divide by a − 3 yet.
+STEP 5 (a) Case a ̸= 3. Then a − 3 ̸= 0, so row 3 has a pivot in column 3. Three pivots in
+the first three columns give rank(A) = 3, none in the b column, so rank([ A | b]) = 3. With
+3 = 3 = n the solution is unique, whatever b is. Now division is legal:
+z = b − 14
+a − 3 .
+STEP 6 (a) Back substitute into row 2, y + 2z = 8:
+y = 8 − 2z = 8 − 2(b − 14)
+a − 3 .
+STEP 7 (a) Back substitute into row 1, x + y + z = 6:
+x = 6 − y − z
+= 6 −
+
+8 − 2(b − 14)
+a − 3
+
+− b − 14
+a − 3
+= −2 + 2(b − 14)
+a − 3 − b − 14
+a − 3
+= −2 + b − 14
+a − 3 .
+STEP 8 (a) Spot-check with numbers. Take a = 4, b = 15. Then z = 1/1 = 1, y = 8 − 2 = 6,
+x = −2 + 1 = −1. Test all three originals:
+−1 + 6 + 1 = 6 ✓, −1 + 12 + 3 = 14 ✓, −1 + 12 + 4 = 15 ✓.
+STEP 9 (b) Case a = 3 and b ̸= 14. Row 3 becomes [ 0 0 0 | b − 14 ] with b − 14 ̸= 0. That is
+the equation 0 = b − 14, which is false. Column 3 has lost its pivot, so rank(A) =2, while the b
+column has gained one, so rank([ A | b]) =3. Since 2 < 3, there is no solution.
+STEP 10 (c) Case a = 3 and b = 14. Row 3 becomes [ 0 0 0 | 0 ], which is harmless. Now
+rank(A) = rank([ A | b]) = 2, and 2 < 3 = n, so there are infinitely many solutions with
+3 − 2 = 1 free variable.
+STEP 11 (c) Solve this case. Clear column 2 above the pivot with R1 → R1 − R2:
+
+
+1 1 1 6
+0 1 2 8
+0 0 0 0
+
+ R1→R1−R2
+− − − − − − − →
+
+
+1 0 −1 −2
+0 1 2 8
+0 0 0 0
+
+
+Pivots in columns 1 and 2, so z is free. Put z = t. Row 1 gives x − z = −2, so x = −2 + t. Row 2
+gives y + 2z = 8, so y = 8 − 2t.
+
+
+x
+y
+z
+
+ =
+
+
+−2
+8
+0
+
+ + t
+
+
+1
+−2
+1
+
+ .
+14
+--- PAGE 15 ---
+MFML · ZC416 · Practice Set Topic 1 · Linear Systems & RREF
+STEP 12 (c) Check symbolically. With a = 3, b = 14 the third equation is identical to the
+second, so only two need checking:
+(−2 + t) + (8 − 2t) +t = 6 + (t − 2t + t) =6 ✓
+(−2 + t) +2(8 − 2t) +3t = 14 + (t − 4t + 3t) =14 ✓
+Answer. (a) Unique when a ̸= 3 (any b): z = b − 14
+a − 3 , y = 8 − 2(b − 14)
+a − 3 , x = −2 + b − 14
+a − 3 .
+(b) No solution when a = 3, b ̸= 14. (c) Infinitely many when a = 3, b = 14: (x, y, z) =
+(−2, 8, 0) +t(1, −2, 1), t ∈ R.
+Where marks are lost
+Dividing by a − 3 before saying a ̸= 3, and then never treating a = 3 as its own case. Forgetting
+that b only matters on the knife edge a = 3: a (left of the bar) controls rank(A), b (right of the
+bar) controls consistency. Giving “no solution” for all a = 3 and missing the b = 14 case. In (a),
+leaving x as an unsimplified expression with two fractions.
+Answers at a glance
+(a) a ̸= 3: z = b−14
+a−3 , y = 8 − 2(b−14)
+a−3 , x = −2 + b−14
+a−3 (b) a = 3, b ̸= 14 (c) a = 3, b = 14:
+(−2, 8, 0) +t(1, −2, 1).
+Problem 6 · Four unknowns, one parameter: when is the system consistent?
+Consider the system of linear equations
+x + y + z + w = 3,
+x + 2y + 3z + 4w = 5,
+2x + 3y + 4z + 5w = 8,
+3x + 5y + 7z + 9w = k,
+where k ∈ R.
+(a) Find all values of k for which the system is consistent. [1.5]
+(b) For each such k, state the rank of the coefficient matrix and the number of free variables.
+[1]
+(c) Write the general solution in parametric (vector) form. [1.5]
+How to attempt this (the plan)
+What it tests: row reduction with a symbol in the right-hand column, reading consistency from
+a [ 0 0 0 0 | c ] row, and counting free variables as n − rank. Plan: reduce the augmented matrix
+once, keeping k untouched; the last row decides (a); count pivots for (b); go to RREF, name the
+free variables, write the answer for (c).
+15
+--- PAGE 16 ---
+MFML · ZC416 · Practice Set Topic 1 · Linear Systems & RREF
+Worked solution
+STEP 1 (a) Write the augmented matrix (n = 4 unknowns).
+
+
+1 1 1 1 3
+1 2 3 4 5
+2 3 4 5 8
+3 5 7 9 k
+
+
+STEP 2 (a) Clear column 1 using R1 (three operations, one at a time).
+R2 → R2 − R1 : [ 0 1 2 3 | 2 ]
+R3 → R3 − 2R1 : [ 0 1 2 3 | 2 ]
+R4 → R4 − 3R1 : [ 0 2 4 6 | k − 9 ]
+
+
+1 1 1 1 3
+0 1 2 3 2
+0 1 2 3 2
+0 2 4 6 k − 9
+
+
+STEP 3 (a) Clear column 2 using R2.
+R3 → R3 − R2 : [ 0 0 0 0 | 0 ]
+R4 → R4 − 2R2 : [ 0 0 0 0 | k − 13 ]
+
+
+1 1 1 1 3
+0 1 2 3 2
+0 0 0 0 0
+0 0 0 0 k − 13
+
+
+STEP 4 (a) Read the last row: it says 0 = k − 13. This is true only when k = 13. For k ̸= 13
+the row is [ 0 0 0 0 | c ] with c ̸= 0, so rank[A | b] =3 > 2 = rank A and there is no solution.
+STEP 5 (b) For k = 13: two pivots (columns 1 and 2), so rank A = rank[A | b] = 2. Free
+variables: n − r = 4 − 2 = 2 (namely z and w, the pivot-free columns).
+STEP 6 (c) Go to RREF with R1 → R1 − R2:
+[ 1 1 1 1 | 3 ] − [ 0 1 2 3 | 2 ] = [1 0 − 1 − 2 | 1 ].
+
+
+1 0 −1 −2 1
+0 1 2 3 2
+0 0 0 0 0
+0 0 0 0 0
+
+
+STEP 7 (c) Set z = s, w = t. Row 1: x − z − 2w = 1 ⇒ x = 1 + s + 2t. Row 2: y + 2z + 3w =
+2 ⇒ y = 2 − 2s − 3t.
+
+
+x
+y
+z
+w
+
+ =
+
+
+1
+2
+0
+0
+
+ + s
+
+
+1
+−2
+1
+0
+
+ + t
+
+
+2
+−3
+0
+1
+
+ , s, t ∈ R.
+STEP 8 (c) Check in equation 4 with k = 13: 3(1 + s + 2t) +5(2 − 2s − 3t) +7s + 9t =
+3 + 10 + (3 − 10 + 7)s + (6 − 15 + 9)t = 13. ✓
+Answer. (a) Consistent iff k = 13. (b) rank A = 2, two free variables. (c) (x, y, z, w) =
+(1 + s + 2t, 2 − 2s − 3t, s, t), s, t ∈ R.
+16
+--- PAGE 17 ---
+MFML · ZC416 · Practice Set Topic 1 · Linear Systems & RREF
+Where marks are lost
+Reducing the coefficient matrix and the augmented matrix separately (do it once, read both
+ranks off the same picture). Writing "k = 13 gives infinitely many solutions" without saying why
+(r = 2 < 4). Counting free variables as n − m = 0 instead of n − r = 2. Dropping the zero rows
+before you have finished reading the ranks.
+Answers at a glance
+(a) k = 13 only (b) rank A = 2, 2 free variables (c) (1, 2, 0, 0) +s(1, −2, 1, 0) +t(2, −3, 0, 1)
+17
+--- PAGE 18 ---
+MFML · ZC416 · Practice Set Topic 2 · Vector Spaces & Basis
+Topic 2
+Vector Spaces, Subspaces, Linear Independence,
+Basis & Dimension
+Decide whether a set is a subspace, with a reason or a counter-example; test independence and find
+the parameter value that makes vectors dependent; find a basis and the dimension of a span or of a
+solution set, and extend a basis to the whole space.
+Formulas you need for this topic
+• Subspace test: 0 ∈ W, and W closed under addition and scalar multiplication (one failure is enough to
+disprove).
+• Independent ⇐ ⇒c1v1 + · · ·+ ckvk = 0 forces every ci = 0.
+• n vectors in Rn: independent ⇐ ⇒det[v1 · · ·vn] ̸= 0.
+• Basis = independent + spanning; dim W = number of basis vectors. In a d-dimensional space, d
+independent vectors are automatically a basis.
+• Basis of a span: row-reduce [v1 · · ·vk] and keep the original vectors sitting in pivot columns.
+• Subspace given by equations: solve, then one basis vector per free variable; dim = n − rank.
+Problem 7 · The plane x + y + z = 0
+Show that W = {(x, y, z) ∈ R3 : x + y + z = 0} is a subspace of R3.
+How to attempt this (the plan)
+What it tests: the Subspace Test for a plane through the origin, given by one linear homogeneous
+equation. Plan: check the zero vector; add two generic elements and regroup; scale a generic
+element and factor out c.
+Worked solution
+STEP 1 zero 0 + 0 + 0 = 0, so (0, 0, 0) ∈ W. ✓
+STEP 2 add Take (x1, y1, z1), (x2, y2, z2) ∈ W, so x1 + y1 + z1 = 0 and x2 + y2 + z2 = 0. The
+sum is (x1 + x2, y1 + y2, z1 + z2) and
+(x1 + x2) + (y1 + y2) + (z1 + z2) = (x1 + y1 + z1) + (x2 + y2 + z2) =0 + 0 = 0.
+So the sum is in W. ✓
+STEP 3 scale Take c ∈ R and (x, y, z) ∈ W. Then c(x, y, z) = (cx, cy, cz) and
+cx + cy + cz = c(x + y + z) =c · 0 = 0.
+So c(x, y, z) ∈ W. ✓
+STEP 4 conclude All three tests pass, so W is a subspace of R3. Geometrically it is a plane
+through the origin (with normal vector (1, 1, 1)).
+Answer. W is a subspace of R3: a plane through the origin.
+18
+--- PAGE 19 ---
+MFML · ZC416 · Practice Set Topic 2 · Vector Spaces & Basis
+Where marks are lost
+Forgetting the zero-vector check. Regrouping the sum without saying why each bracket is 0 (the
+membership hypothesis). Claiming closure by picking two particular vectors.
+Answers at a glance
+Subspace (plane through the origin).
+Problem 8 · The right half-plane is not a subspace
+Show that W = {(x, y) ∈ R2 : x ≥ 0} is not a subspace of R2.
+How to attempt this (the plan)
+What it tests: disproving a subspace claim with one concrete counterexample. Plan: the
+condition is an inequality, so try a negative scalar: pick a vector in W, multiply by −1, and show
+the result leaves W.
+Worked solution
+STEP 1 pick Take u = (2, 3). Since 2 ≥ 0, u ∈ W.
+STEP 2 scale Take c = −1:
+c u = (−1)(2, 3) = (−2, −3).
+STEP 3 check The first coordinate is −2, and −2 ≥ 0 is false. So c u /∈ W. ✗
+STEP 4 conclude W is not closed under scalar multiplication, so W is not a subspace. (It does
+contain (0, 0) and is closed under addition; one failure is enough.)
+Answer. Not a subspace: (2, 3) ∈ W but (−1)(2, 3) = (−2, −3) /∈ W.
+Where marks are lost
+Trying to prove “not a subspace” with a general argument instead of a concrete counterexample:
+one explicit vector and one explicit scalar earns the marks. Testing only positive scalars and
+wrongly concluding that closure holds. Checking 0 ∈ W and stopping: that test passes here, so
+it decides nothing.
+Answers at a glance
+Not a subspace; fails scalar closure with c = −1.
+Problem 9 · Independence of three vectors in R3
+Are the vectors (1, 0, 1), (0, 1, 1), (1, 1, 0) linearly independent in R3?
+19
+--- PAGE 20 ---
+MFML · ZC416 · Practice Set Topic 2 · Vector Spaces & Basis
+How to attempt this (the plan)
+What it tests: the homogeneous-system test for independence, plus the REF/rank and determi-
+nant shortcuts. Plan: set av1 + bv2 + cv3 = 0, write three equations, show only a = b = c = 0
+works; confirm by row-reducing the matrix of rows to REF and counting non-zero rows.
+Worked solution
+STEP 1 set up a(1, 0, 1) +b(0, 1, 1) +c(1, 1, 0) = (0, 0, 0) gives
+a + c = 0, b + c = 0, a + b = 0.
+STEP 2 solve From the first two equations, a = −c and b = −c. Substitute into the third:
+−c + (−c) =0 ⇒ −2c = 0 ⇒ c = 0,
+hence a = b = 0 as well. Only the trivial solution exists.
+STEP 3 REF cross-check Vectors as rows:
+
+
+1 0 1
+0 1 1
+1 1 0
+
+ R3→R3−R1
+− − − − − − − →
+
+
+1 0 1
+0 1 1
+0 1 −1
+
+ R3→R3−R2
+− − − − − − − →
+
+
+1 0 1
+0 1 1
+0 0 −2
+
+
+Three non-zero rows, so rank = 3 = number of vectors.
+STEP 4 determinant det
+
+
+1 0 1
+0 1 1
+1 1 0
+
+ = 1(0 − 1) − 0 + 1(0 − 1) =−2 ̸= 0, confirming indepen-
+dence.
+Answer. Linearly independent (only the trivial solution; rank 3; det = −2 ̸= 0).
+Where marks are lost
+Checking only that no vector is a multiple of another; for three or more vectors that is not enough.
+Stopping at a = −c, b = −c without using the third equation. Row-reducing incorrectly and
+getting a zero row (a sign slip in R3 is the usual cause).
+Answers at a glance
+Independent; rank = 3, det = −2.
+Problem 10 · The classic dependent triple
+Determine whether {(1, 2, 3), (4, 5, 6), (7, 8, 9)} is linearly independent in R3.
+How to attempt this (the plan)
+What it tests: detecting dependence via a free variable, reading rank from REF, and extracting
+the explicit dependency relation. Plan: write the homogeneous system, eliminate, notice two
+equations coincide, set the free variable c = t and produce a non-trivial solution; verify it;
+confirm with REF (rank 2 < 3) and det = 0.
+20
+--- PAGE 21 ---
+MFML · ZC416 · Practice Set Topic 2 · Vector Spaces & Basis
+Worked solution
+STEP 1 set up a(1, 2, 3) +b(4, 5, 6) +c(7, 8, 9) =0 gives
+a + 4b + 7c = 0, 2 a + 5b + 8c = 0, 3 a + 6b + 9c = 0.
+STEP 2 eliminate a
+R2 → R2 − 2R1 : − 3b − 6c = 0 ⇒ b + 2c = 0,
+R3 → R3 − 3R1 : − 6b − 12c = 0 ⇒ b + 2c = 0 (same equation).
+STEP 3 free variable Only two independent equations remain, so one unknown is free. Let
+c = t. Then b = −2t and
+a = −4b − 7c = −4(−2t) − 7t = 8t − 7t = t.
+With t = 1: (a, b, c) = (1, −2, 1).
+STEP 4 verify
+1 (1, 2, 3) − 2 (4, 5, 6) +1 (7, 8, 9) = (1, 2, 3) − (8, 10, 12) + (7, 8, 9) = (0, 0, 0).
+The relation holds. ✓A non-trivial combination equals 0, so the set is linearly dependent.
+STEP 5 REF cross-check Vectors as rows:
+
+
+1 2 3
+4 5 6
+7 8 9
+
+ R2→R2−4R1, R3→R3−7R1
+− − − − − − − − − − − − − − − →
+
+
+1 2 3
+0 −3 −6
+0 −6 −12
+
+ R3→R3−2R2
+− − − − − − − →
+
+
+1 2 3
+0 −3 −6
+0 0 0
+
+
+Only 2 non-zero rows: rank = 2 < 3, hence dependent.
+STEP 6 relation from REF Track the operations on the third row: R′
+3 = v3 − 7v1, then R′′
+3 =
+R′
+3 − 2(v2 − 4v1) = v3 − 7v1 − 2v2 + 8v1 = v1 − 2v2 + v3. Setting this zero row to 0 gives
+v1 − 2v2 + v3 = 0, the same relation as Step 4. Also det = 0, as it must be.
+Answer. Linearly dependent: v1 − 2v2 + v3 = 0, i.e. (1, 2, 3) − 2(4, 5, 6) + (7, 8, 9) =0.
+Where marks are lost
+Stopping at “two equations are the same” without producing an explicit non-trivial solution;
+the marks are for the relation (1, −2, 1). Sign error in a = −4b − 7c with b = −2t. Concluding
+“independent” from rank = 2 because two rows are non-zero: compare the rank with thenumber
+of vectors, 3.
+Answers at a glance
+Dependent; (a, b, c) = (1, −2, 1); rank = 2; det = 0.
+Problem 11 · A non-standard basis of R3
+Show that B = {(1, 1, 0), (1, 0, 1), (0, 1, 1)} is a basis of R3.
+21
+--- PAGE 22 ---
+MFML · ZC416 · Practice Set Topic 2 · Vector Spaces & Basis
+How to attempt this (the plan)
+What it tests: the counting shortcut: 3 independent vectors in the 3-dimensional space R3
+automatically span it. Plan: prove independence by solving the homogeneous system (or REF /
+determinant); then invoke the size argument.
+Worked solution
+STEP 1 set up a(1, 1, 0) +b(1, 0, 1) +c(0, 1, 1) = (0, 0, 0) gives
+a + b = 0, a + c = 0, b + c = 0.
+STEP 2 solve b = −a and c = −a; substitute into b + c = 0:
+−2a = 0 ⇒ a = 0, so b = c = 0.
+Only the trivial solution: B is linearly independent.
+STEP 3 REF cross-check Vectors as rows:
+
+
+1 1 0
+1 0 1
+0 1 1
+
+ R2→R2−R1
+− − − − − − − →
+
+
+1 1 0
+0 −1 1
+0 1 1
+
+ R3→R3+R2
+− − − − − − − →
+
+
+1 1 0
+0 −1 1
+0 0 2
+
+
+Three non-zero rows, so rank = 3. Equivalently det = −2 ̸= 0.
+STEP 4 size argument dim R3 = 3 and B is an independent set of 3 vectors, so B also spans R3.
+Hence B is a basis.
+Answer. B is a basis of R3 (independent, and 3 vectors in a 3-dimensional space).
+Where marks are lost
+Proving independence and forgetting to say why spanning follows (the size argument must
+be stated). Proving spanning by solving a(1, 1, 0) +b(1, 0, 1) +c(0, 1, 1) = (x, y, z) in general:
+correct but slow, and errors creep in. Sign slip in R3 → R3 + R2.
+Answers at a glance
+Basis: independent (det = −2), size 3 = dim R3.
+Problem 12 · Is this a basis of the plane W?
+Let W = {(x, y, z) ∈ R3 : x − 2y − z = 0}.
+(a) Show that
+
+
+
+
+
+1
+0
+1
+
+ ,
+
+
+2
+1
+0
+
+
+
+
+ is a basis of W. [2]
+(b) Verify that p = (3, 1, 1)⊤ lies in W and write it in this basis. [1]
+How to attempt this (the plan)
+What it tests: the three things a basis needs — the vectors are in W, they are independent,
+and there are dim W of them. Plan: substitute each vector into the equation; check non-
+22
+--- PAGE 23 ---
+MFML · ZC416 · Practice Set Topic 2 · Vector Spaces & Basis
+proportionality; get dim W from rank–nullity; then solve a 2-unknown system for (b).
+Worked solution
+STEP 1 (a) Both vectors satisfy x − 2y − z = 0:
+(1, 0, 1) : 1 − 0 − 1 = 0 ✓ (2, 1, 0) : 2 − 2 − 0 = 0 ✓
+So both lie in W.
+STEP 2 (a) They are linearly independent: neither is a scalar multiple of the other (a multiple
+of (1, 0, 1) has middle entry 0, but (2, 1, 0) has middle entry 1).
+STEP 3 (a) dim W = 2: W is the null space of the 1 × 3 matrix [ 1 − 2 − 1 ], which has rank 1,
+so dim W = 3 − 1 = 2 by rank–nullity.
+STEP 4 (a) Two independent vectors inside a 2-dimensional space automatically span it.
+Hence the set is a basis of W.
+STEP 5 (b) Membership: 3 − 2(1) − 1 = 0. ✓ Now solve a(1, 0, 1) +b(2, 1, 0) = (3, 1, 1):
+2nd coordinate: b = 1.
+3rd coordinate: a = 1.
+1st coordinate check: a + 2b = 1 + 2 = 3. ✓
+Answer. (a) Both vectors are in W, they are independent, and dim W = 2, so they form a
+basis. (b) p = 1 · (1, 0, 1) +1 · (2, 1, 0), i.e. coordinates (1, 1).
+Where marks are lost
+Checking independence but forgetting to check the vectors actually satisfy the equation of W.
+Claiming "they span W" with no argument — the dimension count is the argument. In (b),
+solving only two coordinates and not checking the third.
+Answers at a glance
+(a) basis (in W + independent + dim W = 2) (b) p = (1, 0, 1) + (2, 1, 0), coordinates (1, 1)
+Problem 13 · For which k are three vectors dependent?
+Consider
+v1 =
+
+
+1
+1
+2
+
+ , v2 =
+
+
+2
+3
+1
+
+ , v3 =
+
+
+1
+k
+5
+
+ .
+(a) Find all k for which v1, v2, v3 are linearly dependent. [1.5]
+(b) For that k, write v3 as a combination of v1 and v2. [1]
+(c) State rank [v1 v2 v3] for every real k. [0.5]
+23
+--- PAGE 24 ---
+MFML · ZC416 · Practice Set Topic 2 · Vector Spaces & Basis
+How to attempt this (the plan)
+What it tests: "three vectors in R3 are dependent ⇐ ⇒the 3 × 3 determinant is 0", and turning
+a dependence into an explicit relation. Plan: expand the determinant along a row containing k;
+solve; then solve av1 + bv2 = v3 for (b); rank is 3 or 2 for (c).
+Worked solution
+STEP 1 (a) Put the vectors as columns and expand the determinant along the first row:
+D = det
+
+
+1 2 1
+1 3 k
+2 1 5
+
+ = 1 · (3 · 5 − k · 1) − 2 · (1 · 5 − k · 2) +1 · (1 · 1 − 3 · 2).
+D = (15 − k) − 2(5 − 2k) + (1 − 6) =15 − k − 10 + 4k − 5 = 3k.
+STEP 2 (a) Dependent ⇐ ⇒D = 0 ⇐ ⇒3k = 0 ⇐ ⇒k = 0.
+STEP 3 (b) With k = 0, solve av1 + bv2 = v3 = (1, 0, 5)⊤:
+a + 2b = 1, a + 3b = 0, 2 a + b = 5.
+Subtract the first two: b = −1. Then a = 1 − 2b = 3.
+Check the third: 2(3) + (−1) =5. ✓
+So v3 = 3v1 − v2.
+STEP 4 (c) For k ̸= 0 the determinant is nonzero, so the three columns are independent and
+the rank is 3. For k = 0 the rank drops to 2 (two independent columns v1, v2 and v3 in their
+span).
+Answer. (a) k = 0. (b) v3 = 3v1 − v2. (c) rank = 3 for k ̸= 0, rank = 2 for k = 0.
+Where marks are lost
+Sign slips in the cofactor expansion (the middle term carries a minus). Stopping at " k = 0" in (b)
+without producing the actual relation. Saying "rank = 2" for all k — the rank is 3 except at the
+special value.
+Answers at a glance
+(a) k = 0 (b) v3 = 3v1 − v2 (c) rank 3 if k ̸= 0, rank 2 if k = 0
+Problem 14 · Basis and dimension of a span
+Let
+W = span
+
+
+
+
+
+1
+1
+2
+
+ ,
+
+
+2
+2
+4
+
+ ,
+
+
+1
+0
+1
+
+ ,
+
+
+3
+2
+5
+
+
+
+
+ ⊆ R3.
+(a) Find a basis of W chosen from the given vectors. [2]
+(b) State dim W. [0.5]
+(c) Decide whether (0, 1, 1)⊤ ∈ W and, if so, give its coordinates in your basis. [0.5]
+24
+--- PAGE 25 ---
+MFML · ZC416 · Practice Set Topic 2 · Vector Spaces & Basis
+How to attempt this (the plan)
+What it tests: spotting redundant vectors and confirming with row reduction; pivot columns
+give the basis. Plan: look for obvious multiples/sums first; reduce the matrix whose columns
+are the vectors; keep the original vectors in pivot columns.
+Worked solution
+STEP 1 (a) Call the vectors v1, . . . ,v4. Look first: v2 = 2v1, and
+2v1 + v3 = (2 + 1, 2 + 0, 4 + 1) = (3, 2, 5) =v4.
+So v2 and v4 are built from v1 and v3.
+STEP 2 (a) Confirm by row reduction of [v1 v2 v3 v4]:
+
+
+1 2 1 3
+1 2 0 2
+2 4 1 5
+
+ R2→R2−R1, R3→R3−2R1
+− − − − − − − − − − − − − − →
+
+
+1 2 1 3
+0 0 −1 −1
+0 0 −1 −1
+
+ R3→R3−R2
+− − − − − − − →
+
+
+1 2 1 3
+0 0 −1 −1
+0 0 0 0
+
+ .
+Pivots in columns 1 and 3.
+STEP 3 (a) The original vectors in the pivot columns form a basis:
+basis of W = {(1, 1, 2)⊤, (1, 0, 1)⊤}.
+They are independent (not proportional), and steps 1–2 show they span W.
+STEP 4 (b) dim W = 2 (two pivots). W is a plane through the origin in R3.
+STEP 5 (c) Solve a(1, 1, 2) +b(1, 0, 1) = (0, 1, 1): second coordinate gives a = 1; first gives
+1 + b = 0 ⇒ b = −1; third check: 2(1) + (−1) =1. ✓ So (0, 1, 1) ∈ W with coordinates (1, −1).
+Answer. (a) {(1, 1, 2)⊤, (1, 0, 1)⊤}. (b) dim W = 2. (c) Yes: (0, 1, 1) =v1 − v3.
+Where marks are lost
+Using the nonzero rows of the reduced matrix as the basis when the question says "from the
+given vectors" (rows of an REF are not the original vectors). Forgetting to reduce fully and
+reporting dim W = 3 because there are three rows.
+Answers at a glance
+(a) {(1, 1, 2), (1, 0, 1)} (b) 2 (c) yes, coordinates (1, −1)
+Problem 15 · A subspace of R4 from two equations, and extending its basis
+Let
+W = {(x1, x2, x3, x4) ∈ R4 : x1 − x2 + x4 = 0, x2 + x3 = 0}.
+(a) Explain why W is a subspace of R4. [0.5]
+(b) Find a basis of W and dim W. [2]
+(c) Check whether q = (2, 1,−1, −1)⊤ is in W; if so, give its coordinates in your basis. [0.5]
+(d) Extend your basis of W to a basis of R4, and prove the extension works. [1]
+25
+--- PAGE 26 ---
+MFML · ZC416 · Practice Set Topic 2 · Vector Spaces & Basis
+How to attempt this (the plan)
+What it tests: null space = subspace, solving a small homogeneous system for a basis, and
+completing a basis with standard vectors plus a determinant check. Plan: write the equations as
+Ax = 0; free variables x2, x4; read off two vectors; append two standard basis vectors and show
+the 4 × 4 determinant is nonzero.
+Worked solution
+STEP 1 (a) W is the null space of
+A =
+1 −1 0 1
+0 1 1 0
+
+, W = {x : Ax = 0}.
+A null space always contains 0 and is closed under + and scalar multiples ( A(u + v) = 0,
+A(cu) =0), so W is a subspace.
+STEP 2 (b) A is already in echelon form with pivots in columns 1 and 2, so the free variables
+are x3 and x4. Put x3 = s, x4 = t. The second equation gives x2 = −x3 = −s; the first gives
+x1 = x2 − x4 = −s − t:
+(x1, x2, x3, x4) = (−s − t, −s, s, t) =s (−1, −1, 1, 0) +t (−1, 0, 0, 1).
+STEP 3 (b) So b1 = (−1, −1, 1, 0)⊤, b2 = (−1, 0, 0, 1)⊤ span W. They are independent: look
+at coordinates 3 and 4 — sb1 + tb2 = 0 forces s = 0 and t = 0. Hence a basis is {b1, b2} and
+dim W = 2 (equivalently 4 − rank A = 4 − 2 = 2).
+STEP 4 (c) q = (2, 1,−1, −1): 2 − 1 + (−1) =0 ✓, 1 + (−1) =0 ✓, so q ∈ W. Coordinates:
+s = x3 = −1, t = x4 = −1; check −b1 − b2 = (1 + 1, 1 + 0, −1, 0 − 1) = (2, 1,−1, −1). ✓
+STEP 5 (d) Append e1 = (1, 0, 0, 0)⊤ and e2 = (0, 1, 0, 0)⊤ and test the 4 × 4 determinant
+(columns b1, b2, e1, e2):
+det
+
+
+−1 −1 1 0
+−1 0 0 1
+1 0 0 0
+0 1 0 0
+
+ .
+Expand along row 3 (only entry: 1 in column 1, sign (−1)3+1 = +), then along the new row 3
+(only entry: 1 in column 1, sign +):
+= 1 · det
+
+
+−1 1 0
+0 0 1
+1 0 0
+
+ = 1 · 1 · det
+1 0
+0 1
+
+= 1 ̸= 0.
+So {b1, b2, e1, e2} is a basis of R4 extending the basis of W.
+Answer. (a) W = ker A, a null space. (b) basis {(−1, −1, 1, 0), (−1, 0, 0, 1)}, dim W = 2. (c)
+q = −b1 − b2, coordinates (−1, −1). (d) add e1, e2; determinant = 1 ̸= 0.
+Where marks are lost
+Giving only one vector for a 2-dimensional space. Choosing extension vectors that already lie in
+W (then the determinant is 0). Skipping the determinant (or an equivalent rank argument) in (d)
+— "these four look independent" earns nothing.
+26
+--- PAGE 27 ---
+MFML · ZC416 · Practice Set Topic 2 · Vector Spaces & Basis
+Answers at a glance
+(a) null space ⇒ subspace (b) {(−1, −1, 1, 0), (−1, 0, 0, 1)}, dim 2 (c) yes, (−1, −1) (d)
+{b1, b2, e1, e2}, det = 1
+27
+--- PAGE 28 ---
+MFML · ZC416 · Practice Set Topic 3 · Dot Product & Inner Products
+Topic 3
+The Dot Product, Norms & Inner Products
+Use the dot product to test orthogonality and to measure similarity; compute norms, distances and
+cosine similarity; work in a weighted inner product x⊤ Ay, test orthogonality there, and project one
+vector onto another.
+Formulas you need for this topic
+• u · v = ∑ uivi = ∥u∥ ∥v∥ cos θ; u ⊥ v ⇐ ⇒u · v = 0.
+• Norms: ∥u∥1 = ∑ |ui|, ∥u∥2 =
+q
+∑ u2
+i , ∥u∥∞ = maxi |ui|.
+• Distance d(u, v) =∥u − v∥; cosine similarity = u · v
+∥u∥ ∥v∥ (unchanged if either vector is scaled).
+• Weighted inner product ⟨x, y⟩A = x⊤ Ay, valid ⇐ ⇒A is symmetric positive definite; ∥x∥A =√
+x⊤ Ax.
+• Projection of b on the line through a: proj a(b) = ⟨b, a⟩
+⟨a, a⟩ a; the residual b − proj is orthogonal to a.
+• Cauchy–Schwarz |⟨x, y⟩| ≤ ∥x∥ ∥y∥; triangle inequality ∥x + y∥ ≤ ∥x∥ + ∥y∥.
+Problem 16 · The dot product as an orthogonality test
+Consider
+u1 =
+
+
+2
+1
+−2
+
+ , u2 =
+
+
+1
+2
+2
+
+ , u3 =
+
+
+2
+−2
+1
+
+ .
+(a) Using dot products, show that u1, u2, u3 are mutually orthogonal, and find the length of
+each. [1]
+(b) Find the value of k for which x = (1, k, 3)⊤ is orthogonal to u1. [0.5]
+(c) Verify for the pair u1, u2 that orthogonality gives ∥u1 + u2∥2 = ∥u1∥2 + ∥u2∥2, and show
+by expanding ∥u + v∥2 that this holds for every orthogonal pair. [1]
+(d) Write b = (3, 1, 2)⊤ as c1u1 + c2u2 + c3u3 using ci = b · ui
+ui · ui
+, and verify your answer. [1.5]
+How to attempt this (the plan)
+What it tests: the single fact u · v = 0 ⇐ ⇒u ⊥ v, and the payoff it brings — in an orthogonal
+set the coefficients of any vector can be read off one dot product at a time, with no system
+to solve. Plan: (a) three dot products and three lengths; (b) set one dot product to zero and
+solve the linear equation; (c) expand (u + v) · (u + v) and watch the cross term die; (d) one dot
+product per coefficient, then add up and check.
+Worked solution
+STEP 1 (a) The three dot products:
+u1 · u2 = (2)(1) + (1)(2) + (−2)(2) =2 + 2 − 4 = 0,
+u1 · u3 = (2)(2) + (1)(−2) + (−2)(1) =4 − 2 − 2 = 0,
+u2 · u3 = (1)(2) + (2)(−2) + (2)(1) =2 − 4 + 2 = 0.
+28
+--- PAGE 29 ---
+MFML · ZC416 · Practice Set Topic 3 · Dot Product & Inner Products
+All three are zero, so the vectors are mutually orthogonal.
+STEP 2 (a) The lengths:
+∥u1∥ =
+√
+4 + 1 + 4 = 3, ∥u2∥ =
+√
+1 + 4 + 4 = 3, ∥u3∥ =
+√
+4 + 4 + 1 = 3.
+STEP 3 (b) Orthogonal to u1 means x · u1 = 0:
+(1)(2) + (k)(1) + (3)(−2) =2 + k − 6 = k − 4 = 0 =⇒ k = 4.
+Check: (1, 4, 3) · (2, 1,−2) =2 + 4 − 6 = 0. ✓
+STEP 4 (c) Numerically, u1 + u2 = (3, 3, 0)⊤, so
+∥u1 + u2∥2 = 9 + 9 + 0 = 18, ∥u1∥2 + ∥u2∥2 = 9 + 9 = 18. ✓
+STEP 5 (c) In general, expand the square as a dot product:
+∥u + v∥2 = (u + v) · (u + v) =u · u + 2 (u · v) +v · v = ∥u∥2 + 2 (u · v) +∥v∥2 .
+If u ⊥ v the middle term is 0, leaving ∥u + v∥2 = ∥u∥2 + ∥v∥2. (This is Pythagoras; the cross
+term is exactly what orthogonality removes.)
+STEP 6 (d) Each ui · ui = 9, so every denominator is 9. The three numerators:
+b · u1 = (3)(2) + (1)(1) + (2)(−2) =6 + 1 − 4 = 3,
+b · u2 = (3)(1) + (1)(2) + (2)(2) =3 + 2 + 4 = 9,
+b · u3 = (3)(2) + (1)(−2) + (2)(1) =6 − 2 + 2 = 6.
+c1 = 3
+9 = 1
+3, c2 = 9
+9 = 1, c3 = 6
+9 = 2
+3.
+STEP 7 (d) Verify by adding the three pieces:
+1
+3
+
+
+2
+1
+−2
+
+ + 1
+
+
+1
+2
+2
+
+ + 2
+3
+
+
+2
+−2
+1
+
+ =
+
+
+2
+3 + 1 + 4
+3
+1
+3 + 2 − 4
+3
+− 2
+3 + 2 + 2
+3
+
+ =
+
+
+3
+1
+2
+
+ = b. ✓
+Note what made this easy: dotting b = ∑ cjuj with ui kills every term except one, because
+ui · uj = 0 for j ̸= i. The same argument with b = 0 forces every ci = 0, which is why mutually
+orthogonal nonzero vectors are always linearly independent.
+Answer. (a) all three dot products are 0; each length is 3. (b) k = 4. (c) 18 = 9 + 9; in general
+the cross term 2(u · v) vanishes. (d) b = 1
+3 u1 + u2 + 2
+3 u3.
+Where marks are lost
+Testing orthogonality with the cross product or with lengths instead of the dot product. In (b),
+writing x · u1 = 0 but then solving 2 + k + 6 = 0 — the third component of u1 is −2. In (d),
+dividing by ∥ui∥ instead of ui · ui = ∥ui∥2. Using the shortcut formula for ci when the set is not
+orthogonal — then a full system must be solved.
+29
+--- PAGE 30 ---
+MFML · ZC416 · Practice Set Topic 3 · Dot Product & Inner Products
+Answers at a glance
+(a) 0, 0, 0; lengths 3, 3, 3 (b) k = 4 (c) 18 = 9 + 9 (d) c = (1
+3, 1, 2
+3 )
+Problem 17 · The dot product as a similarity score
+A query is represented by the feature vector q and three documents by d1, d2, d3:
+q =
+
+
+1
+2
+2
+
+ , d1 =
+
+
+3
+4
+0
+
+ , d2 =
+
+
+6
+8
+0
+
+ , d3 =
+
+
+−4
+3
+0
+
+ .
+(a) Compute ∥q∥, ∥d1∥, ∥d2∥, ∥d3∥ and the dot products q · di. [1]
+(b) Compute the cosine similarity cos θi = q · di
+∥q∥ ∥di∥ for each document and rank the three.
+[1]
+(c) Which pairs among d1, d2, d3 are orthogonal? [0.5]
+(d) Compute the Euclidean distancesd(q, di) =∥q − di∥ and rank the documents by distance.
+State which of the two scores, cosine or distance, is unchanged when a document is scaled
+by a positive constant, and justify it from the formula. [1.5]
+How to attempt this (the plan)
+What it tests: the dot product read as "how much two vectors point the same way", the difference
+between the raw dot product, the cosine (direction only) and the Euclidean distance (position),
+and the fact that u · v = 0 means no similarity at all. Plan: norms first, then one dot product
+per document, then divide; for (d) write out each difference vector before taking its length, and
+compare the two rankings.
+Worked solution
+STEP 1 (a) Lengths:
+∥q∥ =
+√
+1 + 4 + 4 = 3, ∥d1∥ =
+√
+9 + 16 + 0 = 5,
+∥d2∥ =
+√
+36 + 64 + 0 = 10, ∥d3∥ =
+√
+16 + 9 + 0 = 5.
+Dot products:
+q · d1 = (1)(3) + (2)(4) + (2)(0) =3 + 8 = 11,
+q · d2 = (1)(6) + (2)(8) + (2)(0) =6 + 16 = 22,
+q · d3 = (1)(−4) + (2)(3) + (2)(0) =−4 + 6 = 2.
+STEP 2 (b) Divide each by ∥q∥ ∥di∥:
+cos θ1 = 11
+3 · 5 = 11
+15 ≈ 0.733, cos θ2 = 22
+3 · 10 = 22
+30 = 11
+15 ≈ 0.733, cos θ3 = 2
+3 · 5 = 2
+15 ≈ 0.133.
+Ranking: d1 and d2 tie at the top, d3 last. Note d2 = 2d1 — twice as long, same direction — so
+its dot product doubles (22 against 11) but its cosine is identical.
+STEP 3 (c) Test each pair:
+d1 · d3 = (3)(−4) + (4)(3) =−12 + 12 = 0, d2 · d3 = (6)(−4) + (8)(3) =−24 + 24 = 0,
+30
+--- PAGE 31 ---
+MFML · ZC416 · Practice Set Topic 3 · Dot Product & Inner Products
+d1 · d2 = 18 + 32 = 50 ̸= 0.
+So d3 ⊥ d1 and d3 ⊥ d2; d1 and d2 are not orthogonal (they are parallel).
+STEP 4 (d) Difference vectors first, then lengths:
+q − d1 = (1 − 3, 2 − 4, 2 − 0) = (−2, −2, 2), d(q, d1) =
+√
+4 + 4 + 4 =
+√
+12 = 2
+√
+3 ≈ 3.46,
+q − d2 = (1 − 6, 2 − 8, 2 − 0) = (−5, −6, 2), d(q, d2) =
+√
+25 + 36 + 4 =
+√
+65 ≈ 8.06,
+q − d3 = (1 + 4, 2 − 3, 2 − 0) = (5, −1, 2), d(q, d3) =
+√
+25 + 1 + 4 =
+√
+30 ≈ 5.48.
+By distance the order is d1, then d3, then d2 — different from the cosine order, which putd2 joint
+first.
+STEP 5 (d) The cosine is the scale-invariant one. Replace d by cd with c > 0:
+q · (cd)
+∥q∥ ∥cd∥ = c (q · d)
+c ∥q∥ ∥d∥ = q · d
+∥q∥ ∥d∥,
+because the c in the numerator cancels the c in ∥cd∥ = c ∥d∥. The distance has no such
+cancellation: ∥q − cd∥ grows with c, which is exactly why d2 is far from q yet perfectly aligned
+with d1.
+Answer. (a) ∥q∥ = 3; 5, 10, 5; dot products 11, 22, 2. (b) 11
+15, 11
+15, 2
+15; d1 = d2 then d3. (c) d3 ⊥ d1
+and d3 ⊥ d2. (d) 2
+√
+3,
+√
+65,
+√
+30; order d1, d3, d2; the cosine is scale-invariant.
+Where marks are lost
+Ranking by the raw dot product and calling d2 twice as similar as d1 — the dot product mixes
+direction with length, which is precisely why it is divided by the two norms. Computing
+∥q∥ − ∥di∥ instead of ∥q − di∥ for the distance. Forgetting that a zero dot product means the
+cosine is 0, i.e. an angle of 90◦, not "opposite" (that would be a negative dot product).
+Answers at a glance
+(a) 3; 5, 10, 5; 11, 22, 2 (b) 11
+15, 11
+15, 2
+15 (c) d3 ⊥ d1, d3 ⊥ d2 (d) 2
+√
+3,
+√
+65,
+√
+30; cosine is
+scale-invariant
+Problem 18 · Orthogonal complement, angle and basis in R3
+On R3 with the standard (Euclidean) inner product, let u = (1, 1, 0)⊤ and v = (0, 1, 1)⊤.
+(a) Find all vectors w ∈ R3 orthogonal to both u and v, and write down the unit vectors of
+this form. [2]
+(b) Compute the angle ω between u and v. [1]
+(c) Show that {u, v, w} is a basis of R3, and explain geometrically why w is perpendicular to
+the plane spanned by u and v. [1]
+How to attempt this (the plan)
+What it tests: turning “orthogonal to” into dot-product equations, the cosine formula for
+angles, and the determinant test for a basis. Plan: (a) write w = (w1, w2, w3)⊤, set both
+dot products to zero, solve the 2 × 3 homogeneous system, then divide by the length. (b)
+31
+--- PAGE 32 ---
+MFML · ZC416 · Practice Set Topic 3 · Dot Product & Inner Products
+cos ω = u⊤v/(∥u∥ ∥v∥). (c) stack u, v, w as columns and check det ̸= 0; then argue that w is
+orthogonal to every combination of u and v.
+Worked solution
+STEP 1 (a) “Orthogonal to both” means two dot-product equations:
+w⊤u = w1 + w2 = 0, w⊤v = w2 + w3 = 0.
+STEP 2 (a) Solve: w1 = −w2 and w3 = −w2. With the free variable w2 = t,
+w = t (−1, 1,−1)⊤, t ∈ R.
+STEP 3 (a) Normalise.
+(−1, 1,−1)⊤ = √
+1 + 1 + 1 =
+√
+3, so the unit vectors are
+w = ± 1√
+3
+(−1, 1,−1)⊤.
+STEP 4 (b) Compute the pieces of the cosine formula:
+u⊤v = 0 + 1 + 0 = 1, ∥u∥ =
+√
+2, ∥v∥ =
+√
+2.
+cos ω = u⊤v
+∥u∥ ∥v∥ = 1√
+2 ·
+√
+2
+= 1
+2 =⇒ ω = 60◦.
+STEP 5 (c) Three vectors in R3 form a basis exactly when their determinant is nonzero. With
+w = (−1, 1,−1)⊤,
+det
+
+u v w
+
+= det
+
+
+1 0 −1
+1 1 1
+0 1 −1
+
+ = 1(−1 − 1) − 0 + (−1)(1 − 0) =−3 ̸= 0,
+so {u, v, w} is a basis.
+STEP 6 (c) Geometry: u and v span a plane. Any vector in that plane is αu + βv, and
+w⊤(αu + βv) =α w⊤u + β w⊤v = 0 + 0 = 0,
+so w is orthogonal to every vector in the plane: w is the normal direction of the plane.
+Answer. (a) w = t(−1, 1,−1)⊤, unit vectors ± 1√
+3 (−1, 1,−1)⊤. (b) ω = 60◦. (c) det[u v w ] =
+−3 ̸= 0, so a basis; w is the plane normal.
+Where marks are lost
+Giving only one vector w in (a) instead of the whole line t(−1, 1,−1)⊤, or forgetting the ± on
+the unit vectors. Dividing by
+√
+2 once instead of twice in (b) (the denominator is ∥u∥ ∥v∥ = 2).
+In (c), saying “three vectors so a basis” without checking the determinant.
+Answers at a glance
+(a) w = t(−1, 1,−1)⊤; unit: ± 1√
+3 (−1, 1,−1)⊤ (b) ω = 60◦ (c) det = −3 ̸= 0; w ⊥ plane of
+u, v.
+32
+--- PAGE 33 ---
+MFML · ZC416 · Practice Set Topic 3 · Dot Product & Inner Products
+Problem 19 · A weighted inner product on R2
+Let A =
+2 1
+1 2
+
+and define a new inner product on R2 by ⟨x, y⟩A = x⊤ Ay.
+(a) Show A is symmetric positive definite, so ⟨·, ·⟩A is a genuine inner product. [1]
+(b) The vectors x = (1, 0)⊤ and y = (0, 1)⊤ are orthogonal in the dot product. Are they still
+orthogonal under ⟨·, ·⟩A? Find the angle between them in this new inner product. [2]
+(c) Find a vector y′ = (a, 1)⊤ that is orthogonal to x with respect to ⟨·, ·⟩A. [1]
+How to attempt this (the plan)
+What it tests: Sylvester’s criterion for positive definiteness, and that orthogonality and angles
+depend on the inner product. Plan: (a) check A⊤ = A and the two leading minors. (b) compute
+x⊤ Ay; if nonzero, compute the A-norms and use the cosine formula. (c) set x⊤ Ay′ = 0 and solve
+for a.
+Worked solution
+STEP 1 (a) A is symmetric since A⊤ = A. Sylvester’s criterion (all leading principal minors
+positive):
+D1 = 2 > 0, D2 = det A = 2 · 2 − 1 · 1 = 3 > 0.
+So A is positive definite. A symmetric positive-definite matrix always makes x⊤ Ay a valid inner
+product: it is bilinear, symmetric, and x⊤ Ax > 0 for x ̸= 0.
+STEP 2 (b) Test orthogonality. First Ay = A(0, 1)⊤ = (1, 2)⊤, hence
+⟨x, y⟩A = x⊤(Ay) = (1, 0) · (1, 2) =1 ̸= 0.
+They are not orthogonal under ⟨·, ·⟩A.
+STEP 3 (b) For the angle we need the A-norms:
+∥x∥A =
+√
+x⊤ Ax =
+p
+A11 =
+√
+2, ∥y∥A =
+q
+y⊤ Ay =
+p
+A22 =
+√
+2.
+cos θ = ⟨x, y⟩A
+∥x∥A ∥y∥A
+= 1√
+2 ·
+√
+2
+= 1
+2 =⇒ θ = 60◦.
+Takeaway: orthogonality depends on which inner product you use.
+STEP 4 (c) We need ⟨x, y′⟩A = 0. Note x⊤ A = (1, 0)A = (2, 1), so
+
+x, y′
+A = (2, 1) · (a, 1) =2a + 1 = 0 =⇒ a = − 1
+2.
+Thus y′ = (− 1
+2, 1)⊤.
+Answer. (a) A⊤ = A, D1 = 2 > 0, D2 = 3 > 0: SPD. (b) ⟨x, y⟩A = 1 ̸= 0, not orthogonal;
+θ = 60◦. (c) y′ = (− 1
+2, 1)⊤.
+Where marks are lost
+Checking only det A > 0 in (a) and forgetting D1 > 0 (a negative-definite matrix also has
+positive determinant). Using the Euclidean norms ∥x∥ = ∥y∥ = 1 in (b) instead of the A-norms
+33
+--- PAGE 34 ---
+MFML · ZC416 · Practice Set Topic 3 · Dot Product & Inner Products
+√
+2. In (c), computing Ay′ and dotting with x is fine, but a sign slip in 2a + 1 = 0 gives a = +1
+2.
+Answers at a glance
+(a) SPD (D1 = 2, D2 = 3) (b) ⟨x, y⟩A = 1, θ = 60◦ (c) y′ = (− 1
+2, 1)⊤.
+Problem 20 · Projection in a weighted inner product
+On R3 use the weighted inner product ⟨x, y⟩A = x⊤ Ay with
+A =
+
+
+2 1 0
+1 2 0
+0 0 1
+
+ (SPD).
+Let a = (1, −1, 0)⊤ and b = (1, 0, 2)⊤.
+(a) Compute ⟨b, a⟩A, ∥a∥A, and ∥b∥A. [2]
+(b) Find the orthogonal projection p of b onto the line spanned by a, in this inner product. [2]
+(c) Verify that the residual b − p is A-orthogonal to a (this is what makes p the orthogonal
+projection). [1]
+How to attempt this (the plan)
+What it tests: computing with a weighted inner product and the one-dimensional projection
+formula with a general inner product. Plan: (a) compute Aa and Ab once, then every quantity is
+a dot product with one of them. (b) p = ⟨b, a⟩A
+⟨a, a⟩A
+a. (c) form r = b − p and check r⊤(Aa) =0.
+Worked solution
+STEP 1 (a) Compute the matrix–vector product once:
+Aa =
+
+
+2 1 0
+1 2 0
+0 0 1
+
+
+
+
+1
+−1
+0
+
+ =
+
+
+1
+−1
+0
+
+ .
+⟨b, a⟩A = b⊤(Aa) = (1, 0, 2) · (1, −1, 0) =1, ∥a∥2
+A = a⊤(Aa) = (1, −1, 0) · (1, −1, 0) =2.
+STEP 2 (a) For ∥b∥A use
+Ab =
+
+
+2 1 0
+1 2 0
+0 0 1
+
+
+
+
+1
+0
+2
+
+ =
+
+
+2
+1
+2
+
+ , ∥b∥2
+A = b⊤(Ab) = (1, 0, 2) · (2, 1, 2) =6.
+So ⟨b, a⟩A = 1, ∥a∥A =
+√
+2, ∥b∥A =
+√
+6.
+STEP 3 (b) Projection formula (same as usual, but every inner product is the A-one):
+p = ⟨b, a⟩A
+⟨a, a⟩A
+a = 1
+2 (1, −1, 0)⊤ =
+  1
+2, − 1
+2, 0
+⊤.
+STEP 4 (c) The residual is
+r = b − p = (1, 0, 2)⊤ −
+  1
+2, − 1
+2, 0
+⊤ =
+  1
+2, 1
+2, 2
+⊤.
+34
+--- PAGE 35 ---
+MFML · ZC416 · Practice Set Topic 3 · Dot Product & Inner Products
+STEP 5 (c) Check A-orthogonality using the same Aa = (1, −1, 0)⊤:
+⟨r, a⟩A = r⊤(Aa) =
+  1
+2, 1
+2, 2
+
+· (1, −1, 0) = 1
+2 − 1
+2 + 0 = 0. ✓
+Since r ⊥A a, p is indeed the orthogonal projection of b onto the line through a.
+Answer. (a) ⟨b, a⟩A = 1, ∥a∥A =
+√
+2, ∥b∥A =
+√
+6. (b) p = (1
+2, − 1
+2, 0)⊤. (c) r = (1
+2, 1
+2, 2)⊤,
+⟨r, a⟩A = 0.
+Where marks are lost
+Using the Euclidean formula p = b⊤a
+a⊤a a (here b⊤a = 1, a⊤a = 2 happen to agree, but the method
+is wrong and is marked down). Checking the residual with the ordinary dot productr⊤a instead
+of r⊤ Aa. Forgetting the square root when reporting ∥a∥A and ∥b∥A.
+Answers at a glance
+(a) 1,
+√
+2,
+√
+6 (b) p = (1
+2, − 1
+2, 0)⊤ (c) ⟨b − p, a⟩A = 0 ✓.
+35
+--- PAGE 36 ---
+MFML · ZC416 · Practice Set Topic 4 · Gram–Schmidt & Orthogonality
+Topic 4
+Orthogonality, Gram–Schmidt & Orthogonal
+Matrices
+Run Gram–Schmidt and normalise, verify orthonormality, project a vector onto a span using an
+orthonormal basis, and check that an orthogonal matrix preserves lengths, angles and inner products.
+Formulas you need for this topic
+• Gram–Schmidt: u1 = v1, and uk = vk − ∑i<k
+vk · ui
+ui · ui
+ui. Then ei = ui/ ∥ui∥.
+• Scaling any uk by a nonzero constant keeps the set orthogonal — do it to clear fractions, then normalise
+at the end.
+• With an orthonormal {qi}: projection onto their span is ∑i(b · qi) qi, and the residual is orthogonal to
+every qi.
+• Q orthogonal ⇐ ⇒Q⊤Q = I ⇐ ⇒Q−1 = Q⊤. Then ∥Qx∥ = ∥x∥, (Qx) · (Qy) = x · y, and
+det Q = ±1 (+1 rotation, −1 reflection).
+Problem 21 · Gram–Schmidt on three vectors, then verify
+Three direction vectors are
+v1 =
+
+
+1
+2
+2
+
+ , v2 =
+
+
+1
+0
+1
+
+ , v3 =
+
+
+0
+1
+1
+
+ .
+(a) Use the Gram–Schmidt process to build mutually orthogonal vectors u1, u2, u3. [1.5]
+(b) Normalise them to an orthonormal basis e1, e2, e3 of R3. [0.5]
+(c) Verify orthonormality: all three pairwise dot products and all three lengths. [1]
+How to attempt this (the plan)
+What it tests: the projection formula proju(v) = v · u
+u · u u applied in order, and the habit of
+checking. Plan: u1 = v1; u2 = v2 − proju1
+v2; u3 = v3 − proju1
+v3 − proju2
+v3; scale any uk to
+clear fractions (scaling keeps orthogonality); divide by lengths; check.
+Worked solution
+STEP 1 (a) u1 = v1 = (1, 2, 2)⊤, with u1 · u1 = 1 + 4 + 4 = 9.
+STEP 2 (a) Second vector. v2 · u1 = 1 + 0 + 2 = 3.
+u2 = v2 − 3
+9 u1 =
+
+
+1
+0
+1
+
+ − 1
+3
+
+
+1
+2
+2
+
+ =
+
+
+2/3
+−2/3
+1/3
+
+ .
+Scale by 3 (allowed — direction is all that matters): u2 = (2, −2, 1)⊤, u2 · u2 = 4 + 4 + 1 = 9.
+36
+--- PAGE 37 ---
+MFML · ZC416 · Practice Set Topic 4 · Gram–Schmidt & Orthogonality
+STEP 3 (a) Third vector. v3 · u1 = 0 + 2 + 2 = 4 and v3 · u2 = 0 − 2 + 1 = −1.
+u3 = v3 − 4
+9 u1 − −1
+9 u2 =
+
+
+0
+1
+1
+
+ − 4
+9
+
+
+1
+2
+2
+
+ + 1
+9
+
+
+2
+−2
+1
+
+ .
+Coordinate by coordinate:
+x : 0 − 4
+9 + 2
+9 = − 2
+9, y : 1 − 8
+9 − 2
+9 = − 1
+9, z : 1 − 8
+9 + 1
+9 = 2
+9.
+Scale by 9: u3 = (−2, −1, 2)⊤, u3 · u3 = 4 + 1 + 4 = 9.
+STEP 4 (b) All three have length
+√
+9 = 3:
+e1 = 1
+3 (1, 2, 2)⊤, e2 = 1
+3 (2, −2, 1)⊤, e3 = 1
+3 (−2, −1, 2)⊤.
+STEP 5 (c) Pairwise dot products (the factor 1
+9 multiplies each):
+e1 · e2 = 1
+9 (2 − 4 + 2) =0, e1 · e3 = 1
+9 (−2 − 2 + 4) =0, e2 · e3 = 1
+9 (−4 + 2 + 2) =0.
+Lengths: ∥ek∥2 = 1
+9 · 9 = 1 for each k. ✓
+Answer. (a) u1 = (1, 2, 2), u2 = (2, −2, 1), u3 = (−2, −1, 2). (b) ek = uk/3. (c) all dot
+products 0, all lengths 1.
+Where marks are lost
+Using v2 instead of u2 when projecting v3 (you must subtract projections onto thenew orthogonal
+vectors). Dividing by ∥u∥ instead of u · u = ∥u∥2 in the projection formula. Normalising too
+early and then carrying square roots through the subtraction.
+Answers at a glance
+(a) (1, 2, 2), (2, −2, 1), (−2, −1, 2) (b) each divided by 3 (c) 0, 0, 0 and 1, 1, 1
+Problem 22 · Gram–Schmidt in R4 and a projection onto a span
+Let
+v1 =
+
+
+1
+1
+1
+1
+
+ , v2 =
+
+
+2
+0
+2
+0
+
+ , v3 =
+
+
+0
+1
+1
+0
+
+ .
+(a) Apply Gram–Schmidt to {v1, v2, v3} to obtain an orthonormal set {q1, q2, q3}. [2]
+(b) Using ∑i(b · qi)qi, find the orthogonal projection of b = (1, 2, 3, 4)⊤ onto span{v1, v2, v3},
+and verify that the residual is orthogonal to q1. [1]
+How to attempt this (the plan)
+What it tests: Gram–Schmidt in the "normalise as you go" form, and projection onto a subspace
+as a sum of one-dimensional projections. Plan: normalise v1; subtract (v2 · q1)q1 and normalise;
+repeat with two subtractions for v3; then dot b with each qi and add up the pieces.
+37
+--- PAGE 38 ---
+MFML · ZC416 · Practice Set Topic 4 · Gram–Schmidt & Orthogonality
+Worked solution
+STEP 1 (a) ∥v1∥ =
+√
+4 = 2, so q1 = 1
+2 (1, 1, 1, 1)⊤.
+STEP 2 (a) v2 · q1 = 1
+2 (2 + 0 + 2 + 0) =2.
+u2 = v2 − 2q1 = (2, 0, 2, 0) − (1, 1, 1, 1) = (1, −1, 1,−1), ∥u2∥ = 2, q2 = 1
+2 (1, −1, 1,−1)⊤.
+STEP 3 (a) v3 · q1 = 1
+2 (0 + 1 + 1 + 0) =1 and v3 · q2 = 1
+2 (0 − 1 + 1 − 0) =0.
+u3 = v3 − 1 · q1 − 0 · q2 = (0, 1, 1, 0) − 1
+2 (1, 1, 1, 1) = 1
+2 (−1, 1, 1,−1), ∥u3∥ = 1
+2
+√
+4 = 1.
+So q3 = 1
+2 (−1, 1, 1,−1)⊤. (Quick check: q2 · q3 = 1
+4 (−1 − 1 + 1 + 1) =0. ✓)
+STEP 4 (b) Coefficients:
+b · q1 = 1
+2 (1 + 2 + 3 + 4) =5, b · q2 = 1
+2 (1 − 2 + 3 − 4) =−1, b · q3 = 1
+2 (−1 + 2 + 3 − 4) =0.
+proj(b) =5q1 − 1 · q2 + 0 · q3 = 5
+2 (1, 1, 1, 1) − 1
+2 (1, −1, 1,−1) = (2, 3, 2, 3)⊤.
+STEP 5 (b) Residual r = b − proj(b) = (1 − 2, 2 − 3, 3 − 2, 4 − 3) = (−1, −1, 1, 1), and
+r · q1 = 1
+2 (−1 − 1 + 1 + 1) =0. ✓
+Answer. (a) q1 = 1
+2 (1, 1, 1, 1), q2 = 1
+2 (1, −1, 1,−1), q3 = 1
+2 (−1, 1, 1,−1). (b) proj(b) =
+(2, 3, 2, 3), residual (−1, −1, 1, 1), orthogonal to q1.
+Where marks are lost
+Projecting onto the original vi instead of the orthonormal qi — the simple sum formula only
+works with an orthonormal set. Forgetting to normalise u2 before using it to build u3. Dividing
+by ∥u∥ instead of u · u when the projection is written in the unnormalised form.
+Answers at a glance
+(a) 1
+2 (1, 1, 1, 1), 1
+2 (1, −1, 1,−1), 1
+2 (−1, 1, 1,−1) (b) (2, 3, 2, 3), residual (−1, −1, 1, 1)
+Problem 23 · An orthogonal matrix: lengths, angles and the rotation it performs
+A transformation of 2-D feature vectors is given by
+Q = 1
+5
+3 −4
+4 3
+
+, x =
+4
+3
+
+, y =
+1
+2
+
+.
+(a) Verify Q⊤Q = I, and compute Qx and Qy. [1]
+(b) Verify ∥Qx∥ = ∥x∥ and ∥Qy∥ = ∥y∥. [0.5]
+(c) Compute cos of the angle between x and y, and between Qx and Qy; conclude. [1]
+(d) Find det Q and the angle θ by which Q rotates the plane; write down Q−1 without
+computing an inverse. [0.5]
+38
+--- PAGE 39 ---
+MFML · ZC416 · Practice Set Topic 4 · Gram–Schmidt & Orthogonality
+How to attempt this (the plan)
+What it tests: the definition Q⊤Q = I and its two consequences (lengths and angles are
+preserved), plus recognising a rotation matrix
+cos θ − sin θ
+sin θ cos θ
+
+. Plan: multiply Q⊤Q entry by
+entry; do the two matrix–vector products; compute dot products and norms before and after;
+read cos θ = 3
+5 from Q.
+Worked solution
+STEP 1 (a)
+Q⊤Q = 1
+25
+ 3 4
+−4 3
+ 3 −4
+4 3
+
+= 1
+25
+ 9 + 16 −12 + 12
+−12 + 12 16 + 9
+
+=
+1 0
+0 1
+
+= I. ✓
+Qx = 1
+5
+3 · 4 − 4 · 3
+4 · 4 + 3 · 3
+
+= 1
+5
+ 0
+25
+
+=
+0
+5
+
+, Qy = 1
+5
+3 − 8
+4 + 6
+
+= 1
+5
+−5
+10
+
+=
+−1
+2
+
+.
+STEP 2 (b)
+∥x∥ =
+√
+16 + 9 = 5 =
+√
+0 + 25 = ∥Qx∥ , ∥y∥ =
+√
+1 + 4 =
+√
+5 =
+√
+1 + 4 = ∥Qy∥ . ✓
+STEP 3 (c) Before: x⊤y = 4 + 6 = 10, so cos θ = 10
+5
+√
+5
+= 2√
+5
+. After: (Qx)⊤(Qy) =0 · (−1) +
+5 · 2 = 10, norms unchanged, so cos θ′ = 2√
+5
+as well. The angle is preserved (θ = θ′ ≈ 26.6◦).
+STEP 4 (d) det Q = 1
+25 (9 + 16) = 1, so Q is a rotation (not a reflection). Matching Q =cos θ − sin θ
+sin θ cos θ
+
+gives cos θ = 3
+5, sin θ = 4
+5, so θ = arctan 4
+3 ≈ 53.13◦ anticlockwise. For an
+orthogonal matrix Q−1 = Q⊤ = 1
+5
+ 3 4
+−4 3
+
+(rotation by −θ).
+Answer. (a) Q⊤Q = I; Qx = (0, 5), Qy = (−1, 2). (b) lengths 5 and
+√
+5 both preserved. (c)
+cos θ = 2/
+√
+5 before and after. (d) det Q = 1, θ ≈ 53.13◦, Q−1 = Q⊤.
+Where marks are lost
+Forgetting the 1
+5 (then Q⊤Q = 25I and nothing is preserved). Computing the angle only after
+the transformation and calling it "preserved". Confusing det = −1 (reflection) with det = 1
+(rotation).
+Answers at a glance
+(a) I; (0, 5), (−1, 2) (b) 5,
+√
+5 (c) 2/
+√
+5 both (d) 1; ≈ 53.13◦; Q⊤
+39
+--- PAGE 40 ---
+MFML · ZC416 · Practice Set Topic 5 · Eigenvalues & Eigenvectors
+Topic 5
+Eigenvalues & Eigenvectors
+Characteristic polynomial, eigenvalues with algebraic and geometric multiplicity, eigenvectors and
+eigenspace dimensions, eigenvalues in symbols, complex eigenvalues of a rotation, eigenvalues of
+p(A), and short proofs.
+Formulas you need for this topic
+• Eigenvalues from det (A − λI) =0; eigenvectors from (A − λI)x = 0.
+• Algebraic multiplicity = multiplicity as a root; geometric multiplicity = n − rank(A − λI) =dim of
+the eigenspace; always 1 ≤ gm ≤ am.
+• Diagonalizable ⇐ ⇒gm = am for every eigenvalue. Distinct eigenvalues ⇒ diagonalizable.
+• ∑ λi = tr A and ∏ λi = det A — use both as a check.
+• Spectral mapping: if Av = λv then p(A)v = p(λ)v; in particular Akv = λkv.
+• Triangular matrix: the eigenvalues are the diagonal entries.
+Problem 24 · Eigen-analysis of a 3 × 3 matrix
+Consider
+A =
+
+
+4 1 1
+1 4 1
+1 1 4
+
+ .
+(a) Find the characteristic polynomial and all eigenvalues with their algebraic multiplicities.
+(b) For every eigenvalue find a basis of its eigenspace and state the geometric multiplicity.
+(c) Hence decide, with reason, whether A is diagonalizable.
+How to attempt this (the plan)
+What it tests: the full eigen-workflow on a matrix with a repeated eigenvalue. Plan: expand
+det(A − λI) (row operations first); solve (A − λI)v = 0 for each root and count free variables;
+compare the two multiplicities.
+Worked solution
+STEP 1 (a) Note A = 3I + J with J the all-ones matrix. Subtract row 1 from rows 2 and 3 of
+A − λI and expand:
+det(A − λI) =−(λ − 6)(λ − 3)2.
+So λ = 6 has algebraic multiplicity 1 and λ = 3 has algebraic multiplicity 2.
+STEP 2 (b) λ = 6: (A − 6I)v = 0 reads
+−2x + y + z = 0, x − 2y + z = 0, x + y − 2z = 0,
+whose solution is x = y = z. Basis {(1, 1, 1)⊤}, geometric multiplicity 1.
+STEP 3 (b) λ = 3: every row of A − 3I is (1, 1, 1), so the system collapses to x + y + z = 0.
+40
+--- PAGE 41 ---
+MFML · ZC416 · Practice Set Topic 5 · Eigenvalues & Eigenvectors
+Two free variables:
+v =
+
+
+−1
+1
+0
+
+ ,
+
+
+−1
+0
+1
+
+ , geometric multiplicity 2.
+STEP 4 (c) For each eigenvalue gm = am (1 = 1 and 2 = 2), so the three eigenvectors form a
+basis of R3 and A is diagonalizable. ( A is symmetric, so the spectral theorem guarantees this
+anyway.)
+Answer. det(A − λI) =−(λ − 6)(λ − 3)2. λ = 6: am 1, eigenvector (1, 1, 1)⊤. λ = 3: am 2,
+eigenspace {x + y + z = 0} with basis (−1, 1, 0)⊤, (−1, 0, 1)⊤, gm 2. A is diagonalizable.
+Where marks are lost
+Giving only one eigenvector for λ = 3 and then wrongly concluding “not diagonalizable”.
+Sign slips when expanding the 3 × 3 determinant (check: tr A = 12 = 6 + 3 + 3). Writing the
+eigenspace as a single vector instead of a basis of two.
+Answers at a glance
+(a) −(λ − 6)(λ − 3)2; λ = 6 (am 1), λ = 3 (am 2) (b) (1, 1, 1)⊤; (−1, 1, 0)⊤, (−1, 0, 1)⊤; gm 1, 2
+(c) diagonalizable.
+Problem 25 · Parametric eigen-analysis
+Let a, b, c ∈ R with b ̸= 0 and consider the upper-triangular matrix
+A =
+a b
+0 c
+
+.
+(a) Find the eigenvalues and an eigenvector for each (in terms of a, b, c).
+(b) State, with justification, exactly when A is diagonalizable.
+How to attempt this (the plan)
+What it tests: eigen-analysis in symbols and the role of a repeated eigenvalue. Plan: eigenvalues
+are the diagonal entries; solve (A − λI)v = 0 for each; then split into the cases a ̸= c and a = c.
+Worked solution
+STEP 1 (a) Triangular, soλ1 = a, λ2 = c.
+STEP 2 (a) λ1 = a:
+A − aI =
+0 b
+0 c − a
+
+⇒ by = 0, (c − a)y = 0.
+Since b ̸= 0, y = 0 and x is free: v1 = (1, 0)⊤.
+41
+--- PAGE 42 ---
+MFML · ZC416 · Practice Set Topic 5 · Eigenvalues & Eigenvectors
+STEP 3 (a) λ2 = c (assume c ̸= a):
+A − cI =
+a − c b
+0 0
+
+⇒ (a − c)x + by = 0 ⇒ x = − b
+a − c y.
+Taking y = a − c: v2 = (−b, a − c)⊤.
+STEP 4 (b) Case a ̸= c: two distinct eigenvalues give two independent eigenvectors, so A is
+diagonalizable.
+STEP 5 (b) Case a = c: λ = a has algebraic multiplicity 2, but
+A − aI =
+0 b
+0 0
+
+has rank 1 (b ̸= 0),
+so the eigenspace is one-dimensional. Geometric multiplicity 1 < 2: not diagonalizable.
+Answer. λ1 = a, v1 = (1, 0)⊤; λ2 = c, v2 = (−b, a − c)⊤. A is diagonalizable ⇐ ⇒a ̸= c
+(when a = c and b ̸= 0 it is defective).
+Where marks are lost
+Dividing by a − c without noting it may be zero. Writing v2 = (b, a − c)⊤ (sign error). Claiming
+“always diagonalizable because triangular” — the case a = c is a Jordan block.
+Answers at a glance
+(a) a, (1, 0)⊤; c, (−b, a − c)⊤ (b) diagonalizable iff a ̸= c.
+Problem 26 · Is the 3 × 3 matrix diagonalizable?
+Decide whether
+A =
+
+
+2 1 0
+0 2 0
+0 0 3
+
+
+is diagonalizable. Justify using eigenvalues, algebraic and geometric multiplicities.
+How to attempt this (the plan)
+What it tests: the multiplicity test on a matrix with one repeated eigenvalue. Plan: read the
+eigenvalues off the diagonal; compute rank(A − 2I); compare gm with am for λ = 2.
+Worked solution
+STEP 1 λ A is upper-triangular, so λ = 2 (algebraic multiplicity 2) and λ = 3 (algebraic
+multiplicity 1).
+STEP 2 gm Eigenspace of the repeated eigenvalue:
+A − 2I =
+
+
+0 1 0
+0 0 0
+0 0 1
+
+ , rank = 2.
+42
+--- PAGE 43 ---
+MFML · ZC416 · Practice Set Topic 5 · Eigenvalues & Eigenvectors
+Null space has dimension 3 − 2 = 1: y = 0, z = 0, x free, so the eigenspace is span{(1, 0, 0)⊤}
+and gm = 1.
+STEP 3 test For λ = 2, gm = 1 < 2 = am. So A cannot have a basis of eigenvectors.
+Answer. A is not diagonalizable: for λ = 2, geometric multiplicity 1 < algebraic multiplicity
+2 (only one independent eigenvector (1, 0, 0)⊤). The block
+2 1
+0 2
+
+is a defective Jordan
+block.
+Where marks are lost
+Counting three eigenvalues (2, 2, 3) and calling that three eigenvectors. Miscounting rank(A −
+2I) as 1. Forgetting to state the comparison gm < am explicitly — that is the justification asked
+for.
+Answers at a glance
+λ = 2 (am 2, gm 1), λ = 3 (am 1, gm 1) not diagonalizable.
+Problem 27 · Powers without brute force: determinant and trace
+Consider
+A =
+
+
+2 −1 1
+1 0 3
+1 −1 4
+
+ , whose characteristic polynomial is (λ − 1)(λ − 2)(λ − 3).
+Without forming any matrix power explicitly, compute
+(a) det (A8),
+(b) tr (A6),
+(c) tr
+ 
+A6 − 7A2
+.
+How to attempt this (the plan)
+What it tests: det(Ak) = (det A)k and tr(Ak) = ∑ λk
+i . Plan: read the eigenvalues from the
+factored polynomial, then work only with the scalars 1, 2, 3.
+Worked solution
+STEP 1 λ Eigenvalues from the factored polynomial: λ1 = 1, λ2 = 2, λ3 = 3. Sanity check:
+tr A = 2 + 0 + 4 = 6 = 1 + 2 + 3 and det A = 1 · 2 · 3 = 6.
+STEP 2 (a) Ak has eigenvalues λk
+i , so det(Ak) = (det A)k:
+det(A8) = (det A)8 = 68 = 1 679 616.
+STEP 3 (b) Trace of a power:
+tr(A6) =∑
+i
+λ6
+i = 16 + 26 + 36 = 1 + 64 + 729 = 794.
+43
+--- PAGE 44 ---
+MFML · ZC416 · Practice Set Topic 5 · Eigenvalues & Eigenvectors
+STEP 4 (c) Trace is linear, and A2 has eigenvalues λ2
+i :
+tr
+ 
+A6 − 7A2
+= ∑
+i
+ 
+λ6
+i − 7λ2
+i
+
+= 794 − 7(1 + 4 + 9) =794 − 98 = 696.
+Answer. det(A8) =68 = 1 679 616; tr(A6) =794; tr (A6 − 7A2) =696.
+Where marks are lost
+Writingtr(A6) = (tr A)6 — trace does not behave like that; only the determinant is multiplicative.
+Forgetting the 7 multiplies the whole sum ∑ λ2
+i . Multiplying out A6 by hand, which the question
+forbids and which wastes time.
+Answers at a glance
+(a) 1 679 616 (b) 794 (c) 696.
+Problem 28 · Eigenvalues of a matrix polynomial p(A)
+Let A be a 3 × 3 matrix whose eigenvalues are 1, 2, 4, and define
+B = A2 − 5A + 6I.
+(a) Show that if λ is an eigenvalue of A (with eigenvector v), then λ2 − 5λ + 6 is an eigenvalue
+of B (with the same eigenvector).
+(b) Hence find the eigenvalues of B, then det(B) and tr(B), and state whether B is invertible.
+(c) For which eigenvalues of A would B fail to be invertible?
+How to attempt this (the plan)
+What it tests: the spectral mapping λ 7→ p(λ). Plan: apply B to v and pull out scalars; evaluate
+p at 1, 2, 4; multiply/add for det and tr; find the roots of p for part (c).
+Worked solution
+STEP 1 (a) Suppose Av = λv. Then A2v = A(λv) =λ2v, so
+Bv = (A2 − 5A + 6I)v = λ2v − 5λv + 6v = (λ2 − 5λ + 6) v.
+Thus v is still an eigenvector, now with eigenvalue p(λ) =λ2 − 5λ + 6.
+STEP 2 (b) Apply p to each eigenvalue of A:
+p(1) =1 − 5 + 6 = 2, p(2) =4 − 10 + 6 = 0, p(4) =16 − 20 + 6 = 2.
+So B has eigenvalues {2, 0, 2}.
+STEP 3 (b) Hence
+det(B) =2 · 0 · 2 = 0, tr (B) =2 + 0 + 2 = 4.
+Because 0 is an eigenvalue, B is not invertible — even though A is (none of its eigenvalues is 0).
+44
+--- PAGE 45 ---
+MFML · ZC416 · Practice Set Topic 5 · Eigenvalues & Eigenvectors
+STEP 4 (c) B is singular exactly when p(λ) =0 for some eigenvalue λ of A. Since p(λ) =
+(λ − 2)(λ − 3), this happens iff A has 2 or 3 as an eigenvalue. Here λ = 2 occurs, which is why
+B is singular.
+STEP 5 note Remark (Cayley–Hamilton). If instead A =
+4 5
+0 1
+
+, with eigenvalues 1, 4 and
+characteristic polynomial λ2 − 5λ + 4, then A2 − 5A + 4I = 0 and so A2 − 5A + 6I = 2I: p(A)
+collapses to a multiple of I.
+Answer. p(λ) =λ2 − 5λ + 6 maps each eigenvalue; eigenvalues of B are 2, 0, 2. det B = 0,
+tr B = 4, so B is not invertible. B is singular iff A has eigenvalue 2 or 3 (the roots of p).
+Where marks are lost
+Forgetting the 6I term when applying B to v (it contributes 6v, not 6). Concluding “ A invertible,
+so B invertible”. In (c), answering only “λ = 2” and missing the second root λ = 3.
+Answers at a glance
+(a) Bv = p(λ)v (b) 2, 0, 2; detB = 0, tr B = 4, singular (c) λ = 2 or 3.
+Problem 29 · AB and BA share their eigenvalues
+Let A, B ∈ Rn×n.
+(a) Prove: if λ ̸= 0 is an eigenvalue of AB with eigenvector v, then λ is an eigenvalue of BA,
+and give its eigenvector. [1.5]
+(b) Prove that if 0 is an eigenvalue of AB then 0 is an eigenvalue of BA. [0.5]
+(c) Verify both statements numerically for A =
+1 2
+0 1
+
+, B =
+1 0
+2 1
+
+: compute AB, BA, both
+characteristic polynomials and the eigenvalues. [1]
+How to attempt this (the plan)
+What it tests: a two-line eigenvector argument (multiply the eigen-equation by B) and the
+determinant route for λ = 0. Plan: start from ABv = λv, apply B, group as (BA)(Bv); explain
+why Bv ̸= 0; for (b) use det(BA) =det(AB); then compute in (c).
+Worked solution
+STEP 1 (a) Suppose ABv = λv with v ̸= 0, λ ̸= 0. Multiply on the left by B:
+B(ABv) =λBv =⇒ (BA)(Bv) =λ (Bv).
+STEP 2 (a) The vector w = Bv is nonzero: if Bv = 0 then ABv = 0 = λv, forcing λ = 0 (since
+v ̸= 0), a contradiction. Hence w = Bv is an eigenvector of BA with eigenvalue λ.
+STEP 3 (b) 0 is an eigenvalue of AB ⇐ ⇒det(AB) = 0. But det(BA) = det B det A =
+det A det B = det(AB) =0, so 0 is an eigenvalue of BA too.
+STEP 4 (c)
+AB =
+1 2
+0 1
+ 1 0
+2 1
+
+=
+1 + 4 0 + 2
+0 + 2 0 + 1
+
+=
+5 2
+2 1
+
+, BA =
+1 0
+2 1
+ 1 2
+0 1
+
+=
+1 2
+2 4 + 1
+
+=
+1 2
+2 5
+
+.
+45
+--- PAGE 46 ---
+MFML · ZC416 · Practice Set Topic 5 · Eigenvalues & Eigenvectors
+det(AB − λI) = (5 − λ)(1 − λ) − 4 = λ2 − 6λ + 1,
+det(BA − λI) = (1 − λ)(5 − λ) − 4 = λ2 − 6λ + 1.
+Same polynomial, so the same eigenvalues:
+λ = 6 ± √
+36 − 4
+2 = 3 ± 2
+√
+2.
+Consistency check: tr(AB) =tr(BA) =6 and det(AB) =det(BA) =1. ✓
+Answer. (a) BA(Bv) =λ(Bv) with Bv ̸= 0. (b) det(BA) =det(AB) =0. (c) AB =
+5 2
+2 1
+
+,
+BA =
+1 2
+2 5
+
+, both with λ2 − 6λ + 1, eigenvalues 3 ± 2
+√
+2.
+Where marks are lost
+Forgetting to show Bv ̸= 0 (an eigenvector must be nonzero — that is where λ ̸= 0 is used).
+Claiming AB = BA — they differ here, only the eigenvalues agree. Expanding the characteristic
+polynomial with a sign slip in the −4.
+Answers at a glance
+(a) eigenvector Bv (b) via det(AB) =det(BA) (c) λ2 − 6λ + 1, λ = 3 ± 2
+√
+2 for both
+Problem 30 · Eigenvalues and eigenvectors of a rotation
+Let A(θ) =
+cos θ − sin θ
+sin θ cos θ
+
+.
+(a) For θ = 60◦, find all eigenvalues of A(θ). [1]
+(b) Find the corresponding eigenvectors. [1.5]
+(c) Use the eigenvalues to show A(60◦)6 = I. For θ = 180◦, state the eigenvalues and the
+eigenspace(s). [0.5]
+How to attempt this (the plan)
+What it tests: a real matrix with complex eigenvalues (a rotation moves every real vector, so
+no real eigenvector exists), solving (A − λI)x = 0 with complex entries, and λ6 from the polar
+form. Plan: write A(60◦) with cos = 1
+2, sin =
+√
+3
+2 ; characteristic equation λ2 − 2 cos θ λ + 1 = 0;
+solve; take one row of (A − λI) for each eigenvector; write λ = e±iπ/3.
+Worked solution
+STEP 1 (a) A = A(60◦) =
+"
+1
+2 −
+√
+3
+2√
+3
+2
+1
+2
+#
+.
+det(A − λI) = (1
+2 − λ)2 + 3
+4 = λ2 − λ + 1 = 0.
+λ = 1 ± √
+1 − 4
+2 = 1 ± i
+√
+3
+2 .
+46
+--- PAGE 47 ---
+MFML · ZC416 · Practice Set Topic 5 · Eigenvalues & Eigenvectors
+In polar form λ1,2 = cos 60◦ ± i sin 60◦ = e±iπ/3; both have modulus 1.
+STEP 2 (b) For λ1 = 1+i
+√
+3
+2 : A − λ1 I =
+"
+− i
+√
+3
+2 −
+√
+3
+2√
+3
+2 − i
+√
+3
+2
+#
+. Row 1 gives
+− i
+√
+3
+2 x1 −
+√
+3
+2 x2 = 0 =⇒ x2 = −i x1, x(1) = α
+ 1
+−i
+
+, α ̸= 0.
+Check with A directly: A
+ 1
+−i
+
+=
+"
+1
+2 + i
+√
+3
+2√
+3
+2 − i
+2
+#
+and λ1
+ 1
+−i
+
+=
+" 1+i
+√
+3
+2
+−i+
+√
+3
+2
+#
+. ✓
+STEP 3 (b) For λ2 = λ1 take the conjugate eigenvector:
+x(2) = β
+1
+i
+
+, β ̸= 0.
+(Row 1 of A − λ2 I: i
+√
+3
+2 x1 −
+√
+3
+2 x2 = 0 ⇒ x2 = ix1.)
+STEP 4 (c) λ6 = (e±iπ/3)6 = e±2πi = 1 for both eigenvalues. A is diagonalizable over C (two
+distinct eigenvalues), A = PDP −1, so A6 = PD6P−1 = PIP −1 = I. (Geometrically: six rotations
+by 60◦ make a full turn.)
+For θ = 180◦: A =
+−1 0
+0 −1
+
+= −I, so λ = −1 with algebraic multiplicity 2; every nonzero
+vector is an eigenvector, and the eigenspace is all of R2 (dimension 2).
+Answer. (a) λ = 1±i
+√
+3
+2 = e±iπ/3. (b) α(1, −i)⊤ for λ1, β(1, i)⊤ for λ2. (c) λ6 = 1 ⇒ A6 = I;
+at 180◦: λ = −1 (twice), eigenspace R2.
+Where marks are lost
+Stopping at "no real eigenvalues" — the exam wants the complex ones. Dropping the + 3
+4 when
+expanding ( 1
+2 − λ)2 + 3
+4. Pairing the wrong eigenvector with the wrong eigenvalue (always
+check one product Ax = λx).
+Answers at a glance
+(a) 1±i
+√
+3
+2 (b) (1, −i) and (1, i) (c) A6 = I; θ = 180◦: λ = −1, −1, eigenspace R2
+47
+--- PAGE 48 ---
+MFML · ZC416 · Practice Set Topic 6 · Eigen Decomposition
+Topic 6
+Eigen Decomposition (Diagonalization)
+Compute P and D with A = PDP −1, and for a symmetric matrix an orthogonal P with A = PDP ⊤,
+including repeated and zero eigenvalues; then use the decomposition for matrix powers.
+Formulas you need for this topic
+• A = PDP −1 with the eigenvectors as the columns of P, in the same order as the eigenvalues in
+D = diag(λ1, . . . ,λn).
+• Symmetric A: eigenvectors for different eigenvalues are automatically orthogonal, so P can be taken
+orthogonal and A = PDP ⊤ = ∑i λi pip⊤
+i .
+• A repeated eigenvalue needs as many independent eigenvectors as its multiplicity; for an orthogonal
+P, choose them orthogonal to each other.
+• An = PD nP−1 with Dn = diag(λn
+1, . . . ,λn
+n).
+Problem 31 · Eigendecomposition A = PDP −1
+Find an eigendecomposition A = PDP −1 of the non-symmetric matrix
+A =
+5 −1
+2 2
+
+,
+giving P, D, P−1 explicitly, and verify the factorization.
+How to attempt this (the plan)
+What it tests: building P and D from eigenpairs and inverting a 2 × 2. Plan: characteristic
+polynomial; one eigenvector per root; stack as columns of P; invert with the adjugate formula;
+multiply back.
+Worked solution
+STEP 1 λ Eigenvalues:
+det(A − λI) = (5 − λ)(2 − λ) +2 = λ2 − 7λ + 12 = (λ − 3)(λ − 4),
+so λ1 = 3, λ2 = 4.
+STEP 2 v Eigenvectors.
+λ1 = 3 : A − 3I =
+2 −1
+2 −1
+
+⇒ 2x = y, p1 = (1, 2)⊤.
+λ2 = 4 : A − 4I =
+1 −1
+2 −2
+
+⇒ x = y, p2 = (1, 1)⊤.
+STEP 3 P, D Assemble:
+P =
+1 1
+2 1
+
+, D =
+3 0
+0 4
+
+, det P = −1, P−1 =
+−1 1
+2 −1
+
+.
+48
+--- PAGE 49 ---
+MFML · ZC416 · Practice Set Topic 6 · Eigen Decomposition
+STEP 4 check Verify:
+PD =
+3 4
+6 4
+
+,
+PDP −1 =
+3 4
+6 4
+ −1 1
+2 −1
+
+=
+5 −1
+2 2
+
+= A. ✓
+Answer. A = PDP −1 with P =
+1 1
+2 1
+
+, D =
+3 0
+0 4
+
+, P−1 =
+−1 1
+2 −1
+
+.
+Where marks are lost
+Putting the eigenvalues in D in an order that does not match the columns of P. Forgetting the
+1/ det P factor (here −1) in P−1. Using P⊤ instead of P−1 — A is not symmetric, so P is not
+orthogonal.
+Answers at a glance
+λ = 3, 4 P =
+1 1
+2 1
+
+, D = diag(3, 4), P−1 =
+−1 1
+2 −1
+
+.
+Problem 32 · Eigendecomposition of a rank-deficient symmetric matrix, and a matrix power
+Consider the data matrix
+A =
+
+
+1 2 0
+2 4 0
+0 0 5
+
+ .
+(a) Compute P and D with A = PDP −1, choosing P orthogonal (so P−1 = P⊤). [2.5]
+(b) State rank A from the eigenvalues. [0.5]
+(c) Show that An = 5 n−1 A for every n ≥ 1, and hence write A10. [1]
+How to attempt this (the plan)
+What it tests: the characteristic polynomial of a block matrix, a repeated eigenvalue whose
+eigenspace is 2-dimensional (so the matrix is still diagonalizable), orthonormal eigenvectors
+for a symmetric matrix, and using Dn. Plan: expand det(A − λI) along the third row; solve the
+2 × 2 block; find one eigenvector per eigenvalue, normalise; for the repeated eigenvalue pick
+two orthogonal ones; then An = PD nP⊤.
+Worked solution
+STEP 1 (a) Characteristic polynomial (expand along row 3):
+det(A − λI) = (5 − λ) det
+1 − λ 2
+2 4 − λ
+
+= (5 − λ)
+
+(1 − λ)(4 − λ) − 4
+
+.
+(1 − λ)(4 − λ) − 4 = λ2 − 5λ = λ(λ − 5).
+det(A − λI) =−(λ − 5)2λ = 0 =⇒ λ = 0, 5, 5.
+49
+--- PAGE 50 ---
+MFML · ZC416 · Practice Set Topic 6 · Eigen Decomposition
+STEP 2 (a) λ = 0: solve Ax = 0: rows give x1 + 2x2 = 0 and 5x3 = 0, so x = t(2, −1, 0)⊤.
+p1 = 1√
+5 (2, −1, 0)⊤.
+STEP 3 (a) λ = 5: A − 5I =
+
+
+−4 2 0
+2 −1 0
+0 0 0
+
+. Only one independent equation, −4x1 + 2x2 =
+0 ⇒ x2 = 2x1; x3 is free. Eigenspace = {(s, 2s, t)}, dimension 2. Two orthogonal choices:
+(1, 2, 0)⊤ and (0, 0, 1)⊤ (dot product 0).
+p2 = 1√
+5 (1, 2, 0)⊤, p3 = (0, 0, 1)⊤.
+Note p1 · p2 = 1
+5 (2 − 2 + 0) =0 — eigenvectors of a symmetric matrix for different eigenvalues
+are automatically orthogonal.
+STEP 4 (a)
+P =
+
+
+2√
+5
+1√
+5 0
+− 1√
+5
+2√
+5 0
+0 0 1
+
+ , D = diag(0, 5, 5), A = PDP ⊤.
+Spot check: PDP ⊤ = 5p2p⊤
+2 + 5p3p⊤
+3 =
+
+
+1 2 0
+2 4 0
+0 0 0
+
+ +
+
+
+0 0 0
+0 0 0
+0 0 5
+
+ = A. ✓
+STEP 5 (b) Two nonzero eigenvalues ⇒ rank A = 2 (the eigenvalue 0 has a 1-dimensional
+eigenspace = null space).
+STEP 6 (c) An = PD nP⊤ with Dn = diag(0, 5n, 5n) =5 n−1 diag(0, 5, 5) =5 n−1D. Hence
+An = P (5 n−1D) P⊤ = 5 n−1PDP ⊤ = 5 n−1 A.
+A10 = 59 A = 1 953 125
+
+
+1 2 0
+2 4 0
+0 0 5
+
+ .
+Check n = 2 directly: A2 =
+
+
+1 + 4 2 + 8 0
+2 + 8 4 + 16 0
+0 0 25
+
+ =
+
+
+5 10 0
+10 20 0
+0 0 25
+
+ = 5A. ✓
+Answer. (a) λ = 0, 5, 5; P =
+ (2,−1,0)√
+5
+(1,2,0)√
+5 (0, 0, 1)
+
+, D = diag(0, 5, 5). (b) rank A = 2. (c)
+An = 5n−1 A, A10 = 59 A.
+Where marks are lost
+Giving only one eigenvector for λ = 5 (the eigenspace is 2-dimensional — you need two, and
+for an orthogonal P they must be orthogonal to each other). Listing eigenvectors in an order
+that does not match the diagonal of D. Normalising (0, 0, 1) "by
+√
+5" out of habit.
+Answers at a glance
+(a) λ = 0, 5, 5;p1 = (2,−1,0)√
+5 , p2 = (1,2,0)√
+5 , p3 = (0, 0, 1) (b) 2 (c) A10 = 59 A
+50
+--- PAGE 51 ---
+MFML · ZC416 · Practice Set Topic 7 · SVD & Singular Values
+Topic 7
+SVD & Singular Values
+Eigenvalues of AA ⊤ or A⊤ A to singular values to rank and norms, the full decompositionA = UΣV⊤
+of a small matrix, the link v1 = 1
+σ1
+A⊤u1, and how the SVD relates to the eigendecomposition.
+Formulas you need for this topic
+• σi =
+p
+λi(A⊤ A) =
+p
+λi(AA ⊤) — use whichever of the two is the smaller matrix.
+• rank A = number of nonzero singular values; ∥A∥2 = σ1; ∥A∥2
+F = ∑i σ2
+i = ∑i,j a2
+ij.
+• Avi = σiui, hence ui = 1
+σi
+Avi and vi = 1
+σi
+A⊤ui.
+• A = UΣV⊤ with U (m × m) and V (n × n) orthogonal; extra columns of U or V come from orthogonal
+completion of a basis.
+• Eigenvalues can be negative, singular values never; for a symmetric A, σi = |λi|.
+Problem 33 · Full SVD of a 3 × 2 matrix
+Find a full singular value decomposition A = UΣV⊤ of
+A =
+
+
+1 1
+1 0
+0 1
+
+ ,
+including the third column of U obtained by orthogonal completion.
+How to attempt this (the plan)
+What it tests: the standard SVD recipe for a tall matrix. Plan: form A⊤ A (2 × 2); its eigenvalues
+give σi and eigenvectors give vi; then ui = Avi/σi; complete U with a unit vector orthogonal to
+u1, u2; assemble Σ as 3 × 2.
+Worked solution
+STEP 1 σ, V A⊤ A, singular values, right singular vectors:
+A⊤ A =
+1 1 0
+1 0 1
+ 
+
+1 1
+1 0
+0 1
+
+ =
+2 1
+1 2
+
+.
+det
+2 − λ 1
+1 2 − λ
+
+= (2 − λ)2 − 1 = 0 ⇒ λ = 3, 1, σ1 =
+√
+3, σ2 = 1.
+v1 = 1√
+2 (1, 1)⊤ (λ = 3), v2 = 1√
+2 (1, −1)⊤ (λ = 1).
+STEP 2 u1, u2 Left singular vectors ui = 1
+σi
+Avi:
+u1 = 1√
+3
+A 1√
+2
+1
+1
+
+= 1√
+6
+
+
+2
+1
+1
+
+ , u2 = 1
+1 A 1√
+2
+ 1
+−1
+
+= 1√
+2
+
+
+0
+1
+−1
+
+ .
+51
+--- PAGE 52 ---
+MFML · ZC416 · Practice Set Topic 7 · SVD & Singular Values
+STEP 3 u3 Orthogonal completion u3 = (p, q, r)⊤ with u3 ⊥ u1, u2: from u2, q − r = 0 ⇒ q =
+r; from u1, 2p + q + r = 0 ⇒ p = −q. So
+u3 = 1√
+3 (−1, 1, 1)⊤.
+STEP 4 UΣV⊤ Assemble:
+U =
+
+
+2√
+6 0 − 1√
+3
+1√
+6
+1√
+2
+1√
+3
+1√
+6 − 1√
+2
+1√
+3
+
+ , Σ =
+
+
+√
+3 0
+0 1
+0 0
+
+ , V⊤ = 1√
+2
+1 1
+1 −1
+
+.
+Answer. σ1 =
+√
+3, σ2 = 1; v1 = 1√
+2 (1, 1)⊤, v2 = 1√
+2 (1, −1)⊤; u1 = 1√
+6 (2, 1, 1)⊤, u2 =
+1√
+2 (0, 1,−1)⊤, u3 = 1√
+3 (−1, 1, 1)⊤; Σ =
+
+
+√
+3 0
+0 1
+0 0
+
+.
+Where marks are lost
+Writing σi = λi instead of √λi. Forgetting to divide Avi by σi (then u1 is not a unit vector).
+Making Σ square 2 × 2 — for a full SVD it must be 3 × 2 with a zero row. Leaving u3 un-
+normalised.
+Answers at a glance
+σ =
+√
+3, 1 V = 1√
+2
+1 1
+1 −1
+
+u1 = 1√
+6 (2, 1, 1), u2 = 1√
+2 (0, 1,−1), u3 = 1√
+3 (−1, 1, 1).
+Problem 34 · Full SVD of a 2 × 3 matrix
+Find the SVD of
+A =
+1 1 0
+0 1 1
+
+.
+(Hint: it is quicker to get U and the singular values from the 2 × 2 matrix AA ⊤, then recover V
+from vi = 1
+σi
+A⊤ui; the missing right vector spans ker(A⊤ A).)
+How to attempt this (the plan)
+What it tests: the SVD of a wide matrix, using the smaller Gram matrix. Plan: form AA ⊤;
+eigenpairs give σi and ui; vi = A⊤ui/σi; the third v spans ker A; Σ is 2 × 3.
+Worked solution
+STEP 1 σ, U AA ⊤, singular values, left singular vectors:
+AA ⊤ =
+1 1 0
+0 1 1
+ 
+
+1 0
+1 1
+0 1
+
+ =
+2 1
+1 2
+
+⇒ λ = 3, 1, σ1 =
+√
+3, σ2 = 1.
+52
+--- PAGE 53 ---
+MFML · ZC416 · Practice Set Topic 7 · SVD & Singular Values
+u1 = 1√
+2 (1, 1)⊤ (λ = 3), u2 = 1√
+2 (1, −1)⊤ (λ = 1).
+STEP 2 v1, v2 Right singular vectors vi = 1
+σi
+A⊤ui:
+v1 = 1√
+3
+A⊤ 1√
+2
+1
+1
+
+= 1√
+6
+
+
+1
+2
+1
+
+ , v2 = 1
+1 A⊤ 1√
+2
+ 1
+−1
+
+= 1√
+2
+
+
+1
+0
+−1
+
+ .
+STEP 3 v3 Third right vector from the null space. A is 2 × 3, so V needs a third column v3
+with singular value 0, spanning ker A (= ker A⊤ A). Solving Av = 0: x + y = 0, y + z = 0 gives
+v3 = 1√
+3 (1, −1, 1)⊤.
+STEP 4 UΣV⊤ Assemble:
+U = 1√
+2
+1 1
+1 −1
+
+, Σ =
+√
+3 0 0
+0 1 0
+
+, V =
+
+
+1√
+6
+1√
+2
+1√
+3
+2√
+6 0 − 1√
+3
+1√
+6 − 1√
+2
+1√
+3
+
+ .
+The single zero column of Σ reflects that A has rank 2 but 3 columns.
+Answer. σ1 =
+√
+3, σ2 = 1; U = 1√
+2
+1 1
+1 −1
+
+, Σ =
+√
+3 0 0
+0 1 0
+
+, v1 = 1√
+6 (1, 2, 1)⊤, v2 =
+1√
+2 (1, 0,−1)⊤, v3 = 1√
+3 (1, −1, 1)⊤.
+Where marks are lost
+Computing the 3 × 3 matrix A⊤ A and then struggling with a cubic — use the hint. Forgetting
+v3 altogether, leaving V as 3 × 2 (then V is not orthogonal). Sign of v3: any unit vector in ker A
+is fine, but it must satisfy Av3 = 0.
+Answers at a glance
+σ =
+√
+3, 1 U = 1√
+2
+1 1
+1 −1
+
+v1 = 1√
+6 (1, 2, 1), v2 = 1√
+2 (1, 0,−1), v3 = 1√
+3 (1, −1, 1).
+Problem 35 · Capstone: eigendecomposition vs. SVD of one matrix
+For A =
+1 2
+2 1
+
+:
+(a) find its eigendecomposition (note the negative eigenvalue);
+(b) find its SVD;
+(c) explain precisely how the two are related.
+How to attempt this (the plan)
+What it tests: how EVD and SVD relate for a symmetric matrix with a negative eigenvalue.Plan:
+EVD via the quadratic and orthonormal eigenvectors; SVD via A⊤ A, computing ui = Avi/σi
+53
+--- PAGE 54 ---
+MFML · ZC416 · Practice Set Topic 7 · SVD & Singular Values
+and watching the sign; then state σi = |λi| and ui = ±vi.
+Worked solution
+STEP 1 (a) Eigendecomposition:
+det(A − λI) = (1 − λ)2 − 4 = (λ − 3)(λ + 1) ⇒ λ1 = 3, λ2 = −1.
+Orthonormal eigenvectors q1 = 1√
+2 (1, 1)⊤ (for 3) and q2 = 1√
+2 (1, −1)⊤ (for −1). With Q =
+1√
+2
+1 1
+1 −1
+
+,
+A = Q
+3 0
+0 −1
+
+Q⊤.
+STEP 2 (b) SVD. A⊤ A =
+5 4
+4 5
+
+has eigenvalues 9 and 1, so σ1 = 3, σ2 = 1 — note σi = |λi|.
+The right singular vectors are the same eigenvectors v1 = 1√
+2 (1, 1)⊤, v2 = 1√
+2 (1, −1)⊤, and
+u1 = 1
+3 Av1 = 1√
+2
+1
+1
+
+= v1, u2 = 1
+1 Av2 = 1√
+2
+−1
+1
+
+= −v2.
+U = 1√
+2
+1 −1
+1 1
+
+, Σ =
+3 0
+0 1
+
+, V = 1√
+2
+1 1
+1 −1
+
+.
+STEP 3 (c) For a symmetric matrix the singular values are the absolute values of the eigen-
+values, σi = |λi|, and the right singular vectors are the eigenvectors. Where an eigenvalue is
+positive, ui = vi; where it is negative (here λ2 = −1) the minus sign is absorbed into the left
+vector, ui = −vi. Thus EVD and SVD coincide exactly when every eigenvalue is non-negative (a
+positive-semidefinite matrix); otherwise they differ only by these sign flips between U and V.
+Answer. EVD: A = Q diag(3, −1) Q⊤, Q = 1√
+2
+1 1
+1 −1
+
+. SVD: Σ = diag(3, 1) =diag(|λi|),
+V = Q, U = 1√
+2
+1 −1
+1 1
+
+(the negative eigenvalue flips the sign of u2 relative to v2).
+Where marks are lost
+Writing Σ = diag(3, −1) — singular values are never negative. Setting U = V without comput-
+ing u2 = Av2/σ2, which misses the sign flip. Claiming “EVD = SVD for every symmetric matrix”
+— only for positive-semidefinite ones.
+Answers at a glance
+(a) λ = 3, −1, Q = 1√
+2
+1 1
+1 −1
+
+(b) σ = 3, 1, V = Q, U = 1√
+2
+1 −1
+1 1
+
+(c) σi = |λi|,
+ui = sign(λi)vi.
+54
+--- PAGE 55 ---
+MFML · ZC416 · Practice Set Topic 7 · SVD & Singular Values
+Problem 36 · Singular values, rank, norms and the first singular vectors of a 2 × 3 matrix
+Let
+A =
+1 1 2
+1 1 −2
+
+.
+(a) Compute AA ⊤ and its eigenvalues; hence the singular values of A. [1.5]
+(b) State rank A, the spectral norm ∥A∥2, and the Frobenius norm ∥A∥F; check ∥A∥2
+F =
+σ2
+1 + σ2
+2 . [1]
+(c) Find the first left singular vector u1 and, using v1 = 1
+σ1
+A⊤u1, the first right singular vector
+v1. [1]
+How to attempt this (the plan)
+What it tests: σi =
+p
+λi(AA ⊤), rank = number of nonzero singular values, ∥A∥2 = σ1, ∥A∥2
+F =
+∑ σ2
+i = ∑ a2
+ij, and the link A⊤u1 = σ1v1. Plan: the small matrix AA ⊤ is 2 × 2 — use it; eigenvector
+for the largest eigenvalue; multiply by A⊤; divide by σ1.
+Worked solution
+STEP 1 (a)
+AA ⊤ =
+1 1 2
+1 1 −2
+ 
+
+1 1
+1 1
+2 −2
+
+ =
+1 + 1 + 4 1 + 1 − 4
+1 + 1 − 4 1 + 1 + 4
+
+=
+ 6 −2
+−2 6
+
+.
+det(AA ⊤ − λI) = (6 − λ)2 − 4 = 0 =⇒ 6 − λ = ±2 =⇒ λ = 8, 4.
+σ1 =
+√
+8 = 2
+√
+2, σ2 =
+√
+4 = 2.
+(A⊤ A is 3 × 3 with eigenvalues 8, 4, 0; the extra 0 is not a singular value of a 2 × 3 matrix of rank
+2.)
+STEP 2 (b) Two nonzero singular values ⇒ rank A = 2.
+∥A∥2 = σ1 = 2
+√
+2 ≈ 2.83, ∥A∥F =
+√
+1 + 1 + 4 + 1 + 1 + 4 =
+√
+12 = 2
+√
+3.
+σ2
+1 + σ2
+2 = 8 + 4 = 12 = ∥A∥2
+F . ✓
+STEP 3 (c) Eigenvector of AA ⊤ for λ = 8: (AA ⊤ − 8I)u =
+−2 −2
+−2 −2
+
+u = 0 ⇒ u1 = −u2.
+u1 = 1√
+2 (1, −1)⊤.
+A⊤u1 = 1√
+2
+
+
+1 1
+1 1
+2 −2
+
+
+ 1
+−1
+
+= 1√
+2
+
+
+0
+0
+4
+
+ , v1 = 1
+σ1
+A⊤u1 = 1
+2
+√
+2
+· 1√
+2
+
+
+0
+0
+4
+
+ =
+
+
+0
+0
+1
+
+ .
+Check: Av1 = (2, −2)⊤ = 2
+√
+2 · 1√
+2 (1, −1)⊤ = σ1u1. ✓
+Answer. (a) AA ⊤ =
+ 6 −2
+−2 6
+
+, λ = 8, 4, σ = 2
+√
+2, 2. (b) rank 2, ∥A∥2 = 2
+√
+2, ∥A∥F = 2
+√
+3.
+(c) u1 = 1√
+2 (1, −1), v1 = (0, 0, 1).
+55
+--- PAGE 56 ---
+MFML · ZC416 · Practice Set Topic 7 · SVD & Singular Values
+Where marks are lost
+Reporting the eigenvalues 8, 4 as the singular values (take square roots). Using A⊤ A (a 3 × 3
+determinant) when AA ⊤ is 2 × 2 — more work and more slips. Forgetting to divide by σ1 when
+converting u1 to v1.
+Answers at a glance
+(a) λ = 8, 4; σ1 = 2
+√
+2, σ2 = 2 (b) rank 2; 2
+√
+2; 2
+√
+3 (c) u1 = (1,−1)√
+2 , v1 = (0, 0, 1)
+56
+--- PAGE 57 ---
+MFML · ZC416 · Practice Set Topic 8 · Cholesky Decomposition
+Topic 8
+Cholesky Decomposition
+Derive the lower-triangular L with B = LL ⊤ entry by entry, read off the eigenvalues of L and the
+determinant of B, solve a system using L alone, and know exactly when the factorization exists.
+Formulas you need for this topic
+• B = LL⊤ with L lower triangular and positive diagonal. Match entries column by column:
+• l11 = √b11, li1 = bi1/l11, ljj =
+q
+bjj − ∑k<j l2
+jk, lij =
+bij − ∑k<j lik ljk
+ljj
+for i > j.
+• Such an L exists ⇐ ⇒B is symmetric positive definite. The algorithm breaks (a zero or a negative
+under the root) exactly when it is not.
+• L is triangular, so its eigenvalues are its diagonal entries and det B = (det L)2.
+• Solving Bx = b: forward-substitute Ly = b (top down), then back-substitute L⊤x = y (bottom up).
+Problem 37 · Cholesky factor of a 3 × 3 matrix, and what it buys you
+Consider
+B =
+
+
+1 2 1
+2 13 8
+1 8 9
+
+ .
+(a) Derive the lower-triangular L with B = LL ⊤ (positive diagonal). [2]
+(b) Write down the eigenvalues of L and compute det B from L. [0.5]
+(c) Solve Bx = b for b = (4, 23, 18)⊤ using L only (forward then backward substitution). [1]
+(d) Explain from L why B is positive definite. [0.5]
+How to attempt this (the plan)
+What it tests: the six Cholesky formulas in order, the triangular-matrix facts (eigenvalues on the
+diagonal, det B = (det L)2), and the two-triangular-solves trick. Plan: match entries of LL ⊤ with
+B column by column: l11, l21, l31 from column 1, then l22, l32, then l33; solve Ly = b top-down,
+then L⊤x = y bottom-up.
+Worked solution
+STEP 1 (a) Write L =
+
+
+l11 0 0
+l21 l22 0
+l31 l32 l33
+
+. Entry by entry of LL ⊤ = B:
+l2
+11 = 1 ⇒ l11 = 1.
+l21l11 = 2 ⇒ l21 = 2.
+l31l11 = 1 ⇒ l31 = 1.
+l2
+21 + l2
+22 = 13 ⇒ l22 =
+√
+13 − 4 = 3.
+l31l21 + l32l22 = 8 ⇒ l32 = 8 − 2
+3 = 2.
+57
+--- PAGE 58 ---
+MFML · ZC416 · Practice Set Topic 8 · Cholesky Decomposition
+l2
+31 + l2
+32 + l2
+33 = 9 ⇒ l33 =
+√
+9 − 1 − 4 = 2.
+L =
+
+
+1 0 0
+2 3 0
+1 2 2
+
+ .
+Check the (3, 2) entry of LL ⊤: 1 · 2 + 2 · 3 + 2 · 0 = 8. ✓
+STEP 2 (b) L is triangular, so its eigenvalues are its diagonal entries: 1, 3, 2.
+det B = det L · det L⊤ = (1 · 3 · 2)2 = 36.
+STEP 3 (c) Forward substitution Ly = b:
+y1 = 4.
+2y1 + 3y2 = 23 ⇒ y2 = 23 − 8
+3 = 5.
+y1 + 2y2 + 2y3 = 18 ⇒ y3 = 18 − 4 − 10
+2 = 2.
+Backward substitution L⊤x = y, with L⊤ =
+
+
+1 2 1
+0 3 2
+0 0 2
+
+:
+2x3 = 2 ⇒ x3 = 1.
+3x2 + 2x3 = 5 ⇒ x2 = 1.
+x1 + 2x2 + x3 = 4 ⇒ x1 = 1.
+Check: B(1, 1, 1)⊤ = (1 + 2 + 1, 2 + 13 + 8, 1 + 8 + 9) = (4, 23, 18). ✓
+STEP 4 (d) For any x ̸= 0, x⊤Bx = x⊤LL ⊤x =
+L⊤x
+2
+≥ 0, and it is 0 only if L⊤x = 0; since
+L⊤ is triangular with nonzero diagonal it is invertible, so x = 0. Hence x⊤Bx > 0 for all x ̸= 0: B
+is positive definite. (Equivalently: a Cholesky factor with positive diagonal exists ⇐ ⇒B is
+symmetric positive definite.)
+Answer. (a) L =
+
+
+1 0 0
+2 3 0
+1 2 2
+
+. (b) eigenvalues of L: 1, 3, 2; det B = 36. (c) x = (1, 1, 1)⊤. (d)
+x⊤Bx =
+L⊤x
+2
+> 0.
+Where marks are lost
+Computing l32 as 8/l22 and forgetting to subtract l31l21 first. Claiming the eigenvalues of B are
+1, 3, 2(those are eigenvalues of L, not of B; B’s eigenvalues are different, only their product 36 is
+easy). Solving L⊤x = y top-down instead of bottom-up.
+Answers at a glance
+(a) L =
+
+
+1 0 0
+2 3 0
+1 2 2
+
+ (b) 1, 3, 2; detB = 36 (c) (1, 1, 1) (d)
+L⊤x
+2
+> 0
+58
+--- PAGE 59 ---
+MFML · ZC416 · Practice Set Topic 8 · Cholesky Decomposition
+Problem 38 · When does a Cholesky factor exist? (a parameter)
+Let A(t) =
+4 6
+6 t
+
+, t ∈ R.
+(a) Find all t for which A(t) has a Cholesky factorization A = LL ⊤ with positive diagonal.
+[1]
+(b) For t = 13 derive L and verify LL ⊤ = A. [1.5]
+(c) What happens to the algorithm at t = 9? Classify A(9) and exhibit a nonzero v with
+v⊤ A(9)v = 0. [0.5]
+How to attempt this (the plan)
+What it tests: the equivalence "Cholesky with positive diagonal exists ⇐ ⇒symmetric positive
+definite", Sylvester’s criterion with a parameter, and reading the breakdown of the algorithm
+(l2
+22 ≤ 0). Plan: leading minors 4 > 0 and 4t − 36 > 0; run the formulas at t = 13; at t = 9
+compute l22.
+Worked solution
+STEP 1 (a) A(t) is symmetric. Leading principal minors:
+∆1 = 4 > 0, ∆2 = det A(t) =4t − 36.
+Positive definite ⇐ ⇒∆2 > 0 ⇐ ⇒t > 9. So a Cholesky factorization with positive diagonal
+exists exactly when t > 9.
+STEP 2 (b) With t = 13:
+l11 =
+√
+4 = 2, l21 = 6
+l11
+= 3, l22 =
+q
+13 − l2
+21 =
+√
+13 − 9 = 2.
+L =
+2 0
+3 2
+
+, LL ⊤ =
+2 0
+3 2
+ 2 3
+0 2
+
+=
+4 6
+6 9 + 4
+
+=
+4 6
+6 13
+
+= A(13). ✓
+STEP 3 (c) At t = 9: l22 = √
+9 − 9 = 0 — the algorithm produces a zero on the diagonal (and
+for t < 9 it would need the square root of a negative number). A(9) =
+4 6
+6 9
+
+has ∆2 = 0,
+eigenvalues λ = 0 and λ = 13 (trace 13, determinant 0): positive semidefinite, singular. Its null
+vector: 4v1 + 6v2 = 0 ⇒ v = (3, −2)⊤, and
+v⊤ A(9)v = (3, −2)
+4 6
+6 9
+ 3
+−2
+
+= (3, −2) · (12 − 12, 18 − 18) =0.
+Answer. (a) t > 9. (b) L =
+2 0
+3 2
+
+. (c) l22 = 0; A(9) is positive semidefinite (eigenvalues
+0, 13); v = (3, −2)⊤ gives v⊤ Av = 0.
+Where marks are lost
+Answering t ≥ 9 for (a) — at t = 9 the diagonal entry is 0, not positive. Writing l21 = 6 (must
+divide by l11). Calling A(9) "not positive definite" without saying what it is (semidefinite) when
+asked to classify.
+59
+--- PAGE 60 ---
+MFML · ZC416 · Practice Set Topic 8 · Cholesky Decomposition
+Answers at a glance
+(a) t > 9 (b) L =
+2 0
+3 2
+
+(c) l22 = 0; PSD, λ = 0, 13; v = (3, −2)
+60
+--- PAGE 61 ---
+MFML · ZC416 · Practice Set Topic 9 · Positive Definiteness
+Topic 9
+Positive Definiteness & Quadratic Forms
+Conditions on parameters for positive definiteness and semidefiniteness via principal minors or
+eigenvalues, whether x⊤ My is a valid inner product, and showing a quadratic form is positive by
+writing it as a sum of squares.
+Formulas you need for this topic
+• Leading principal minors ∆1, ∆2, . . . ,∆n (top-left k × k determinants).
+• Symmetric A is positive definite ⇐ ⇒every ∆k > 0 ⇐ ⇒every eigenvalue > 0.
+• Positive semidefinite ⇐ ⇒every principal minor ≥ 0 (not just the leading ones) ⇐ ⇒every eigenvalue
+≥ 0.
+• ⟨x, y⟩ = x⊤ My is an inner product ⇐ ⇒M is symmetric and positive definite; a non-symmetric M
+fails at once.
+• To show Q(x) =x⊤ Ax > 0, complete squares one variable at a time and check the sum is zero only at
+x = 0.
+Problem 39 · Classifying A(t) by eigenvalues
+Consider the symmetric matrix A(t) =
+t 3
+3 t
+
+, t ∈ R.
+(a) Classify A(t) for all real t as positive definite, positive semidefinite, indefinite, negative
+semidefinite, or negative definite. [3]
+(b) For which t does ⟨x, y⟩ = x⊤ A(t) y define a valid inner product? At the borderline value
+t = 3, exhibit a nonzero vector v with ⟨v, v⟩ = 0. [2]
+How to attempt this (the plan)
+What it tests: definiteness is read off the eigenvalue signs of a symmetric matrix; an inner
+product needs strict positive definiteness. Plan: (a) solve det(A − λI) = 0 to get λ = t ± 3;
+tabulate the signs over the five ranges of t. (b) require both eigenvalues positive; at t = 3 use the
+eigenvector of λ = 0.
+Worked solution
+STEP 1 (a) A symmetric matrix is classified by the signs of its eigenvalues. Solve det(A(t) −
+λI) =0:
+(t − λ)2 − 9 = 0 =⇒ t − λ = ±3 =⇒ λ = t − 3 or λ = t + 3.
+STEP 2 (a) Read off the signs of t − 3 and t + 3:
+range of t eigenvalues classification
+t > 3 both positive positive definite
+t = 3 λ = 6, 0 positive semidefinite
+−3 < t < 3 one +, one − indefinite
+t = −3 λ = 0, −6 negative semidefinite
+t < −3 both negative negative definite
+61
+--- PAGE 62 ---
+MFML · ZC416 · Practice Set Topic 9 · Positive Definiteness
+STEP 3 (b) An inner product needs a positive-definite matrix, so we need t > 3.
+STEP 4 (b) At t = 3 the matrix is only semidefinite, which breaks the rule⟨v, v⟩ > 0 for v ̸= 0.
+Take v = (1, −1)⊤ with A(3) =
+3 3
+3 3
+
+:
+A(3)v =
+3 3
+3 3
+ 1
+−1
+
+=
+0
+0
+
+,
+⟨v, v⟩ = v⊤ A(3) v = (1, −1) · (0, 0) =0,
+even though v ̸= 0. So t = 3 does not give an inner product.
+Answer. (a) λ = t ± 3: PD for t > 3; PSD at t = 3; indefinite for −3 < t < 3; NSD at t = −3;
+ND for t < −3. (b) inner product iff t > 3; at t = 3, v = (1, −1)⊤ gives v⊤ A(3)v = 0.
+Where marks are lost
+Using det A(t) = t2 − 9 > 0 alone to claim positive definiteness: that also holds for t < −3,
+where the matrix is negative definite. Missing the two borderline casest = ±3. In (b), answering
+t ≥ 3 instead of t > 3; semidefinite is not enough for an inner product.
+Answers at a glance
+(a) PD: t > 3; PSD: t = 3; indefinite: −3 < t < 3; NSD: t = −3; ND: t < −3 (b) t > 3;
+v = (1, −1)⊤ at t = 3.
+Problem 40 · Which bilinear forms are inner products?
+For each matrix M below, decide whether ⟨x, y⟩ = x⊤ My defines a valid inner product on
+R2. Justify using the three requirements (bilinear, symmetric, positive-definite); when it fails,
+exhibit a witness.
+(a) M =
+1 2
+2 1
+
+[2]
+(b) M =
+2 1
+1 3
+
+[2]
+(c) M =
+1 1
+0 1
+
+[2]
+How to attempt this (the plan)
+What it tests: the three axioms of an inner product and how each can fail for x⊤ My. Plan:
+bilinearity is automatic for every matrix. Check symmetry ( M⊤ = M) first; if it holds, run
+Sylvester (D1, D2). For a failure, give a concrete vector (for positivity) or a concrete pair (for
+symmetry).
+Worked solution
+STEP 1 all Every x⊤ My is automatically bilinear, so only symmetry and positive-definiteness
+can fail.
+62
+--- PAGE 63 ---
+MFML · ZC416 · Practice Set Topic 9 · Positive Definiteness
+STEP 2 (a) M is symmetric, so symmetry holds. Sylvester: D1 = 1 > 0 but
+D2 = det M = 1 − 4 = −3 < 0. ✗
+A witness: x = (1, −1)⊤ gives
+Mx =
+1 2
+2 1
+ 1
+−1
+
+=
+−1
+1
+
+, x⊤ Mx = (1, −1) · (−1, 1) =−2 < 0.
+So ⟨x, x⟩ < 0 is possible — not an inner product.
+STEP 3 (b) M is symmetric. Sylvester:
+D1 = 2 > 0, D2 = det M = 6 − 1 = 5 > 0, ✓
+so M is positive definite. All three requirements hold — this is a valid inner product.
+STEP 4 (c) M is not symmetric (M12 = 1 ̸= 0 = M21), which breaks the symmetry require-
+ment directly. Test on the basis vectors:
+⟨e1, e2⟩ = e⊤
+1 Me2 = M12 = 1, ⟨e2, e1⟩ = e⊤
+2 Me1 = M21 = 0.
+Since ⟨e1, e2⟩ ̸= ⟨e2, e1⟩, symmetry fails — not an inner product. (The quadratic form x⊤ Mx =
+x2
+1 + x1x2 + x2
+2 happens to be positive, but symmetry alone already rules it out.)
+Answer. (a) No: D2 = −3 < 0; witness x = (1, −1)⊤, x⊤ Mx = −2. (b) Yes: symmetric,
+D1 = 2, D2 = 5. (c) No: not symmetric, ⟨e1, e2⟩ = 1 ̸= 0 = ⟨e2, e1⟩.
+Where marks are lost
+Stopping at “D1 > 0” in (a) and calling M positive definite. Checking positivity of x⊤ Mx in (c)
+and declaring it an inner product without ever checking symmetry. Giving no witness when a
+form fails: “det < 0” is a reason, but the question asks for a concrete vector or pair.
+Answers at a glance
+(a) not an inner product (x = (1, −1)⊤ gives −2) (b) valid inner product (c) not an inner
+product (not symmetric).
+Problem 41 · Positive (semi)definiteness with two parameters, and the quadratic form
+Let
+A =
+
+
+1 1 0
+1 a 1
+0 1 b
+
+ , a, b ∈ R.
+(a) Find the conditions on a, b for A to be positive definite. [1.5]
+(b) Find the conditions on a, b for A to be positive semidefinite. [1]
+(c) For a = b = 2, write Q(x, y, z) =x⊤ Ax as a sum of squares and hence show Q > 0 for all
+(x, y, z) ̸= (0, 0, 0). [1]
+(d) For a = b = 0, exhibit a vector with Q < 0. [0.5]
+63
+--- PAGE 64 ---
+MFML · ZC416 · Practice Set Topic 9 · Positive Definiteness
+How to attempt this (the plan)
+What it tests: Sylvester (leading minors) for definiteness versus all principal minors for semidefi-
+niteness, completing squares, and finding a witness for indefiniteness. Plan: compute ∆1, ∆2, ∆3;
+for (b) also the (2, 2), (3, 3) and the {1, 3}, {2, 3} minors; for (c) group x2 + 2xy into (x + y)2 and
+continue; for (d) try a vector that makes the cross term negative.
+Worked solution
+STEP 1 (a) Leading principal minors:
+∆1 = 1, ∆2 = det
+1 1
+1 a
+
+= a − 1,
+∆3 = det A = 1 · (ab − 1) − 1 · (b − 0) +0 = ab − b − 1.
+Positive definite ⇐ ⇒∆1, ∆2, ∆3 > 0:
+a > 1 and ab − b − 1 > 0 (equivalently b(a − 1) > 1).
+(∆1 = 1 > 0 always; b > 0 follows from the two conditions.)
+STEP 2 (b) For semidefiniteness every principal minor must be ≥ 0. Principal minors of size
+1: 1, a, b. Size 2: rows/cols {1, 2}: a − 1; {1, 3}: 1 · b − 0 = b; {2, 3}: ab − 1. Size 3: ab − b − 1. So
+a ≥ 1, b ≥ 0, ab ≥ 1, ab − b − 1 ≥ 0.
+(None is redundant in general; e.g. a = 1, b = 0 passes the first two but fails ab ≥ 1.)
+STEP 3 (c) With a = b = 2: ∆2 = 1 > 0, ∆3 = 4 − 2 − 1 = 1 > 0, so PD. Expand the form:
+Q =
+
+x y z
+
+
+
+1 1 0
+1 2 1
+0 1 2
+
+
+
+
+x
+y
+z
+
+ = x2 + 2xy + 2y2 + 2yz + 2z2.
+Complete squares one variable at a time:
+x2 + 2xy + y2 = (x + y)2, leaving y2 + 2yz + 2z2,
+y2 + 2yz + z2 = (y + z)2, leaving z2.
+Q = (x + y)2 + (y + z)2 + z2.
+This is ≥ 0, and Q = 0 forces z = 0, then y = 0, then x = 0. Hence Q > 0 for every nonzero
+(x, y, z).
+STEP 4 (d) With a = b = 0: Q = x2 + 2xy + 2yz. Take (x, y, z) = (1, −1, 0):
+Q = 1 + 2(1)(−1) +0 = −1 < 0.
+(Consistent with (a): ∆2 = −1 < 0, so A is indefinite.)
+Answer. (a) a > 1 and ab − b − 1 > 0. (b) a ≥ 1, b ≥ 0, ab ≥ 1, ab − b − 1 ≥ 0. (c)
+Q = (x + y)2 + (y + z)2 + z2 > 0. (d) (1, −1, 0) gives Q = −1.
+64
+--- PAGE 65 ---
+MFML · ZC416 · Practice Set Topic 9 · Positive Definiteness
+Where marks are lost
+Using only leading minors ≥ 0 for semidefiniteness (wrong — e.g. diag(0, −1) has leading
+minors 0, 0 but is not PSD). Sign errors in the cofactor expansion of ∆3. In (c), writing Q ≥ 0 and
+stopping — you must show Q = 0 only at the origin.
+Answers at a glance
+(a) a > 1, ab − b − 1 > 0 (b) a ≥ 1, b ≥ 0, ab ≥ 1, ab − b − 1 ≥ 0 (c) (x + y)2 + (y + z)2 + z2
+(d) (1, −1, 0), Q = −1
+65
+--- PAGE 66 ---
+MFML · ZC416 · Practice Set Topic 10 · Gradient & Tangent Planes
+Topic 10
+Gradient, Directional Derivative & Tangent Planes
+Partial derivatives and the gradient at a point, Jacobians of vector-valued maps, the identities for
+∇(x⊤ Ax), directional derivatives and the steepest direction, the tangent plane to an implicit surface,
+and linear approximation with its error.
+Formulas you need for this topic
+• ∇ f =
+ ∂ f
+∂x1
+, . . . , ∂ f
+∂xn
+
+; Jacobian Jij = ∂ fi
+∂xj
+(one row per output, one column per input).
+• Directional derivative Du f = ∇ f · u with ∥u∥ = 1 — normalise the direction first.
+• Fastest increase along ∇ f / ∥∇ f ∥ at rate ∥∇ f ∥; zero rate in any direction orthogonal to ∇ f .
+• Level surface F(x, y, z) =0: normal N = ∇F(P0), tangent plane ∇F(P0) · (x − P0) =0, normal line
+P0 + t∇F(P0).
+• Linearization L(x) = f (x0) +∇ f (x0)⊤(x − x0); error = | f − L|, of second order in the step.
+• ∇(b⊤x) =b⊤, ∇(x⊤x) =2x⊤, ∇(x⊤ Ax) =x⊤(A + A⊤) (which is 2x⊤ A only when A is symmet-
+ric).
+Problem 42 · Partial derivatives and the gradient from scratch
+Let f (x, y) =x2y + 3xy2 − y3.
+(a) Compute ∂ f
+∂x and ∂ f
+∂y , and write the gradient ∇ f (x, y) as a row vector.
+(b) Evaluate ∇ f at the point (2, −1).
+(c) Verify ∂ f
+∂x at (2, −1) directly from the limit definition lim
+h→0
+f (2 + h, −1) − f (2, −1)
+h .
+How to attempt this (the plan)
+What it tests: the one rule of partial differentiation (hold the other variable fixed) and the limit
+definition behind it. Plan: (a) differentiate term by term twice, once in x and once in y; (b)
+substitute x = 2, y = −1, keeping track of y2 = 1; (c) freeze y = −1 to get a one-variable
+polynomial, expand f (2 + h, −1), form the difference quotient, let h → 0.
+Worked solution
+STEP 1 (a) ∂ f
+∂x : hold y fixed and differentiate each term in x only.
+∂
+∂x (x2y) =y · 2x = 2xy, ∂
+∂x (3xy2) =3y2, ∂
+∂x (−y3) =0.
+∂ f
+∂x = 2xy + 3y2.
+STEP 2 (a) ∂ f
+∂y : hold x fixed.
+∂
+∂y (x2y) =x2, ∂
+∂y (3xy2) =3x · 2y = 6xy, ∂
+∂y (−y3) =−3y2.
+∂ f
+∂y = x2 + 6xy − 3y2.
+66
+--- PAGE 67 ---
+MFML · ZC416 · Practice Set Topic 10 · Gradient & Tangent Planes
+STEP 3 (a) Assemble the gradient as a row vector:
+∇ f (x, y) =
+
+2xy + 3y2, x2 + 6xy − 3y2 
+.
+STEP 4 (b) Substitute x = 2, y = −1 (note y2 = 1):
+∂ f
+∂x
+
+(2,−1)
+= 2(2)(−1) +3(1) =−4 + 3 = −1,
+∂ f
+∂y
+
+(2,−1)
+= (2)2 + 6(2)(−1) − 3(1) =4 − 12 − 3 = −11.
+∇ f (2, −1) = [−1, −11 ].
+STEP 5 (c) Reduce to one variable. Fix y = −1:
+f (x, −1) =x2(−1) +3x(1) − (−1) =−x2 + 3x + 1.
+STEP 6 (c) Form f (2 + h, −1) and f (2, −1):
+f (2 + h, −1) =−(2 + h)2 + 3(2 + h) +1 = −(4 + 4h + h2) +6 + 3h + 1 = 3 − h − h2,
+f (2, −1) =−4 + 6 + 1 = 3.
+STEP 7 (c) Difference quotient and limit:
+f (2 + h, −1) − f (2, −1)
+h = (3 − h − h2) − 3
+h = −h − h2
+h = −1 − h h→0− − − → −1.
+This matches ∂ f
+∂x (2, −1) =−1 from part (b). ✓
+Answer. (a) ∇ f = [2xy + 3y2, x2 + 6xy − 3y2 ]; (b) ∇ f (2, −1) = [−1, −11]; (c) the limit is
+−1, agreeing with (b).
+Where marks are lost
+Treating y as a variable when differentiating in x (e.g. writing ∂
+∂x (3xy2) =3y2 + 6xy). Sign slips
+at y = −1: y2 = +1 but y3 = −1. In (c), forgetting to subtract f (2, −1) or cancelling h before
+expanding the square.
+Answers at a glance
+(a) ∇ f = [2xy + 3y2, x2 + 6xy − 3y2 ] (b) [−1, −11] (c) limit = −1 ✓
+Problem 43 · Gradient with exponential and trigonometric terms
+Let
+f (x, y, z) =x2ey + y cos z.
+(a) Compute ∂ f
+∂x , ∂ f
+∂y , ∂ f
+∂z .
+(b) Write ∇ f and evaluate it at (1, 0, 0).
+67
+--- PAGE 68 ---
+MFML · ZC416 · Practice Set Topic 10 · Gradient & Tangent Planes
+How to attempt this (the plan)
+What it tests: partials in three variables where each term contains only some of the variables.
+Plan: for each variable, identify which of the two terms actually contains it; the other term
+differentiates to 0. Use d
+dy ey = ey and d
+dz cos z = − sin z. Then substitute e0 = 1, cos 0 = 1,
+sin 0 = 0.
+Worked solution
+STEP 1 (a) ∂ f
+∂x : ey and y cos z contain no x, so only x2 varies.
+∂ f
+∂x = ∂
+∂x
+ 
+x2ey
++ ∂
+∂x
+ 
+y cos z
+
+| {z }
+=0
+= ey · 2x + 0 = 2xey.
+STEP 2 (a) ∂ f
+∂y : now x2 and cos z are constants.
+∂ f
+∂y = x2 · d
+dy ey + cos z · d
+dy (y) =x2ey + cos z.
+STEP 3 (a) ∂ f
+∂z : x2ey has no z; y is a constant multiplier on cos z.
+∂ f
+∂z = ∂
+∂z
+ 
+x2ey
+| {z }
+=0
++y · d
+dz cos z = 0 + y(− sin z) =−y sin z.
+STEP 4 (b) Assemble and substitute (1, 0, 0) with e0 = 1, cos 0 = 1, sin 0 = 0:
+∇ f =
+
+2xey, x2ey + cos z, −y sin z
+
+,
+∇ f (1, 0, 0) =
+
+2(1)(1), (1)(1) +1, −(0)(0)
+
+= [2, 2, 0 ].
+STEP 5 (b) Check by linearity, ∇( f + g) =∇ f + ∇g:
+∇
+ 
+x2ey
+= [2xey, x2ey, 0 ], ∇
+ 
+y cos z
+
+= [0, cos z, −y sin z ].
+Adding entry by entry reproduces ∇ f . ✓
+Answer. (a) fx = 2xey, fy = x2ey + cos z, fz = −y sin z; (b) ∇ f (1, 0, 0) = [2, 2, 0].
+Where marks are lost
+Forgetting the + cos z in ∂ f
+∂y because the second term "looks like a z term". Sign slip d
+dz cos z =
++ sin z. Writing e0 = 0 when substituting.
+Answers at a glance
+(a) [ 2xey, x2ey + cos z, −y sin z ] (b) ∇ f (1, 0, 0) = [2, 2, 0]
+68
+--- PAGE 69 ---
+MFML · ZC416 · Practice Set Topic 10 · Gradient & Tangent Planes
+Problem 44 · Jacobian of a vector-valued map
+Consider f : R2 → R3,
+f(x, y) =
+
+
+f1
+f2
+f3
+
+ =
+
+
+x2 − y2
+x ey
+ln(1 + x2 + y2)
+
+ .
+(a) Compute the Jacobian Jf(x, y) and state its dimensions.
+(b) Evaluate it at (1, 0).
+(c) Say in words what the rows and columns represent.
+How to attempt this (the plan)
+What it tests: building an m × n Jacobian with entry (i, j) =∂ fi/∂xj. Plan: one row per output,
+one column per input, so 3 × 2; compute the six partials row by row (row 3 needs the chain rule
+on ln); substitute e0 = 1 and 1 + x2 + y2 = 2 entry by entry; then explain rows = gradients of
+components, columns = response to one input.
+Worked solution
+STEP 1 (a) Dimensions: 3 outputs, 2 inputs, so Jf ∈ R3×2 with entry (i, j) = ∂ fi
+∂xj
+.
+STEP 2 (a) Row 1, f1 = x2 − y2:
+∂ f1
+∂x = 2x, ∂ f1
+∂y = −2y.
+STEP 3 (a) Row 2, f2 = xey: treating y constant, ∂ f2
+∂x = ey; treating x constant, ∂ f2
+∂y = xey.
+STEP 4 (a) Row 3, f3 = ln(1 + x2 + y2): with inner u = 1 + x2 + y2 and ∂
+∂x ln u = 1
+u
+∂u
+∂x ,
+∂ f3
+∂x = 2x
+1 + x2 + y2 , ∂ f3
+∂y = 2y
+1 + x2 + y2 .
+STEP 5 (a) Assemble:
+Jf(x, y) =
+
+
+2x −2y
+ey xey
+2x
+1 + x2 + y2
+2y
+1 + x2 + y2
+
+ ∈ R3×2.
+STEP 6 (b) Substitute x = 1, y = 0 (so e0 = 1 and 1 + x2 + y2 = 2), entry by entry:
+Jf(1, 0) =
+
+
+2(1) −2(0)
+e0 (1)e0
+2(1)
+2
+2(0)
+2
+
+ =
+
+
+2 0
+1 1
+1 0
+
+ .
+STEP 7 (c) Row i is the gradient ∇ fi of the i-th output: a 1 × 2 row telling how output i
+responds to each input. Column j is the vector ∂f/∂xj: how the whole output vector responds
+when input xj alone changes. Here column 1 is ∂f/∂x and column 2 is ∂f/∂y.
+STEP 8 (a) Check by stacking gradients: ∇ f1 = [ 2x, −2y], ∇ f2 = [ ey, xey], ∇ f3 = 2x
+1+x2+y2 , 2y
+1+x2+y2
+
+; stacking gives the same 3 × 2 matrix. ✓
+69
+--- PAGE 70 ---
+MFML · ZC416 · Practice Set Topic 10 · Gradient & Tangent Planes
+Answer. (a) Jf =
+
+
+2x −2y
+ey xey
+2x
+1+x2+y2
+2y
+1+x2+y2
+
+, size 3 × 2; (b) Jf(1, 0) =
+
+
+2 0
+1 1
+1 0
+
+; (c) rows = ∇ fi,
+columns = ∂f/∂xj.
+Where marks are lost
+Writing the transpose (2 × 3) because "two variables come first". Putting ∂ f2
+∂y = ey and forgetting
+the factor x. Dropping the inner derivative 2x or 2y in row 3. Evaluating ln itself at (1, 0) instead
+of its derivative.
+Answers at a glance
+(a) 3 × 2 matrix with rows [2x, −2y], [ey, xey],
+ 2x
+1+x2+y2 , 2y
+1+x2+y2
+
+(b)
+
+
+2 0
+1 1
+1 0
+
+ (c) rows =
+gradients of fi, columns = sensitivity to xj
+Problem 45 · Vector gradient identities and a non-symmetric quadratic
+For x ∈ Rn, three identities are worth memorising:
+∇(b⊤x) =b⊤, ∇(x⊤x) =2x⊤, ∇(x⊤ Ax) =x⊤ 
+A + A⊤
+.
+Now let
+f (x) =x⊤ Ax − b⊤x, A =
+1 2
+0 3
+
+(not symmetric), b =
+1
+1
+
+.
+(a) Write f explicitly in components (x1, x2).
+(b) Apply the identities to get ∇ f . Why does A + A⊤ (not 2A) appear?
+(c) Evaluate ∇ f at (1, 1).
+How to attempt this (the plan)
+What it tests: the standard vector-calculus identities and the reason A + A⊤ appears for a
+non-symmetric A. Plan: (a) compute Ax, then x⊤(Ax), subtract b⊤x; (b) form A + A⊤, apply the
+identities, and explain via the double sum ∑i,j Aij xixj that xk appears in two places; (c) substitute
+x1 = x2 = 1 and confirm against direct differentiation of (a).
+Worked solution
+STEP 1 (a) Compute Ax:
+Ax =
+1 2
+0 3
+ x1
+x2
+
+=
+x1 + 2x2
+3x2
+
+.
+STEP 2 (a) Compute x⊤ Ax:
+x⊤(Ax) = [x1, x2]
+x1 + 2x2
+3x2
+
+= x1(x1 + 2x2) +x2(3x2) =x2
+1 + 2x1x2 + 3x2
+2.
+70
+--- PAGE 71 ---
+MFML · ZC416 · Practice Set Topic 10 · Gradient & Tangent Planes
+STEP 3 (a) Subtract b⊤x = x1 + x2:
+f (x1, x2) =x2
+1 + 2x1x2 + 3x2
+2 − x1 − x2.
+STEP 4 (b) Form A + A⊤:
+A⊤ =
+1 0
+2 3
+
+, A + A⊤ =
+2 2
+2 6
+
+.
+STEP 5 (b) Apply ∇(x⊤ Ax) =x⊤(A + A⊤) and ∇(b⊤x) =b⊤:
+∇ f = x⊤(A + A⊤) − b⊤ = [x1, x2]
+2 2
+2 6
+
+− [1, 1]
+= [2x1 + 2x2 − 1, 2 x1 + 6x2 − 1 ].
+STEP 6 (b) Why A + A⊤? Write x⊤ Ax = ∑i,j Aij xixj. Differentiating with respect to xk, the
+variable xk appears both as the "i = k" factor (contributing ∑j Akj xj, the k-th entry of x⊤ A⊤) and
+as the "j = k" factor (contributing ∑i Aik xi, the k-th entry of x⊤ A). Adding gives the k-th entry of
+x⊤(A + A⊤). Only when A = A⊤ does A + A⊤ = 2A.
+STEP 7 (c) Substitute x1 = x2 = 1:
+∇ f (1, 1) = [2 + 2 − 1, 2 + 6 − 1 ] = [3, 7 ].
+STEP 8 (c) Check by differentiating the component form from Step 3 directly:
+∂ f
+∂x1
+= 2x1 + 2x2 − 1, ∂ f
+∂x2
+= 2x1 + 6x2 − 1,
+identical to Step 5; at (1, 1) this is [3, 7]. ✓
+Answer. (a) f = x2
+1 + 2x1x2 + 3x2
+2 − x1 − x2; (b) ∇ f = x⊤(A + A⊤) − b⊤ = [2x1 + 2x2 −
+1, 2 x1 + 6x2 − 1 ], because xk appears in both slots of ∑i,j Aij xixj; (c) ∇ f (1, 1) = [3, 7].
+Where marks are lost
+Using ∇(x⊤ Ax) =2x⊤ A for a non-symmetric A, which gives [2x1 − 1, 4 x1 + 6x2 − 1] and the
+wrong value [1, 9] at (1, 1). Writing ∇ f as a column when the identities are stated for row
+gradients (be consistent). Forgetting the −b⊤ term after expanding the quadratic.
+Answers at a glance
+(a) x2
+1 + 2x1x2 + 3x2
+2 − x1 − x2 (b) [ 2x1 + 2x2 − 1, 2 x1 + 6x2 − 1 ], since xk appears twice in the
+double sum (c) [3, 7]
+Problem 46 · Linearization (tangent plane) of a two-variable function
+A model’s output is f (w1, w2) =ln(w1) +w2
+2.
+(a) Find the linear approximation L(w1, w2) of f about w(0) = (1, 2).
+71
+--- PAGE 72 ---
+MFML · ZC416 · Practice Set Topic 10 · Gradient & Tangent Planes
+(b) Compute the actual value f (1.1, 2.1) and the approximate value L(1.1, 2.1).
+(c) Compute the absolute error | f (1.1, 2.1) − L(1.1, 2.1)|.
+(Use ln 1.1 = 0.09531.)
+How to attempt this (the plan)
+What it tests: first-order Taylor in two variables = value + gradient · step. Plan: value at the
+point, two partials at the point, assemble L = f0 + fw1(w1 − 1) +fw2(w2 − 2), substitute.
+Worked solution
+STEP 1 (a) Value at the base point:
+f (1, 2) =ln 1 + 22 = 0 + 4 = 4.
+STEP 2 (a) Partials at the base point:
+fw1 = 1
+w1
+⇒ fw1(1, 2) =1, fw2 = 2w2 ⇒ fw2(1, 2) =4.
+STEP 3 (a) Assemble:
+L(w1, w2) =4 + 1 · (w1 − 1) +4 · (w2 − 2) =w1 + 4w2 − 5.
+STEP 4 (b) Actual and approximate values:
+f (1.1, 2.1) =ln 1.1 + (2.1)2 = 0.09531 + 4.41 = 4.50531,
+L(1.1, 2.1) =1.1 + 4(2.1) − 5 = 1.1 + 8.4 − 5 = 4.5.
+STEP 5 (c) Error:
+|4.50531 − 4.5| = 0.00531.
+Answer. (a) L(w1, w2) = 4 + (w1 − 1) +4(w2 − 2) = w1 + 4w2 − 5. (b) f (1.1, 2.1) =
+4.50531, L(1.1, 2.1) =4.5. (c) Absolute error ≈ 0.0053.
+Where marks are lost
+Adding a Hessian term when the question says linear. Evaluating fw1 = 1/w1 at the new point
+(1.1) instead of the base point (1). Sign slips in (w2 − 2).
+Answers at a glance
+(a) w1 + 4w2 − 5 (b) 4.50531, 4.5 (c) 0.0053
+Problem 47 · Gradient, directional derivative and the steepest direction
+Let f (x, y) =x3 − 3xy2.
+(a) Compute ∇ f at the point (2, 1). [1]
+(b) Find the directional derivative of f at (2, 1) in the direction of v = 3i + 4j. [1]
+72
+--- PAGE 73 ---
+MFML · ZC416 · Practice Set Topic 10 · Gradient & Tangent Planes
+(c) At (2, 1): in which unit direction does f increase fastest, and at what rate? Give a unit
+direction in which the directional derivative is 0. [1]
+How to attempt this (the plan)
+What it tests: Du f = ∇ f · u with a unit u, and the two facts "steepest ascent = ∇ f / ∥∇ f ∥
+with rate ∥∇ f ∥" and "zero rate ⊥ ∇f ". Plan: partials; evaluate; normalise v; dot; then read the
+answers off ∇ f .
+Worked solution
+STEP 1 (a)
+fx = 3x2 − 3y2, fy = −6xy.
+∇ f (2, 1) =
+ 
+3(4) − 3(1), −6(2)(1)
+
+= (9, −12).
+STEP 2 (b) v is not a unit vector: ∥v∥ = √
+9 + 16 = 5, so u =
+  3
+5, 4
+5
+
+.
+Du f (2, 1) =∇ f · u = 9 · 3
+5 + (−12) · 4
+5 = 27 − 48
+5 = −21
+5 = −4.2.
+Moving in the direction of v, f decreases at rate 4.2 per unit length.
+STEP 3 (c) ∥∇ f (2, 1)∥ = √
+81 + 144 =
+√
+225 = 15.
+Steepest ascent direction: ∇ f
+∥∇ f ∥ =
+
+9
+15, − 12
+15
+
+=
+
+3
+5, − 4
+5
+
+, rate 15.
+Zero directional derivative ⇐ ⇒u ⊥ ∇f : take u =
+  4
+5, 3
+5
+
+(check: 9 · 4
+5 − 12 · 3
+5 = 36−36
+5 = 0).
+The opposite vector
+ 
+− 4
+5, − 3
+5
+
+also works.
+Answer. (a) ∇ f (2, 1) = (9, −12). (b) Du f = − 21
+5 . (c) fastest increase along ( 3
+5, − 4
+5 ) at rate 15;
+zero rate along ±( 4
+5, 3
+5 ).
+Where marks are lost
+Dotting with v = (3, 4) instead of the unit vector (gives −21, wrong by a factor 5). Reporting
+the steepest-ascent rate as ∇ f itself rather than its length. Sign of fy = −6xy.
+Answers at a glance
+(a) (9, −12) (b) −21/5 (c) ( 3
+5, − 4
+5 ), rate 15; zero along ±( 4
+5, 3
+5 )
+Problem 48 · Normal vector and tangent plane of an implicitly defined surface
+A surface in R3 is given by
+F(x, y, z) =x2 + 2y2 + 3z2 − 6 = 0.
+(a) Show that P0 = (1, 1, 1) lies on the surface and find a normal vector N at P0. [1.5]
+(b) Find the equation of the tangent plane at P0, and the parametric equation of the normal
+line. [1]
+73
+--- PAGE 74 ---
+MFML · ZC416 · Practice Set Topic 10 · Gradient & Tangent Planes
+(c) Find all points of the surface where the tangent plane is horizontal (parallel to the xy-
+plane). [0.5]
+How to attempt this (the plan)
+What it tests: "∇F is normal to the level surface F = 0", the plane formula ∇F(P0) · (x − P0) =0,
+and reading a geometric condition (N ∥ k) as equations. Plan: substitute; three partials; plane;
+line P0 + tN; for (c) set Fx = Fy = 0 and use F = 0 to get z.
+Worked solution
+STEP 1 (a) F(1, 1, 1) =1 + 2 + 3 − 6 = 0, so P0 is on the surface. ✓
+∇F = (2x, 4 y, 6 z), N = ∇F(1, 1, 1) = (2, 4, 6) (or the simpler parallel vector (1, 2, 3)).
+STEP 2 (b) Tangent plane: N · (x − P0) =0:
+2(x − 1) +4(y − 1) +6(z − 1) =0 =⇒ x + 2y + 3z = 6.
+Check: P0 satisfies it (1 + 2 + 3 = 6). ✓ Normal line:
+(x, y, z) = (1, 1, 1) +t (1, 2, 3), t ∈ R.
+STEP 3 (c) Horizontal tangent plane ⇐ ⇒ ∇F ∥ (0, 0, 1) ⇐ ⇒Fx = Fy = 0 and Fz ̸= 0:
+2x = 0, 4 y = 0 ⇒ x = y = 0.
+On the surface: 3z2 = 6 ⇒ z = ±
+√
+2 (there Fz = 6z ̸= 0). The two points are (0, 0,
+√
+2) and
+(0, 0,−
+√
+2), with tangent planes z = ±
+√
+2.
+Answer. (a) F(P0) =0; N = (2, 4, 6) ∥ (1, 2, 3). (b) x + 2y + 3z = 6; line (1, 1, 1) +t(1, 2, 3).
+(c) (0, 0,±
+√
+2).
+Where marks are lost
+Using ∇F as a direction in the plane instead of the normal to it. Writing the plane as 2x + 4y +
+6z = 0 (forgetting to shift to P0 — the plane must pass through P0). In (c) forgetting that the
+points must also satisfy F = 0.
+Answers at a glance
+(a) N = (2, 4, 6) (b) x + 2y + 3z = 6; (1, 1, 1) +t(1, 2, 3) (c) (0, 0,±
+√
+2)
+Problem 49 · Linearization of a two-variable model and its error
+A model’s output is
+f (w1, w2) =√w1 ew2.
+(a) Find the tangent-plane (linear) approximation L(w1, w2) of f at w(0) = (4, 0). [2]
+(b) Compute the actual value f (4.4, −0.1) and the approximation L(4.4, −0.1). [0.5]
+(c) Compute the absolute error | f (4.4, −0.1) − L(4.4, −0.1)|. [0.5]
+74
+--- PAGE 75 ---
+MFML · ZC416 · Practice Set Topic 10 · Gradient & Tangent Planes
+(Use
+√
+4.4 = 2.0976 and e−0.1 = 0.90484.)
+How to attempt this (the plan)
+What it tests: first-order Taylor in two variables, L = f0 + fw1 ∆w1 + fw2 ∆w2, and honest
+evaluation of the error. Plan: value at the point; two partials at the point; assemble; substitute
+∆w1 = 0.4, ∆w2 = −0.1.
+Worked solution
+STEP 1 (a) At the base point: f (4, 0) =
+√
+4 e0 = 2.
+fw1 = ew2
+2√w1
+⇒ fw1(4, 0) = 1
+2 · 2 = 1
+4, fw2 = √w1 ew2 ⇒ fw2(4, 0) =2.
+L(w1, w2) =2 + 1
+4 (w1 − 4) +2(w2 − 0) = 1
+4 w1 + 2w2 + 1.
+STEP 2 (b) Actual: f (4.4, −0.1) =
+√
+4.4 e−0.1 = 2.0976 × 0.90484 ≈ 1.8980. Approximate:
+L(4.4, −0.1) =2 + 1
+4 (0.4) +2(−0.1) =2 + 0.1 − 0.2 = 1.9.
+STEP 3 (c) |1.8980 − 1.9| ≈ 0.0020. The step is small ( 0.4 and −0.1), so the linear model is
+within about 0.1%; the error comes from the neglected second-order terms.
+Answer. (a) L = 1 + 1
+4 w1 + 2w2. (b) f ≈ 1.8980, L = 1.9. (c) error ≈ 0.002.
+Where marks are lost
+Differentiating √w1 as 1√w1
+(missing the 1
+2). Plugging (4.4, −0.1) into the partials instead of
+evaluating them at the base point (4, 0). Reporting the error with the wrong sign or as a
+percentage without being asked.
+Answers at a glance
+(a) L = 1 + 1
+4 w1 + 2w2 (b) 1.8980 vs 1.9 (c) ≈ 0.002
+75
+--- PAGE 76 ---
+MFML · ZC416 · Practice Set Topic 11 · Taylor, Hessian & Critical Points
+Topic 11
+Taylor Expansion, Hessian & Critical-Point
+Classification
+Taylor polynomials in one and two variables, the matrix form with the gradient and the Hessian,
+stationary points and their classification by the determinant test or by eigenvalues, the trap of a
+non-stationary point, and reading an expansion backwards.
+Formulas you need for this topic
+• One variable: f (a + h) = f (a) +f ′(a)h + 1
+2! f ′′(a)h2 + 1
+3! f ′′′ (a)h3 + · · ·
+• Two variables: f (a + h, b + k) ≈ f + fxh + fyk + 1
+2
+ 
+fxx h2 + 2 fxy hk + fyyk2
+, all derivatives at (a, b).
+• Matrix form: f (x0 + h) ≈ f (x0) +∇ f (x0)⊤h + 1
+2 h⊤ H f (x0)h. For a quadratic f this is exact.
+• Stationary point: ∇ f = 0. Hessian H =
+
+fxx fxy
+fxy fyy
+
+, D = det H = fxx fyy − f 2
+xy.
+• D > 0, fxx > 0: minimum. D > 0, fxx < 0: maximum. D < 0: saddle. D = 0: test fails, argue directly.
+• Eigenvalue version: both λ > 0 minimum, both < 0 maximum, opposite signs saddle. The test applies
+only at a stationary point.
+Problem 50 · Second-order Taylor expansion of ex sin y at the origin
+Let f (x, y) =ex sin y.
+(a) Compute ∇ f and the Hessian H at (0, 0).
+(b) Write the second-order Taylor polynomial Q(x, y) of f about (0, 0).
+(c) Use Q to approximate f (0.1, 0.2), compare with the exact value, and state the sign and
+order of magnitude of the error. Explain, from the order of the first neglected term, why
+the error is essentially zero at the origin and grows as one moves away.
+How to attempt this (the plan)
+What it tests: the two-variable second-order Taylor formula f (a + h, b + k) ≈ f + fxh + fyk +
+1
+2
+ 
+fxx h2 + 2 fxyhk + fyyk2
+and reading off the gradient and Hessian. Plan: (a) compute the five
+partials, evaluate at the origin; (b) plug into the formula with h = x, k = y; (c) evaluate Q and
+the exact f at (0.1, 0.2) and subtract.
+Worked solution
+STEP 1 (a) First and second partials of f = ex sin y:
+fx = ex sin y, fy = ex cos y, fxx = ex sin y, fxy = ex cos y, fyy = −ex sin y.
+STEP 2 (a) Evaluate at (0, 0): f = 0, fx = 0, fy = 1, fxx = 0, fxy = 1, fyy = 0, so
+∇ f (0, 0) =
+0
+1
+
+, H(0, 0) =
+0 1
+1 0
+
+.
+STEP 3 (b) With (a, b) = (0, 0), h = x, k = y:
+Q(x, y) =0 + (0 · x + 1 · y) +1
+2
+ 
+0 · x2 + 2 · 1 · xy + 0 · y2
+= y + xy.
+76
+--- PAGE 77 ---
+MFML · ZC416 · Practice Set Topic 11 · Taylor, Hessian & Critical Points
+STEP 4 (c) Approximate value:
+Q(0.1, 0.2) =0.2 + (0.1)(0.2) =0.22.
+STEP 5 (c) Exact value:
+f (0.1, 0.2) =e0.1 sin(0.2) =1.10517 × 0.19867 = 0.21956.
+STEP 6 (c) Error: Q − f = 0.22 − 0.21956 = +4.4 × 10−4, so Q slightly overestimates. The
+first neglected term is third order, O(∥(x, y)∥3): the error vanishes at the origin and grows like
+the cube of the distance from it, so at distance ≈ 0.22 it is only a few parts in 104.
+Answer. (a) ∇ f (0, 0) = (0, 1)⊤, H(0, 0) =
+0 1
+1 0
+
+. (b) Q(x, y) = y + xy. (c) Q(0.1, 0.2) =
+0.22, exact 0.21956, error +4.4 × 10−4 (third-order).
+Where marks are lost
+Forgetting the factor 1
+2 in front of the quadratic form, or forgetting the factor 2 on the cross term
+fxyhk (both errors cancel here only by luck; do not rely on it). Using degrees instead of radians
+for sin(0.2). Writing H with fyy = +1: ∂y(ex cos y) =−ex sin y, which is 0 at the origin.
+Answers at a glance
+(a) ∇ f = (0, 1)⊤, H =
+0 1
+1 0
+
+(b) Q = y + xy (c) 0.22 vs 0.21956, error +4.4 × 10−4.
+Problem 51 · Linear and quadratic estimates of
+√
+4.2
+Let f (x) =√x, expanded about the point a = 4.
+(a) Find the first-order (linear) polynomialP1(x) and the second-order (quadratic) polynomial
+P2(x) of f about x = 4.
+(b) Use each to estimate
+√
+4.2.
+(c) Compare the two errors against the true value
+√
+4.2 = 2.04939 . . . and explain, using the
+sign of f ′′, why the quadratic estimate is the better one.
+How to attempt this (the plan)
+What it tests: tangent-line versus quadratic Taylor approximation and the role of the second
+derivative. Plan: (a) compute f (4), f ′(4), f ′′(4) and write P1, P2; (b) set x − 4 = 0.2; (c) subtract
+each estimate from 2.04939 and interpret the sign of f ′′ < 0.
+Worked solution
+STEP 1 (a) Derivatives of f (x) =x1/2 at a = 4:
+f (4) =2, f ′(x) = 1
+2 x−1/2 ⇒ f ′(4) = 1
+4, f ′′(x) =− 1
+4 x−3/2 ⇒ f ′′(4) =− 1
+32.
+77
+--- PAGE 78 ---
+MFML · ZC416 · Practice Set Topic 11 · Taylor, Hessian & Critical Points
+STEP 2 (a) The quadratic coefficient is f ′′(4)
+2! = −1/32
+2 = − 1
+64, so
+P1(x) =2 + 1
+4 (x − 4), P2(x) =2 + 1
+4 (x − 4) − 1
+64 (x − 4)2.
+STEP 3 (b) At x = 4.2 the increment is x − 4 = 0.2:
+P1(4.2) =2 + 1
+4 (0.2) =2.05.
+P2(4.2) =2.05 − 1
+64 (0.2)2 = 2.05 − 0.000625 = 2.049375.
+STEP 4 (c) Compare with
+√
+4.2 = 2.049390 . . .:
+P1(4.2) −
+√
+4.2 = +6.1 × 10−4, P2(4.2) −
+√
+4.2 = −1.5 × 10−5.
+The quadratic error is about 40 times smaller.
+STEP 5 (c) Why: P1 is the tangent line at x = 4; it matches value and slope but ignores the
+downward curvature (f ′′ < 0), so it rides above the curve and drifts away as x moves from 4.
+P2 adds the − 1
+64 (x − 4)2 term, which bends the approximation down to follow the curve; the
+leftover error is now third order, ∝ (x − 4)3.
+Answer. (a) P1(x) = 2 + 1
+4 (x − 4), P2(x) = 2 + 1
+4 (x − 4) − 1
+64 (x − 4)2. (b) P1(4.2) = 2.05,
+P2(4.2) =2.049375. (c) errors +6.1 × 10−4 (linear) vs −1.5 × 10−5 (quadratic); the tangent
+line ignores f ′′ < 0.
+Where marks are lost
+Forgetting to halve f ′′(4): the coefficient is − 1
+64, not − 1
+32. Sign error in f ′′(x) = − 1
+4 x−3/2.
+Evaluating x−3/2 at 4 wrongly (4−3/2 = 1
+8). Plugging x = 4.2 instead of x − 4 = 0.2 into the
+polynomial.
+Answers at a glance
+(a) P1 = 2 + 1
+4 (x − 4), P2 = P1 − 1
+64 (x − 4)2 (b) 2.05, 2.049375 (c) errors 6.1 × 10−4 vs
+1.5 × 10−5; linear ignores curvature.
+Problem 52 · One variable: MVT and a Taylor estimate
+(a) For f (x) =x3 on [0, 2], find the point c guaranteed by the mean value theorem, i.e. the c
+with
+f ′(c) = f (2) − f (0)
+2 − 0 .
+(b) Write the second-order Taylor polynomial T2(h) of g(x) =ln(1 + x) about x = 0.
+(c) Use T2 to estimate ln(1.1), and compute the absolute error given ln(1.1) = 0.09531 (5
+d.p.).
+78
+--- PAGE 79 ---
+MFML · ZC416 · Practice Set Topic 11 · Taylor, Hessian & Critical Points
+How to attempt this (the plan)
+What it tests: the MVT as an equation you can solve; the Taylor coefficients f (k)(a)/k!. Plan: (a)
+average slope, then solve f ′(c) =that; (b) compute g(0), g′(0), g′′(0) and place them with 1, h,
+h2/2; (c) substitute h = 0.1.
+Worked solution
+STEP 1 (a) Average slope over [0, 2]:
+f (2) − f (0)
+2 − 0 = 8 − 0
+2 = 4.
+STEP 2 (a) Solve f ′(c) =4:
+f ′(c) =3c2 = 4 ⇒ c2 = 4
+3 ⇒ c = 2√
+3 ≈ 1.155 (the root in (0, 2)).
+STEP 3 (b) Derivatives of g at 0:
+g(x) =ln(1 + x), g′(x) = 1
+1 + x , g′′(x) =− 1
+(1 + x)2 ,
+g(0) =0, g′(0) =1, g′′(0) =−1.
+STEP 4 (b) Assemble the polynomial:
+T2(h) =g(0) +g′(0) h + g′′(0)
+2 h2 = h − h2
+2 .
+STEP 5 (c) Substitute h = 0.1:
+T2(0.1) =0.1 − 0.01
+2 = 0.1 − 0.005 = 0.095.
+|ln(1.1) − T2(0.1)| = |0.09531 − 0.095| = 0.00031.
+Compare with the first dropped term h3/3 = 0.00033: the error is of the expected size.
+Answer. (a) c = 2/
+√
+3 ≈ 1.155. (b) T2(h) =h − 1
+2 h2. (c) Estimate 0.095; absolute error
+≈ 0.00031.
+Where marks are lost
+Forgetting the 1
+2 on the h2 term (gives 0.09). Using g′′(0) = +1. Reporting c = −2/
+√
+3, which
+lies outside [0, 2].
+Answers at a glance
+(a) 2/
+√
+3 (b) h − h2/2 (c) 0.095, error 0.00031
+79
+--- PAGE 80 ---
+MFML · ZC416 · Practice Set Topic 11 · Taylor, Hessian & Critical Points
+Problem 53 · Second-order Taylor about a non-stationary point
+Let f (x, y) =x ey + y2.
+(a) Compute the gradient ∇ f (x, y) and the Hessian H f (x, y).
+(b) Obtain the second-order Taylor polynomial T2(x, y) of f about the point (1, 0).
+(c) With h = (x − 1, y)⊤, write the quadratic term of T2 in the form 1
+2 h⊤ H f (1, 0) h and expand
+it.
+(d) Can the Hessian-based second-derivative test be used to classify (1, 0)? Give a numerical
+reason.
+How to attempt this (the plan)
+What it tests: the full two-variable Taylor recipe, the h⊤ Hh form, and the “not stationary”
+trap. Plan: partials symbolically; evaluate value, gradient and Hessian at (1, 0); assemble
+T2 = f0 + ∇ f ⊤h + 1
+2 h⊤ Hh; for (d) check whether ∇ f (1, 0) =0.
+Worked solution
+STEP 1 (a) First and second partials, symbolically:
+fx = ey, fy = x ey + 2y,
+fxx = 0, fxy = ey, fyy = x ey + 2.
+∇ f =
+ ey
+xey + 2y
+
+, H f =
+ 0 ey
+ey xey + 2
+
+.
+STEP 2 (b) Evaluate at (1, 0):
+f (1, 0) =1 · e0 + 0 = 1,
+∇ f (1, 0) =
+ 1
+1 + 0
+
+=
+1
+1
+
+, H f (1, 0) =
+0 1
+1 1 + 2
+
+=
+0 1
+1 3
+
+.
+STEP 3 (b) Assemble with h1 = x − 1, h2 = y:
+T2 = 1 + 1 · h1 + 1 · h2 + 1
+2
+ 
+0 · h2
+1 + 2 · 1 · h1h2 + 3h2
+2
+
+,
+T2(x, y) =1 + (x − 1) +y + (x − 1)y + 3
+2 y2.
+STEP 4 (c) Quadratic term in matrix form:
+1
+2 h⊤ H f (1, 0) h = 1
+2
+
+x − 1 y
+ 0 1
+1 3
+ x − 1
+y
+
+= 1
+2
+
+x − 1 y
+  y
+(x − 1) +3y
+
+,
+= 1
+2
+ 
+(x − 1)y + (x − 1)y + 3y2
+= (x − 1)y + 3
+2 y2,
+which matches the quadratic part of T2.
+STEP 5 (d) Check the gradient:
+∇ f (1, 0) = (1, 1)⊤ ̸= (0, 0)⊤,
+so (1, 0) is not a stationary point. The second-derivative test classifies only stationary points,
+so it does not apply. (For the record, D = det H f (1, 0) =0 · 3 − 12 = −1 < 0, which says the
+quadratic term is indefinite, but that does not make (1, 0) a saddle: the linear term (x − 1) +y
+dominates near the point.)
+80
+--- PAGE 81 ---
+MFML · ZC416 · Practice Set Topic 11 · Taylor, Hessian & Critical Points
+Answer. (a) ∇ f = (ey, xey + 2y)⊤, H f =
+ 0 ey
+ey xey + 2
+
+. (b) T2 = 1 + (x − 1) +y + (x −
+1)y + 3
+2 y2. (c) 1
+2 h⊤ Hh = (x − 1)y + 3
+2 y2. (d) No: ∇ f (1, 0) = (1, 1)⊤ ̸= 0, the point is
+not stationary, so the test does not apply.
+Where marks are lost
+Writing fxx = ey (it is 0: f is linear in x). Missing the factor 2 on the cross term, giving 1
+2 (x − 1)y.
+Answering “saddle” in (d) because D < 0.
+Answers at a glance
+(a) ∇ f = (ey, xey + 2y), H =
+ 0 ey
+ey xey + 2
+
+(b) 1 + (x − 1) +y + (x − 1)y + 3
+2 y2 (c) (x −
+1)y + 3
+2 y2 (d) not applicable
+Problem 54 · A quadratic function: Taylor is exact
+Consider f (x, y) =2x2 − 2xy + y2 − 4x + 2y + 5.
+(a) Find the gradient and the Hessian, and the stationary point of f .
+(b) Compute f at the stationary point and classify it.
+(c) Write the second-order Taylor expansion of f about the stationary point in the matrix
+form f (x0 + h) = f (x0) +1
+2 h⊤ Hh, and expand it.
+(d) Explain, by computing the third derivatives, why this expansion is exact for all (x, y), and
+verify it by expanding your answer to (c).
+How to attempt this (the plan)
+What it tests: stationary point of a quadratic (a 2 × 2 linear system), constant Hessian, and the
+fact that for a quadratic the Taylor polynomial equals the function. Plan: partials; solve the two
+linear equations; D test; assemble T2 with the gradient term zero; expand and compare with f .
+Worked solution
+STEP 1 (a) Gradient and Hessian:
+fx = 4x − 2y − 4, fy = −2x + 2y + 2,
+fxx = 4, fxy = −2, fyy = 2 ⇒ H =
+ 4 −2
+−2 2
+
+(constant).
+STEP 2 (a) Set the gradient to zero:
+−2x + 2y + 2 = 0 ⇒ y = x − 1,
+4x − 2(x − 1) − 4 = 0 ⇒ 2x − 2 = 0 ⇒ x = 1, y = 0.
+STEP 3 (b) Value and classification:
+f (1, 0) =2(1) − 0 + 0 − 4 + 0 + 5 = 3,
+81
+--- PAGE 82 ---
+MFML · ZC416 · Practice Set Topic 11 · Taylor, Hessian & Critical Points
+D = fxx fyy − f 2
+xy = 4 · 2 − (−2)2 = 8 − 4 = 4 > 0, fxx = 4 > 0,
+so (1, 0) is a local (in fact global) minimum.
+STEP 4 (c) The gradient is zero at (1, 0), so with h = (x − 1, y)⊤:
+f (x, y) =3 + 1
+2
+
+x − 1 y
+  4 −2
+−2 2
+ x − 1
+y
+
+,
+= 3 + 1
+2
+ 
+4(x − 1)2 − 4(x − 1)y + 2y2
+= 3 + 2(x − 1)2 − 2(x − 1)y + y2.
+STEP 5 (d) All third derivatives of a quadratic are zero: fxxx = fxxy = fxyy = fyyy = 0, so
+every Taylor term beyond h2 vanishes and T2 = f exactly. Verify by expanding (c):
+2(x − 1)2 = 2x2 − 4x + 2, −2(x − 1)y = −2xy + 2y,
+3 + 2x2 − 4x + 2 − 2xy + 2y + y2 = 2x2 − 2xy + y2 − 4x + 2y + 5 = f (x, y). ✓
+Answer. (a) ∇ f = (4x − 2y − 4, −2x + 2y + 2)⊤, H =
+ 4 −2
+−2 2
+
+, stationary point (1, 0).
+(b) f (1, 0) = 3; D = 4 > 0, fxx > 0: local (global) minimum. (c) f (x, y) = 3 + 2(x −
+1)2 − 2(x − 1)y + y2. (d) Third derivatives all zero ⇒ expansion exact; expanding (c)
+reproduces f term by term.
+Where marks are lost
+Solving the linear system wrongly (check by substituting back into both equations). Writing
+a gradient term in (c) even though it is zero at a stationary point. Forgetting the 1
+2 (gives
+4(x − 1)2 . . ., which does not expand back to f ).
+Answers at a glance
+(a) (1, 0), H =
+ 4 −2
+−2 2
+
+(b) 3, minimum (c) 3 + 2(x − 1)2 − 2(x − 1)y + y2 (d) exact
+Problem 55 · Four stationary points, all three types
+Let f (x, y) =x3 − 3x + y3 − 12y.
+(a) Find all stationary points of f .
+(b) For each stationary point compute the Hessian matrix and its determinant.
+(c) Classify each stationary point.
+(d) Write the second-order Taylor expansion of f about the stationary point that is a local
+maximum.
+How to attempt this (the plan)
+What it tests: finding all stationary points (two cases in each variable), evaluating H at each, the
+D test, and T2 at a stationary point. Plan: fx = 0 gives x = ±1, fy = 0 gives y = ±2, so four
+points; H is diagonal here; tabulate.
+82
+--- PAGE 83 ---
+MFML · ZC416 · Practice Set Topic 11 · Taylor, Hessian & Critical Points
+Worked solution
+STEP 1 (a) Solve each partial separately:
+fx = 3x2 − 3 = 0 ⇒ x2 = 1 ⇒ x = ±1,
+fy = 3y2 − 12 = 0 ⇒ y2 = 4 ⇒ y = ±2.
+Every combination satisfies both equations, so there are four points: (1, 2), (1, −2), (−1, 2),
+(−1, −2).
+STEP 2 (b) Second partials:
+fxx = 6x, fxy = 0, fyy = 6y ⇒ H =
+6x 0
+0 6 y
+
+, D = 36xy.
+Point H D f xx
+(1, 2)
+6 0
+0 12
+
+72 6
+(1, −2)
+6 0
+0 −12
+
+−72 6
+(−1, 2)
+−6 0
+0 12
+
+−72 −6
+(−1, −2)
+−6 0
+0 −12
+
+72 −6
+STEP 3 (c) Apply the D test:
+(1, 2) : D > 0, fxx > 0 ⇒ local minimum; (−1, −2) : D > 0, fxx < 0 ⇒ local maximum;
+(1, −2) and (−1, 2) : D < 0 ⇒ saddle points.
+(Equivalently, the eigenvalues are the diagonal entries: (6, 12) min; (−6, −12) max; mixed signs
+saddle.)
+STEP 4 (d) Value at the maximum:
+f (−1, −2) = (−1) +3 + (−8) +24 = 18.
+STEP 5 (d) With h = (x + 1, y + 2)⊤ and the gradient zero there:
+T2 = 18 + 1
+2
+ 
+−6(x + 1)2 + 0 − 12(y + 2)2
+= 18 − 3(x + 1)2 − 6(y + 2)2.
+Both squares enter with negative signs, as a maximum should.
+Answer. (a) (1, 2), (1, −2), (−1, 2), (−1, −2). (b) H = diag(6x, 6y), D = 72, −72, −72, 72
+respectively. (c) (1, 2) minimum; (−1, −2) maximum; (1, −2) and (−1, 2) saddles. (d)
+T2(x, y) =18 − 3(x + 1)2 − 6(y + 2)2.
+Where marks are lost
+Listing only two of the four points. Arithmetic in f (−1, −2) (the sign of −3x at x = −1 is +3).
+Writing (x − 1) instead of (x + 1) in h.
+83
+--- PAGE 84 ---
+MFML · ZC416 · Practice Set Topic 11 · Taylor, Hessian & Critical Points
+Answers at a glance
+(a) four points (±1, ±2) (b) D = 36xy (c) min (1, 2), max (−1, −2), saddles (1, −2), (−1, 2)
+(d) 18 − 3(x + 1)2 − 6(y + 2)2
+Problem 56 · A mixed term: determinant route and eigenvalue route
+Let f (x, y) =x2 + xy + y2 − 3x.
+(a) Find the stationary point and the value of f there.
+(b) Compute the Hessian and classify the point using D = fxx fyy − f 2
+xy.
+(c) Compute the eigenvalues of the Hessian and confirm the classification.
+(d) Using the Taylor expansion at the stationary point, compute the exact change in f for the
+step h = (1, −1)⊤, and check it by direct evaluation.
+How to attempt this (the plan)
+What it tests: a stationary point that needs two simultaneous equations, both classification routes,
+and using 1
+2 h⊤ Hh as an actual number. Plan: solve 2x + y = 3, x + 2y = 0; D; characteristic
+equation of a 2 × 2; compute the quadratic form for the given h.
+Worked solution
+STEP 1 (a) Stationary point:
+fx = 2x + y − 3 = 0, fy = x + 2y = 0.
+From fy : x = −2y. Into fx : −4y + y − 3 = 0 ⇒ y = −1, x = 2.
+f (2, −1) =4 − 2 + 1 − 6 = −3.
+STEP 2 (b) Hessian and D:
+fxx = 2, fxy = 1, fyy = 2 ⇒ H =
+2 1
+1 2
+
+,
+D = 2 · 2 − 12 = 3 > 0, fxx = 2 > 0 ⇒ local minimum.
+STEP 3 (c) Eigenvalues:
+det(H − λI) = (2 − λ)2 − 1 = 0 ⇒ 2 − λ = ±1 ⇒ λ = 1, 3.
+Both positive ⇒ H positive definite ⇒ minimum. (Check: λ1λ2 = 3 = D.)
+STEP 4 (d) Since f is quadratic, T2 is exact and the gradient term is zero at (2, −1):
+∆ f = 1
+2 h⊤ Hh = 1
+2
+
+1 −1
+ 2 1
+1 2
+ 1
+−1
+
+= 1
+2
+
+1 −1
+  1
+−1
+
+= 1
+2 (1 + 1) =1.
+STEP 5 (d) Direct check: the new point is (3, −2), and
+f (3, −2) =9 − 6 + 4 − 9 = −2, ∆ f = −2 − (−3) =1. ✓
+Answer. (a) Stationary point (2, −1), f (2, −1) =−3. (b) H =
+2 1
+1 2
+
+, D = 3 > 0, fxx > 0:
+local minimum. (c) λ = 1, 3, both positive: minimum confirmed. (d) ∆ f = 1; direct
+evaluation gives f (3, −2) − f (2, −1) =−2 − (−3) =1.
+84
+--- PAGE 85 ---
+MFML · ZC416 · Practice Set Topic 11 · Taylor, Hessian & Critical Points
+Where marks are lost
+Solving only one equation. Writing fxy = 2 (the cross term is xy, so fxy = 1). Forgetting the 1
+2 in
+(d) (gives 2, which the direct check exposes).
+Answers at a glance
+(a) (2, −1), f = −3 (b) D = 3, minimum (c) λ = 1, 3 (d) ∆ f = 1
+Problem 57 · Read a Taylor expansion backwards
+(a) The second-order Taylor expansion of a function g about a stationary point is
+T2(x, y) =5 − 2(x − 1)2 + 6(x − 1)(y + 2) − 2(y + 2)2.
+Read off the stationary point, g at that point, and the Hessian matrix there. Classify the
+point.
+(b) At a stationary point of another function the Hessian is H =
+a 2
+2 1
+
+. Find all values of a
+for which the point is (i) a local minimum, (ii) a saddle, (iii) undecided by the test.
+How to attempt this (the plan)
+What it tests: whether you know what each piece of T2 is. Plan: match T2 = g0 + 1
+2
+
+fxx h2
+1 +
+2 fxyh1h2 + fyyh2
+2
+
+term by term, remembering the 1
+2 and the 2 on the cross term; for (b),D = a − 4.
+Worked solution
+STEP 1 (a) Here h = (x − 1, y + 2), so the stationary point is (1, −2) and the constant is
+g(1, −2) =5.
+STEP 2 (a) Compare coefficients with 1
+2 fxx h2
+1 + fxyh1h2 + 1
+2 fyyh2
+2:
+1
+2 fxx = −2 ⇒ fxx = −4, fxy = 6, 1
+2 fyy = −2 ⇒ fyy = −4.
+H =
+−4 6
+6 −4
+
+.
+STEP 3 (a) Classify:
+D = (−4)(−4) − 36 = 16 − 36 = −20 < 0 ⇒ saddle.
+(Eigenvalues: −4 ± 6 = 2, −10, opposite signs.)
+STEP 4 (b) Determinant in terms of a:
+D = a · 1 − 22 = a − 4.
+(i) Minimum needs D > 0 and fxx = a > 0: a > 4 (which already gives a > 0).
+(ii) Saddle needs D < 0: a < 4.
+(iii) D = 0: a = 4.
+A maximum is impossible since fyy = 1 > 0.
+Answer. (a) Point (1, −2); g(1, −2) =5; H =
+−4 6
+6 −4
+
+; D = −20: saddle. (b) (i) a > 4;
+(ii) a < 4; (iii) a = 4.
+85
+--- PAGE 86 ---
+MFML · ZC416 · Practice Set Topic 11 · Taylor, Hessian & Critical Points
+Where marks are lost
+Reading fxx = −2 (forgetting the 1
+2). Reading fxy = 3 or 12 (the cross coefficient equals fxy
+exactly, because 1
+2 · 2 fxy = fxy). Reading the point as (−1, 2).
+Answers at a glance
+(a) (1, −2), 5, H =
+−4 6
+6 −4
+
+, saddle (b) a > 4 min, a < 4 saddle, a = 4 undecided
+86
+--- PAGE 87 ---
+MFML · ZC416 · Practice Set Topic 12 · Autodiff & Backpropagation
+Topic 12
+Automatic Differentiation & Backpropagation
+The forward pass on a computation graph, the local derivative of every node, the backward pass with
+the fan-out (sum) rule, diagnosing a recorded pass, and sigmoid or tanh neurons with gradients and
+one gradient-descent step.
+Formulas you need for this topic
+• Forward pass: compute every intermediate node, top to bottom, and write the numbers down.
+• Local derivative on each edge: ∂(child)/∂(parent), evaluated at the forward values.
+• Backward pass from ∂ f /∂ f = 1: ∂ f
+∂xi
+= ∑j: xi∈Pa(xj)
+∂ f
+∂xj
+∂xj
+∂xi
+— a node with several children adds the
+contributions.
+• σ′(z) =σ(z)
+ 
+1 − σ(z)
+
+= a(1 − a); tanh ′(z) =1 − tanh2 z; ReLU ′(z) =1 for z > 0, else 0.
+• Neuron z = w⊤x + b: δ(z) = δ(a) ∂a
+∂z , then ∂Loss
+∂w = δ(z)x, ∂Loss
+∂b = δ(z), ∂Loss
+∂x = δ(z)w.
+• One gradient-descent step: w ← w − η ∂Loss
+∂w , b ← b − η ∂Loss
+∂b .
+Problem 58 · Pure chain (warm-up)
+Consider f (x) = (2x + 1)3 with intermediate variables
+a = 2x, b = a + 1, f = b3.
+Using reverse-mode automatic differentiation at x = 1:
+(a) Perform the forward pass and report a, b, f .
+(b) Write the local derivative of every node with respect to its parent, evaluated at x = 1.
+(c) Perform the backward pass: compute ∂ f /∂b, ∂ f /∂a and d f /dx.
+(d) Verify d f /dx by direct differentiation.
+How to attempt this (the plan)
+What it tests: the three-column ledger with no branching. Plan: (1) forward, top to bottom; (2)
+one-line derivative per edge, plug in numbers; (3) start from ¯f = 1 and multiply backwards; (4)
+differentiate (2x + 1)3 by the chain rule as a check.
+Worked solution
+STEP 1 (a) Forward pass at x = 1.
+Node Formula Value
+a 2x 2(1) =2
+b a + 1 2 + 1 = 3
+f b 3 33 = 27
+STEP 2 (b) Local derivatives at x = 1.
+87
+--- PAGE 88 ---
+MFML · ZC416 · Practice Set Topic 12 · Autodiff & Backpropagation
+Edge Formula Value
+∂a/∂x 2 2
+∂b/∂a 1 1
+∂ f /∂b 3b2 3(3)2 = 27
+STEP 3 (c) Backward pass, starting from ¯f = 1.
+Bar Formula Value
+¯f seed 1
+¯b ¯f · ∂ f /∂b 1 · 27 = 27
+¯a ¯b · ∂b/∂a 27 · 1 = 27
+¯x ¯a · ∂a/∂x 27 · 2 = 54
+STEP 4 (d) Cross-check by the chain rule:
+f ′(x) =3(2x + 1)2 · 2 = 6(2x + 1)2, f ′(1) =6 · 9 = 54. ✓
+Answer. (a) a = 2, b = 3, f = 27. (b) ∂a/∂x = 2, ∂b/∂a = 1, ∂ f /∂b = 27. (c) ∂ f /∂b =
+27, ∂ f /∂a = 27, d f /dx = 54. (d) 54, matching.
+Where marks are lost
+Writing 3b2 without evaluating it to 27 in part (b). Starting the backward pass from ¯x instead of
+¯f . Doing part (d) only and presenting it as part (c).
+Answers at a glance
+(a) 2, 3, 27 (b) 2, 1, 27 (c) 27, 27, 54 (d) 54
+Problem 59 · Fan-out in the middle, with a reciprocal
+Consider f (x) = (2x)2 + 1
+2x for x > 0, with
+a = 2x, b = a2, c = 1
+a , f = b + c.
+Node a feeds two children, b and c. At x = 1:
+(a) Forward pass: report a, b, c, f .
+(b) Local derivatives of every node with respect to each parent, at x = 1.
+(c) Backward pass: ∂ f /∂b, ∂ f /∂c, ∂ f /∂a, and d f /dx.
+How to attempt this (the plan)
+What it tests: the add rule at an internal node, and the sign of the derivative of 1/a. Plan:
+forward; five local slopes (watch −1/a2); bars of b, c; then ¯a is the sum of two terms with
+opposite signs; multiply once more for ¯x.
+88
+--- PAGE 89 ---
+MFML · ZC416 · Practice Set Topic 12 · Autodiff & Backpropagation
+Worked solution
+STEP 1 (a) Forward pass at x = 1.
+Node Formula Value
+a 2x 2
+b a 2 22 = 4
+c 1/a 1/2 = 0.5
+f b + c 4 + 0.5 = 4.5
+STEP 2 (b) Local derivatives at x = 1 (five edges).
+Edge Formula Value
+∂a/∂x 2 2
+∂b/∂a 2a 4
+∂c/∂a −1/a2 − 1
+4
+∂ f /∂b 1 1
+∂ f /∂c 1 1
+STEP 3 (c) Backward pass from ¯f = 1.
+Bar Formula Value
+¯f seed 1
+¯b ¯f · ∂ f /∂b 1 · 1 = 1
+¯c ¯f · ∂ f /∂c 1 · 1 = 1
+¯a ¯b · ∂b/∂a + ¯c · ∂c/∂a 1 · 4 + 1 · (− 1
+4 ) = 15
+4 = 3.75
+¯x ¯a · ∂a/∂x 3.75 · 2 = 7.5
+Node a has two children, so both contributions are added.
+STEP 4 (c) Cross-check:
+f = 4x2 + 1
+2 x−1, f ′ = 8x − 1
+2x2 = 8 − 0.5 = 7.5. ✓
+Answer. (a) a = 2, b = 4, c = 0.5, f = 4.5. (b) 2, 4, − 1
+4, 1, 1 . (c) ∂ f /∂b = 1, ∂ f /∂c =
+1, ∂ f /∂a = 3.75, d f /dx = 7.5.
+Where marks are lost
+Sign of ∂c/∂a (using + 1
+4 gives ¯a = 4.25, d f /dx = 8.5). Dropping the c path (gives ¯a = 4,
+d f /dx = 8).
+Answers at a glance
+(a) 2, 4, 0.5, 4.5 (b) 2, 4, − 1
+4, 1, 1 (c) 1, 1, 3.75, 7.5
+89
+--- PAGE 90 ---
+MFML · ZC416 · Practice Set Topic 12 · Autodiff & Backpropagation
+Problem 60 · Diagnose a recorded backward pass
+For the computation graph of the previous problem at x = 1, three students recorded the
+following final answers for d f /dx. The correct value is 7.5.
+Student P Student Q Student R
+∂ f /∂a reported 4 4.25 3.75
+d f /dx reported 8 8.5 3.75
+For each student, identify the single mistake (which edge or which rule) that produces exactly
+their numbers.
+How to attempt this (the plan)
+What it tests: whether you can read a ledger backwards and locate a slip. Plan: compare each
+reported ¯a with the correct sum 4 − 1
+4, then compare each d f /dx with ¯a · 2.
+Worked solution
+STEP 1 P Correct ¯a = 4 + (− 1
+4 ) = 3.75. Reported ¯a = 4 means the c-path contribution
+¯c · ∂c/∂a = − 1
+4 was omitted. Then d f /dx = 4 · 2 = 8 is consistent.
+P forgot the second child of a (the edge a → c); the add rule was not applied.
+STEP 2 Q Reported ¯a = 4.25 = 4 + 1
+4: the c-path was included but with ∂c/∂a = +1
+4. Then
+4.25 · 2 = 8.5 is consistent.
+Q used the wrong sign for ∂(1/a)/∂a; it is − 1/a2 = − 1
+4.
+STEP 3 R ¯a = 3.75 is correct. Reported d f /dx = 3.75 = ¯a · 1, so the final edge x → a was
+multiplied by 1 instead of ∂a/∂x = 2.
+R stopped at ¯a (or used ∂a/∂x = 1); the last multiplication by 2 was missed.
+STEP 4 check Each diagnosis reproduces the student’s pair of numbers exactly:
+Student Slip ¯a d f /dx
+P drop edge a → c 4 4 · 2 = 8 ✓
+Q ∂c/∂a = +1
+4 4.25 4.25 · 2 = 8.5 ✓
+R ∂a/∂x = 1 3.75 3.75 · 1 = 3.75 ✓
+Answer. P: missed the edge a → c (no add rule at a). Q: sign of −1/a2. R: missed the last
+factor ∂a/∂x = 2.
+Where marks are lost
+Naming a mistake that does not reproduce the student’s numbers exactly. Each diagnosis must
+be checked arithmetically: compute ¯a and ¯a · ∂a/∂x under the proposed slip and confirm both
+numbers match.
+90
+--- PAGE 91 ---
+MFML · ZC416 · Practice Set Topic 12 · Autodiff & Backpropagation
+Answers at a glance
+P: missed edge a → c. Q: sign of −1/a2. R: missed ∂a/∂x = 2.
+Problem 61 · Sigmoid neuron with squared loss and one GD step
+A sigmoid neuron computes z = w⊤x + b, a = σ(z), and is trained with Loss = (y − a)2. For
+one example,
+w =
+1
+1
+
+, x =
+ 1
+−1
+
+, b = 0, y = 0.
+(a) Compute z, a and Loss.
+(b) Compute δ(a) = ∂Loss/∂a and δ(z) = ∂Loss/∂z.
+(c) Compute ∂Loss/∂w, ∂Loss/∂b and ∂Loss/∂x.
+(d) Update w and b by one gradient-descent step with η = 2, and compute the new z.
+(You may use σ(0) =0.5.)
+How to attempt this (the plan)
+What it tests: the neuron ledger end to end. Plan: forward three numbers; δ(a) = 2(a − y) (mind
+the sign); δ(z) = δ(a)a(1 − a); weights use x, input uses w, bias uses 1; subtract η×gradient;
+recompute z to check the direction.
+Worked solution
+STEP 1 (a) Forward pass.
+Node Formula Value
+z w ⊤x + b (1)(1) + (1)(−1) +0 = 0
+a σ(z) σ(0) =0.5
+Loss (y − a)2 (0 − 0.5)2 = 0.25
+STEP 2 (b) Error signals.
+δ(a) = ∂
+∂a (y − a)2 = 2(y − a)(−1) =2(a − y) =2(0.5 − 0) =1
+σ′(z) =a(1 − a) =0.5 × 0.5 = 0.25
+δ(z) = δ(a) · σ′(z) =1 × 0.25 = 0.25
+STEP 3 (c) Gradients (weights use x, bias uses 1, input uses w).
+∂Loss
+∂w = δ(z)x = 0.25
+ 1
+−1
+
+=
+ 0.25
+−0.25
+
+∂Loss
+∂b = δ(z) · 1 = 0.25
+∂Loss
+∂x = δ(z)w = 0.25
+1
+1
+
+=
+0.25
+0.25
+
+91
+--- PAGE 92 ---
+MFML · ZC416 · Practice Set Topic 12 · Autodiff & Backpropagation
+STEP 4 (d) Gradient-descent step with η = 2 (minus sign!).
+wnew =
+1
+1
+
+− 2
+ 0.25
+−0.25
+
+=
+0.5
+1.5
+
+bnew = 0 − 2(0.25) =−0.5
+znew = (0.5)(1) + (1.5)(−1) − 0.5 = −1.5
+So a falls from 0.5 towards y = 0; the step helps.
+Answer. (a) z = 0, a = 0.5, Loss = 0.25. (b) δ(a) = 1, δ(z) = 0.25. (c) ∂Loss/∂w =
+(0.25, −0.25)⊤, ∂Loss/∂b = 0.25, ∂Loss/∂x = (0.25, 0.25)⊤. (d) wnew = (0.5, 1.5)⊤, bnew =
+−0.5, znew = −1.5.
+Where marks are lost
+δ(a) = −1 (sign). Swapping x and w in (c). Using +η. Halving everything by silently using
+1
+2 (y − a)2.
+Answers at a glance
+(a) 0, 0.5, 0.25 (b) 1, 0.25 (c) (0.25, −0.25)⊤, 0.25, (0.25, 0.25)⊤ (d) (0.5, 1.5)⊤, −0.5, znew =
+−1.5
+Problem 62 · Tanh neuron with an incoming error signal
+A hidden neuron computes z = w⊤x + b and h = tanh(z). For one example,
+w =
+ 3
+−1
+
+, x =
+1
+3
+
+, b = 0,
+and the error signal arriving from the next layer is δ(h) = ∂Loss/∂h = 5.
+(a) Show that d
+dz tanh z = 1 − tanh2 z, starting from tanh z = ez − e−z
+ez + e−z .
+(b) Compute z, h, and ∂h/∂z.
+(c) Compute δ(z), ∂Loss/∂w, ∂Loss/∂b.
+(d) Compute ∂Loss/∂x, the signal passed to the previous layer.
+How to attempt this (the plan)
+What it tests: that changing the activation changes exactly one local slope and nothing else; a
+short derivation. Plan: quotient rule once; forward; multiply δ(h) by the tanh slope; then the
+same three gradients as always.
+Worked solution
+STEP 1 (a) Write N = ez − e−z and D = ez + e−z, so tanh z = N/D. Note N′ = ez + e−z = D
+and D′ = ez − e−z = N.
+d
+dz
+N
+D = N′D − ND ′
+D2 = D · D − N · N
+D2 = 1 − N2
+D2 = 1 − tanh2 z.
+92
+--- PAGE 93 ---
+MFML · ZC416 · Practice Set Topic 12 · Autodiff & Backpropagation
+STEP 2 (b) Forward pass.
+Node Formula Value
+z w ⊤x + b (3)(1) + (−1)(3) +0 = 0
+h tanh z tanh 0 = 0
+∂h/∂z 1 − h2 1 − 0 = 1
+STEP 3 (c) Backward to the parameters.
+δ(z) = δ(h) · ∂h
+∂z = 5 × 1 = 5
+∂Loss
+∂w = δ(z)x = 5
+1
+3
+
+=
+ 5
+15
+
+, ∂Loss
+∂b = δ(z) = 5
+STEP 4 (d) Backward to the input.
+∂Loss
+∂x = δ(z)w = 5
+ 3
+−1
+
+=
+ 15
+−5
+
+Answer. (a) tanh′(z) = 1 − tanh2 z = 1 − h2. (b) z = 0, h = 0, ∂h/∂z = 1. (c) δ(z) =
+5, ∂Loss/∂w = (5, 15)⊤, ∂Loss/∂b = 5. (d) ∂Loss/∂x = (15, −5)⊤.
+Where marks are lost
+Using h(1 − h) (the sigmoid slope) for tanh. Swapping x and w in (c)/(d). Forgetting that δ(h) is
+given and trying to differentiate a loss that is not specified.
+Answers at a glance
+(a) 1 − h2 (b) 0, 0, 1 (c) 5, (5, 15)⊤, 5 (d) (15, −5)⊤
+93

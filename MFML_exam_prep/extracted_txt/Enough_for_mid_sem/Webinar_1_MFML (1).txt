@@ -1,0 +1,780 @@
+--- PAGE 1 ---
+BITSPilani
+MFML AND MFDS
+MFML and MFDS T eam
+WILPD - CSIS
+--- PAGE 2 ---
+BITSPilani
+AIMLZC416, DSECLZC416- MFML, MFDS
+Webinar: #1
+--- PAGE 3 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+AGENDA
+Problems on
+System of linear equations
+Vector spaces
+Inner Product Space
+Cholesky Factorization
+--- PAGE 4 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+PROBLEM 1
+Y ou are given a system of three linear equations as shown below:
+αx + 2y + 6z = b1
+αx +α y + 5z = b2
+αx +α y +α z = b3
+In each of the equations, you can observe the presence of an
+unknown constant α. Derive the three possible values of α for
+which the given linear system will fail to have three pivots. Pro-
+vide a valid reason in each case.
+--- PAGE 5 ---
+
+--- PAGE 6 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+CONT
+Consider the coefﬁcient matrix
+A =
+
+
+α 2 6
+α α 5
+α α α
+
+ .
+T o convert it into Row Echelon Form (REF), perform row opera-
+tions:
+A
+R2←R2−R1, R3←R3−R1
+− − − − − − − − − − − − − →
+
+
+α 2 6
+0 α− 2 −1
+0 α− 2 α− 6
+
+ .
+Continue row reduction:
+--- PAGE 7 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+CONT
+R3←R3−R2
+− − − − − − →
+
+
+α 2 6
+0 α− 2 −1
+0 0 α− 5
+
+ .
+Hence, the REF ofAis
+
+
+α 2 6
+0 α− 2 −1
+0 0 α− 5
+
+ .
+Clearly ,Awill not have 3 pivots if
+α= 0, or α− 2 = 0, or α− 5 = 0.
+α= 0, 2, 5 .
+--- PAGE 8 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+PROBLEM 2
+LetA =
+
+
+−3 6 −1 1 −7
+1 −2 2 3 −1
+2 −4 5 8 −4
+
+
+(a) Using elementary row operations, write the matrix in its
+REF .
+(b) LetVbe a vector subspace spanned by the columns of
+matrixA. Give a set of vectors that form the basis for the
+vector spaceV. What is the number of vectors in this basis?
+(c) LetVbe a vector subspace spanned by vectorsx, such
+thatAx= 0. Give a set of vectors that form the basis for the
+vector spaceV. What is the number of vectors in this basis?
+(d) Give the set of linearly independent rows ofA. What is the
+number of vectors in this set?
+--- PAGE 9 ---
+
+--- PAGE 10 ---
+
+--- PAGE 11 ---
+
+--- PAGE 12 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+SOLUTION
+(a)
+A =
+
+
+−3 6 −1 1 −7
+1 −2 2 3 −1
+2 −4 5 8 −4
+
+ R1↔R2
+− − − − →
+
+
+1 −2 2 3 −1
+−3 6 −1 1 −7
+2 −4 5 8 −4
+
+
+R2←R2 + 3 ∗ R1,R3←R3 − 2 ∗ R1,R2←R2/5,R3←R3 − R2,R1←R1 − 2 ∗ R2
+− − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − − →
+
+
+1 −2 0 −1 3
+0 0 1 2 −2
+0 0 0 0 0
+
+
+NOTE: REF is not unique.
+--- PAGE 13 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+CONT
+(b) column number 1 and column number 3 have pivot.
+Basis of column space is:
+
+
+−3
+1
+2
+
+
+
+
+−1
+2
+5
+
+
+Rank of col space = 2
+--- PAGE 14 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+CONT
+(c) From REF , the null space is:
+
+
+x
+r
+y
+s
+t
+
+
+=
+
+
+2
+1
+0
+0
+0
+
+
+r +
+
+
+1
+0
+−2
+1
+0
+
+
+s +
+
+
+−3
+0
+2
+0
+1
+
+
+t
+Rank of null space = 3
+(d) From REF , row 1 and row 2 form basis of row space.
+Rank of row space = 2
+--- PAGE 15 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+PROBLEM 3
+SupposeA = [ C1, C2, C3, C4], whereC m ∈R 4, m = 1, 2, 3, 4
+are columns ofA. It is known that rank(A) = 2 andC 2 = 3C1 and
+C4 = 2C1 + 3C3. If a particular solution ofAx = bis [1, 0, 1, 0]T ,
+then
+(a) Find the general solution ofAx = b.
+(b) Findbif RREF(A) = A.
+--- PAGE 16 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+SOLUTION
+(a) NowA = [ C1, C2, C3, C4] whereC m ∈R 4, m = 1, 2, 3, 4 are
+columns ofA. It is known that rank (A) = 2
+C2 = 3C1 ⇒ 3C1 − C2 + 0C3 + 0C4 = 0
+⇒[ C1, C2, C3, C4]
+
+
+3
+−1
+0
+0
+
+ = 0
+C4 = 2C1 + 3C3 ⇒ 2C1 + 0C2 + 3C3 − 1C4 = 0
+⇒[ C1, C2, C3, C4]
+
+
+2
+0
+3
+−1
+
+ = 0
+Thus, the general solution ofAx = bis given by
+--- PAGE 17 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+
+
+
+
+
+1
+0
+1
+0
+
+ +λ 1
+
+
+3
+−1
+0
+0
+
+ +λ 2
+
+
+2
+0
+3
+−1
+
+ |∀λ 1,λ 2 ∈R
+
+
+
+(b)A = [C1, C2, C3, C4] = [ C1, 3C1, C3, 2C1+3C3] and rank(A) =
+2. ThereforeC 1, C3 are pivot columns & RREF (A) = A.
+⇒ C1 = [1, 0, 0, 0]T andC 3 = [0, 1, 0, 0]T
+⇒ C2 = [3, 0, 0, 0]T andC 4 = [2, 3, 0, 0]T
+⇒ A =
+
+
+1 3 0 2
+0 0 1 3
+0 0 0 0
+0 0 0 0
+
+, Thereforeb = A[1, 0, 1, 0]T = [1, 1, 0, 0]T
+--- PAGE 18 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+PROBLEM 4
+ConsiderM ={ A ∈R 2×2|A =− AT }.
+(a) Prove thatMis a subspace of vectore spaceV, whereVis
+set of all 2 × 2 real matrices.
+(b) Prove or disprove
+
+1 0
+0 0
+
+,
+
+0 −1
+1 0
+
+,
+
+0 0
+0 1
+
+is a basis
+forMdeﬁned in above.
+(c) Prove or disprove that {
+
+1 −1
+1 0
+
+,
+
+5 −5
+5 5
+
+,
+
+0 −3
+3 1
+
+} is
+a linearly independent set.
+--- PAGE 19 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+SOLUTION
+(a) Clearly the zero matrix of order 2,0 ∈ M ⇒ M ̸=ϕ .
+LetA , B ∈ M, k ∈R
+⇒ A =− AT , B =− BT
+⇒ A + B =− AT − BT =−( A + B)T
+⇒ A + B ∈ M
+kA = k (−AT ) = (− k )AT =−( kA )T
+So,Mis a subspace.
+(b) Clearly
+
+1 0
+0 0
+
+,
+
+0 0
+0 1
+
+does not belong toMand hence can-
+not be a basis ofM.
+--- PAGE 20 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+(c) Considera
+
+1 −1
+1 0
+
++ b
+
+5 −5
+5 5
+
++ c
+
+0 −3
+3 1
+
+=
+
+0 0
+0 0
+
+⇒ a + 5b = 0
+−a − 5b − 3c = 0
+a + 5b + 3c = 0
+5b + c = 0
+⇒ a = b = c = 0. Hence it a linearly independent set.
+--- PAGE 21 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+PROBLEM 5
+LetA =
+
+
+2 −1 0 0
+−1 2 −1 0
+0 −1 2 −1
+0 0 −1 2
+
+.
+Then deﬁne ⟨x, y⟩A = xT Aywherex , y ∈R 4.
+(a) Prove that ⟨., .⟩A is an inner product on R4.
+(b) Find all possibley = [y1, y2, y3, y4]T such that ⟨x, y⟩A = 0
+wherex = [1, 0, 0, 0]T
+--- PAGE 22 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+SOLUTION
+(a) ClearlyA = AT and henceAis symmetric. Now
+xT Ax = 2x2
+1 − 2x1x2 + 2x2
+2 − 2x2x3 + 2x2
+3 − 2x3x4 + 2x2
+4
+= x2
+1 + (x1 − x2)2 + (x2 − x3)2 + (x3 − x4)2 + x2
+4 > 0
+ifx ̸= 0.
+ThusAis symmetric positive deﬁnite. Hence by theorem ⟨x, y⟩A =
+xT Ayis an inner product.
+(b) Ify = [y1, y2, y3, y4]T andx = [1, 0, 0, 0]T
+we want ⟨x, y⟩A = 0
+⇒ 2y1 − y2 = 0 ⇒ 2y1 = y2
+Thusy = [y1, y2, y3, y4]T with 2y1 = y2, ⟨x, y⟩A = 0.
+--- PAGE 23 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+PROBLEM 6
+Consider the positive deﬁnite matrixA ∈R 3×3 deﬁned as:
+A =
+
+
+9 6 3
+6 8 12
+3 12 75
+
+
+(i) Derive a lower triangular matrixLso thatAcan be
+factorized asA = LLT . Derive all the three eigenvalues of
+L.
+(ii) Letx ∈R 3 be a nonzero vector. Deﬁnez = LT xwhere
+L ∈R 3×3 satisﬁes the equalityA = LLT . Prove thatzcan
+never be the zero vector.
+--- PAGE 24 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+SOLUTION
+Given
+A =
+
+
+9 6 3
+6 8 12
+3 12 75
+
+
+SinceAis positive deﬁnite, it admits a Cholesky factorizationA =
+LLT whereLis lower triangular.
+L =
+
+
+ℓ11 0 0
+ℓ21 ℓ22 0
+ℓ31 ℓ32 ℓ33
+
+
+Then
+LLT =
+
+
+ℓ2
+11 ℓ11ℓ21 ℓ11ℓ31
+ℓ21ℓ11 ℓ2
+21 +ℓ 2
+22 ℓ21ℓ31 +ℓ 22ℓ32
+ℓ31ℓ11 ℓ31ℓ21 +ℓ 32ℓ22 ℓ2
+31 +ℓ 2
+32 +ℓ 2
+33
+
+
+--- PAGE 25 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+Equating withA:
+ℓ2
+11 = 9 ⇒ℓ 11 = 3
+3ℓ21 = 6 ⇒ℓ 21 = 2
+3ℓ31 = 3 ⇒ℓ 31 = 1
+ℓ2
+21 +ℓ 2
+22 = 8 ⇒ 4 +ℓ 2
+22 = 8 ⇒ℓ 22 = 2
+ℓ21ℓ31 +ℓ 22ℓ32 = 12 ⇒ 2 + 2ℓ32 = 12 ⇒ℓ 32 = 5
+ℓ2
+31 +ℓ 2
+32 +ℓ 2
+33 = 75 ⇒ 1 + 25 +ℓ 2
+33 = 75 ⇒ℓ 33 = 7
+L =
+
+
+3 0 0
+2 2 0
+1 5 7
+
+
+--- PAGE 26 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+CONT.
+SinceLis triangular, its eigenvalues are its diagonal entries:
+λ1 = 3,λ 2 = 2,λ 3 = 7
+(ii)Letx ∈R 3 be nonzero and deﬁnez = LT x. Then
+xT Ax = xT LLT x = (LT x)T (LT x) = zT z =∥ z∥2
+SinceAis positive deﬁnite,
+xT Ax > 0 ∀x ̸= 0
+Hence
+∥z∥2 > 0 ⇒ z ̸= 0
+z = LT xcan never be the zero vector ifx ̸= 0.
+--- PAGE 27 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+PROBLEM 7
+(a) Assume that you are given a matrixA ∈R n×n where
+A = [aij ] (1 ≤ i, j ≤ n). The matrixAhas the following
+interesting property:
+ai1 + ai2 +· · ·+ ain = 0 for each ofi = 1, 2, . . . ,n.
+(i) Can zero be one of the eigenvalues of this matrix? Give
+reasoning for your answer.
+(ii) Derive the determinant of this matrix.
+(iii) Derive at least one eigenvector–eigenvalue pair of this
+matrix.
+--- PAGE 28 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+SOLUTION
+(a)GivenA = [aij ]∈R n×n such that
+ai1 + ai2 +· · ·+ ain = 0 for eachi = 1, 2, . . . ,n.
+(i) Let
+e =
+
+
+1
+1
+...
+1
+
+ .
+Then
+Ae =
+
+
+a11 + a12 +· · ·+ a1n
+a21 + a22 +· · ·+ a2n
+...
+an1 + an2 +· · ·+ ann
+
+ =
+
+
+0
+0
+...
+0
+
+ .
+--- PAGE 29 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+SOLUTION
+Hence
+Ae = 0e.
+0 is an eigenvalue ofA .
+(ii) Since 0 is an eigenvalue,Ais singular. Therefore,
+det(A) = 0.
+(iii) An eigenvalue–eigenvector pair is
+λ= 0, v =
+
+
+1
+1
+...
+1
+
+ .
+--- PAGE 30 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+PROBLEM 8
+Consider the data matrix given below
+C =
+
+
+−5 10 −5 5
+8 −16 −4 −20
+4 −8 5 −3
+−3 6 5 11
+
+ .
+(i) Reduce the matrixCto its reduced row echelon form
+(RREF).
+(ii) Find a basis for the subspace spanned by the columns of
+the matrixC.
+(iii) Suppose thatCis the augmented matrix of a system of
+linear equationsAx = b. Determine whether the system is
+consistent. If it is consistent,ﬁnd its general solution.
+--- PAGE 31 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+b)Ifv 1, v2, v3, v4 ∈R 4 andv 4 is not a linear combination of
+v1, v2, v3, then prove or disprove that
+{v1, v2, v3, v4}
+forms a linearly independent set.
+c)Ifv 1, v2, v3, v4 ∈R 3 and {v1, v2, v4} is a linearly independent
+set, then prove or disprove that
+{v1, v2, v3, v4}
+forms a linearly dependent set.
+--- PAGE 32 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+SOLUTION
+i)R 1 ← R1
+−5 :
+
+
+1 −2 1 −1
+8 −16 −4 −20
+4 −8 5 −3
+−3 6 5 11
+
+
+R2 ← R2 − 8R1, R3 ← R3 − 4R1, R4 ← R4 + 3R1, R2 ← R2
+−12
+
+
+1 −2 1 −1
+0 0 1 1
+0 0 1 1
+0 0 8 8
+
+
+R1 ← R1−R2, R3 ← R3−R2, R4 ← R4−8R2 :
+
+
+1 −2 0 −2
+0 0 1 1
+0 0 0 0
+0 0 0 0
+
+
+--- PAGE 33 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+ii) Since, column 1, 3 are pivot columns,
+Basis =
+
+[−5, 8, 4,− 3]T ,[− 5,− 4, 5, 5]T 	
+iii) GivenC = [A | b],⇒rank( C) = rank[ A | b].
+Clearly , from (i),
+rank(A) = rank[ A | b] = 2.
+i.e., System is consistent.
+Since column 2 is a non-pivot column,x 2 is a free variable. Letx 2 =
+t.
+From row 2 of rref[A | b], we getx 3 = 1. From row 1,x 1 − 2x2 =
+−2 ⇒ x1 =− 2 + 2t.
+--- PAGE 34 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+The general solution is
+
+
+x1
+x2
+x3
+
+ =
+
+
+−2
+0
+1
+
+ + t
+
+
+2
+1
+0
+
+ ,∀ t ∈R.
+b)False, as {v1, v2, v3} can be a linearly dependent set, making
+{v1, v2, v3, v4} a linearly dependent set.
+c)Y es, as R3 has dimension 3, so any set containing more than
+3 vectors is linearly dependent.
+--- PAGE 35 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+PROBLEM 9
+a)Deﬁne
+⟨x, y⟩A = xT Aywherex , y ∈R 2 andA =
+
+4 2
+2 6
+
+.
+(i) Prove ⟨·,·⟩ A is an inner product on R2.
+(ii) Find ∥x∥A where ∥·∥ A is the norm induced by the inner
+product deﬁned above forx = [1, 2]T .
+--- PAGE 36 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+b)LetAbe a 2 × 2 symmetric real matrix with trace ofAequal
+to 0. CanAbe a symmetric positive deﬁnite matrix? Justify your
+answer.
+c)A professor gave his student the following matrix
+A =
+
+
+4 1 1
+1 3 1
+1 1 2
+
+ .
+Help the student toﬁnd a lower triangular matrixLsuch that
+A = LLT .
+--- PAGE 37 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+a)i) Clearly A =
+
+4 2
+2 6
+
+= AT
+And det A11 = det[4] = 4 > 0,det A = 24 − 4 = 20 > 0
+∴ Ais symmetric and positive deﬁnite
+⇒ ⟨x, y ⟩A = xT Ayis aninner product on R2.
+ii)Note that ⟨x, x⟩A = [1, 2]
+
+4 2
+2 6
+ 
+1
+2
+
+= [1,2]
+
+8
+14
+
+= 8+28=36
+∴∥ x∥A =
+p
+⟨x, x⟩A =
+√
+36 = 6
+--- PAGE 38 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+b)T race of A = sum of eigenvalues = 0.
+Clearly , both eigenvalues are real due to the spectral theorem. If
+one is positive, the other eigenvalue has to be negative, as their
+sum is zero.
+∴ Eigenvalues are not strictly positive.
+⇒ It is not positive deﬁnite.
+c)Let L=
+
+
+ℓ11 0 0
+ℓ21 ℓ22 0
+ℓ31 ℓ32 ℓ33
+
+
+⇒ LLT =
+
+
+ℓ2
+11 ℓ11ℓ21 ℓ11ℓ31
+ℓ11ℓ21 ℓ2
+21 +ℓ 2
+22 ℓ21ℓ31 +ℓ 22ℓ32
+ℓ11ℓ31 ℓ21ℓ31 +ℓ 22ℓ32 ℓ2
+31 +ℓ 2
+32 +ℓ 2
+33
+
+
+--- PAGE 39 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+4=ℓ2
+11 ⇒ℓ 11 = 2, 1 =ℓ 11ℓ21 ⇒ℓ 21 = 0.5.
+1 =ℓ 11ℓ31 ⇒ℓ 31 = 0.5
+3 =ℓ 2
+21 +ℓ 2
+22 ⇒ℓ 22 =
+√
+3 − 0.25 =
+√
+2.75 = 1.6583
+1 = 0.5(0.5) +
+√
+2.75 ℓ32 ⇒ℓ 32 = 0.75√
+2.75
+= 0.4523
+2 = 0.25 + (0.75)2
+2.75 +ℓ 2
+33,⇒ℓ 33 =
+r
+1.75 − (0.75)2
+2.75 = 1.2432
+--- PAGE 40 ---
+BITSPilani
+THANK YOU

@@ -1,0 +1,791 @@
+=== PAGE 1 ===
+DEEP NEURAL NETWORK
+MODULE # 3 : L INEAR NEURAL
+NETWORKS FOR REGRESSION
+DNN Team
+BITS Pilani WILP
+
+=== PAGE 2 ===
+With grateful acknowledgement to the authors who have
+generously made their course materials freely available online.
+Deck prepared by Seetha Parameswaran.
+BITS Pilani WILP Deep Learning 2 / 1
+
+=== PAGE 3 ===
+Table of Contents
+1 Regression
+2 Linear Regression
+3 The Linear Model: Single Neuron
+4 Worked Example
+5 Evaluation
+6 Python Implementation
+7 Implementation Tips
+8 Summary
+BITS Pilani WILP Deep Learning 3 / 1
+
+=== PAGE 4 ===
+What is Regression?
+Definition
+Regression is a supervised learning task that predicts a continuous-valued output
+based on input features.
+Key Characteristics:
+Input: Feature vector x∈ Rd
+Output: Real-valued target y∈ R
+Goal: Learn a function f : Rd→ R such that y≈ f (x)
+BITS Pilani WILP Deep Learning 4 / 1
+
+=== PAGE 5 ===
+Examples of Regression Problems
+1 House Price Prediction
+▶ Input: Size, location, number of rooms
+▶ Output: Price in dollars
+2 Temperature Forecasting
+▶ Input: Historical weather data, season, humidity
+▶ Output: Temperature in degrees
+3 Stock Price Prediction
+▶ Input: Historical prices, trading volume, market indicators
+▶ Output: Future stock price
+BITS Pilani WILP Deep Learning 5 / 1
+
+=== PAGE 6 ===
+Table of Contents
+1 Regression
+2 Linear Regression
+3 The Linear Model: Single Neuron
+4 Worked Example
+5 Evaluation
+6 Python Implementation
+7 Implementation Tips
+8 Summary
+BITS Pilani WILP Deep Learning 6 / 1
+
+=== PAGE 7 ===
+What is Linear Regression?
+Definition
+Linear regression assumes the output is a linear combination of the input features.
+Mathematical Form:
+y = w0 + w1x1 + w2x2 +··· + wd xd (1)
+where:
+x = [x1, x2,..., xd]T are the input features
+w = [w1, w2,..., wd]T are the weights
+w0 is the bias term
+BITS Pilani WILP Deep Learning 7 / 1
+
+=== PAGE 8 ===
+Examples of Linear Regression
+1 Salary Prediction
+▶ Salary = w0 + w1× Y ears of Experience
+2 Crop Yield Prediction
+▶ Yield = w0 + w1× Rainfall + w2× Fertilizer
+3 Energy Consumption
+▶ Energy = w0 + w1× Temperature + w2× Hour + w3× Day
+The relationship between inputs and output is assumed to be linear.
+BITS Pilani WILP Deep Learning 8 / 1
+
+=== PAGE 9 ===
+Visual Example: 2D Linear Regression
+BITS Pilani WILP Deep Learning 9 / 1
+
+=== PAGE 10 ===
+Table of Contents
+1 Regression
+2 Linear Regression
+3 The Linear Model: Single Neuron
+4 Worked Example
+5 Evaluation
+6 Python Implementation
+7 Implementation Tips
+8 Summary
+BITS Pilani WILP Deep Learning 10 / 1
+
+=== PAGE 11 ===
+The Four Components
+A complete machine learning system consists of:
+1 Data: d-dimensional input vectors and target outputs
+2 Model: Single neuron implementing linear function
+3 Objective Function: Measures prediction error
+4 Learning Algorithm: Gradient descent to optimize weights
+BITS Pilani WILP Deep Learning 11 / 1
+
+=== PAGE 12 ===
+Matrix Form of Data
+For efﬁcient computation, we organize data into matrices:
+Input Data = Augmented Features:
+Add bias term: ˜x(i) = [1, x (i)
+1 ,..., x (i)
+d ]T
+Each row = one training example
+Design Matrix: X∈ RN×(d+1) X =
+
+
+1 x (1)
+1 ··· x (1)
+d
+1 x (2)
+1 ··· x (2)
+d
+... ... ... ...
+1 x (N)
+1 ··· x (N)
+d
+
+
+Target Vector: y∈ RN y =
+[
+y (1) y (2) ... y (N)]⊤
+Weight Vector: w∈ Rd+1 w =
+[
+w0 w1 w2 ... wd
+]⊤
+BITS Pilani WILP Deep Learning 12 / 1
+
+=== PAGE 13 ===
+Linear Model as a Single Neuron
+Model linear regression as a single artiﬁcial neuron:
+x1
+x2
+...
+xd
+1
+Σ ˆy
+w0
+w1
+w2
+wd
+f
+Input: d-dimensional feature vector x∈ Rd
+Output: Single predicted value ˆy∈ R
+BITS Pilani WILP Deep Learning 13 / 1
+
+=== PAGE 14 ===
+Linear Model Prediction
+Model: A single neuron computes a weighted sum and applied identity activation
+function.
+Prediction for input x:
+ˆy = f (wT x) = f (w0 + w1x1 + w2x2 +··· + wd xd) (2)
+where:
+w = [w0, w1,..., wd]T∈ Rd+1 are the model parameters
+x = [1, x1,..., xd]T∈ Rd+1 is the input
+f (·) is the identity activation f (z) = z
+Vectorized form: for all predictions
+ˆy = Xw (3)
+BITS Pilani WILP Deep Learning 14 / 1
+
+=== PAGE 15 ===
+Identity Activation Function
+Identity Activation Function
+f (z) = z (4)
+BITS Pilani WILP Deep Learning 15 / 1
+
+=== PAGE 16 ===
+Identity Activation Function
+Properties of Identity Function
+Output: Continuous, (−∞,∞)
+Differentiable everywhere: f′(z) = 1
+Allows output to take any real value
+Gradient ﬂows unchanged through the neuron
+Perfect for predicting continuous targets
+Why identity for regression?
+Target values are continuous (prices, temperatures, etc.)
+Need to predict any real number, not just binary{ 0,1}
+Differentiability enables gradient-based optimization
+No information loss from input to output
+BITS Pilani WILP Deep Learning 16 / 1
+
+=== PAGE 17 ===
+Objective Function: Squared Error Loss
+We need to measure how well our model ﬁts the data.
+Loss for single example:
+ℓ
+(
+w; x(i), y (i))
+= 1
+2
+(ˆy (i)− y (i))2
+= 1
+2
+(
+wT x(i)− y (i))2
+(5)
+Total Loss (Mean Squared Error):
+J(w) = 1
+N
+N∑
+i=1
+1
+2
+(
+wT x(i)− y (i))2
+(6)
+Goal: Find w∗ that minimizes J(w)
+w∗ = arg min
+w
+J(w) (7)
+BITS Pilani WILP Deep Learning 17 / 1
+
+=== PAGE 18 ===
+Why Squared Error?
+Advantages of squared error loss:
+Differentiable: Smooth everywhere, easy to optimize
+Convex: Single global minimum (for linear models)
+Penalizes large errors: Quadratic growth
+Statistical interpretation: Maximum likelihood under Gaussian noise
+Vector Form:
+J(w) = 1
+2N∥Xw− y∥2 = 1
+2N (Xw− y)T (Xw− y) (8)
+where X∈ RN×(d+1) is the design matrix and y∈ RN is the target vector.
+BITS Pilani WILP Deep Learning 18 / 1
+
+=== PAGE 19 ===
+Visualizing the Error Surface
+The error surface is convex with a single global minimum.
+BITS Pilani WILP Deep Learning 19 / 1
+
+=== PAGE 20 ===
+Gradient Descent Algorithm
+Idea: Iteratively update weights in the direction of steepest descent
+whereη >0 is the learning rate (step size).
+Intuition: Move downhill on the error surface to ﬁnd the minimum.
+BITS Pilani WILP Deep Learning 20 / 1
+
+=== PAGE 21 ===
+Batch Gradient Descent Algorithm
+Algorithm 1: Gradient Descent for Linear Regression
+Input: DatasetD ={(x(i), y (i))}N
+i=1, learning rateη, toleranceϵ
+Output: Learned weights w
+1 Initialize w(0) = 0 (or random);
+2 t← 0;
+3 while not converged do
+4 Compute gradient:∇J(w(t)) = 1
+N XT (Xw(t)− y);
+5 Update weights: w(t+1) = w(t)−η∇J(w(t));
+6 if∥∇J(w(t+1))∥<ϵ then
+7 break // Converged
+8 t← t + 1;
+9 return w(t+1);
+BITS Pilani WILP Deep Learning 21 / 1
+
+=== PAGE 22 ===
+Computing the Gradient
+Gradient of squared error loss:
+∇J(w) = ∂J
+∂w = 1
+N
+N∑
+i=1
+(
+wT x(i)− y (i))
+x(i) (9)
+Matrix Form:
+∇J(w) = 1
+N XT (Xw− y) (10)
+where XT∈ R(d+1)×N, Xw− y∈ RN, so∇J∈ Rd+1
+BITS Pilani WILP Deep Learning 22 / 1
+
+=== PAGE 23 ===
+Gradient Descent Update Rule
+Update equation:
+w(t+1) = w(t)− η
+N XT(
+Xw(t)− y
+)
+(11)
+Key Parameters:
+Learning rateη: Controls step size
+▶ Too large: May overshoot minimum
+▶ Too small: Slow convergence
+Stopping criterion:∥∇J(w)∥<ϵ or max iterations
+BITS Pilani WILP Deep Learning 23 / 1
+
+=== PAGE 24 ===
+Visualizing Gradient Descent
+Each step moves perpendicular to contour lines toward the minimum.
+BITS Pilani WILP Deep Learning 24 / 1
+
+=== PAGE 25 ===
+Table of Contents
+1 Regression
+2 Linear Regression
+3 The Linear Model: Single Neuron
+4 Worked Example
+5 Evaluation
+6 Python Implementation
+7 Implementation Tips
+8 Summary
+BITS Pilani WILP Deep Learning 25 / 1
+
+=== PAGE 26 ===
+Numerical Example: Setup
+Tiny Dataset: Predict house price from size
+Size (x1) Price (y)
+1 2
+2 4
+3 5 x1
+1
+Σ ˆy
+w0
+w1
+f
+Matrix Formulation:
+X =
+
+
+1 1
+1 2
+1 3
+
+∈ R3×2, y =
+
+
+2
+4
+5
+
+∈ R3, w =
+[
+w0
+w1
+]
+∈ R2
+BITS Pilani WILP Deep Learning 26 / 1
+
+=== PAGE 27 ===
+Numerical Example: Initialization
+Hyperparameters: η = 0.1 N = 3
+Initialize weights: w(0) =
+[
+0
+0
+]
+Vectorized Prediction: ˆy = Xw
+Initial predictions: ˆy(0) = Xw(0) =
+[
+0 0
+][
+1 1 1
+1 2 3
+]
+=
+
+
+0
+0
+0
+
+
+Loss Function: J(w) = 1
+2N∥Xw− y∥2
+Initial loss: J(w(0)) = 1
+6
+
+
+
+0
+0
+0
+
+−
+
+
+2
+4
+5
+
+
+
+2
+= 1
+6(4 + 16 + 25) = 7.5
+BITS Pilani WILP Deep Learning 27 / 1
+
+=== PAGE 28 ===
+Numerical Example: Computing Gradient
+Error vector: e(0) = ˆy(0)− y =
+
+
+0
+0
+0
+
+−
+
+
+2
+4
+5
+
+ =
+
+
+−2
+−4
+−5
+
+
+Gradient computation: ∇J(w(0)) = 1
+N XT e(0)
+∇J(w(0)) = 1
+3
+[
+1 1 1
+1 2 3
+]
+
+−2
+−4
+−5
+
+
+= 1
+3
+[−2− 4− 5
+−2− 8− 15
+]
+=
+[−3.67
+−8.33
+]
+BITS Pilani WILP Deep Learning 28 / 1
+
+=== PAGE 29 ===
+Numerical Example: Weight Update
+Gradient descent update: w(1) = w(0)−η∇J(w(0))
+Computing new weights: w(1) =
+[
+0
+0
+]
+− 0.1
+[−3.67
+−8.33
+]
+=
+[
+0.367
+0.833
+]
+New predictions: ˆy(1) = Xw(1)
+ˆy(1) =
+[
+0.367 0 .833
+][
+1 1 1
+1 2 3
+]
+=
+
+
+1.20
+2.03
+2.87
+
+
+BITS Pilani WILP Deep Learning 29 / 1
+
+=== PAGE 30 ===
+Numerical Example: New Loss
+New error vector: e(1) = ˆy(1)− y =
+
+
+1.20
+2.03
+2.87
+
+−
+
+
+2
+4
+5
+
+ =
+
+
+−0.80
+−1.97
+−2.13
+
+
+Loss after one iteration: J(w(1)) = 1
+6∥e(1)∥2 = 1
+6(0.64 + 3.88 + 4.54)≈ 1.51
+Progress:
+Initial loss: J(w(0)) = 7.5
+After 1 iteration: J(w(1)) = 1.51
+80% reduction! ✓
+Continue until∥∇J(w)∥<ϵ or max iterations reached
+BITS Pilani WILP Deep Learning 30 / 1
+
+=== PAGE 31 ===
+Computational Graph for One Gradient
+Descent Step
+w(t) X y
+×
+ˆy −
+e ∥·∥ 2 J(w)
+w(t+1)
+X⊤
+∇J
+1
+N e
+∇J
+−η
+Input DataParameters Targets
+Loss
+Updated
+BITS Pilani WILP Deep Learning 31 / 1
+
+=== PAGE 32 ===
+Table of Contents
+1 Regression
+2 Linear Regression
+3 The Linear Model: Single Neuron
+4 Worked Example
+5 Evaluation
+6 Python Implementation
+7 Implementation Tips
+8 Summary
+BITS Pilani WILP Deep Learning 32 / 1
+
+=== PAGE 33 ===
+Model Evaluation: Training vs Test Error
+Key Principle: Evaluate on unseen data
+Data Split:
+Training set: Used to learn weights w (typically 90-99%)
+Test set: Used to evaluate generalization (typically 1-10%)
+Training Error: Jtrain = 1
+Ntrain
+∑
+i∈train
+(ˆy (i)− y (i))2
+Test Error: Jtest = 1
+Ntest
+∑
+i∈test
+(ˆy (i)− y (i))2
+Goal: Minimize test error (generalization performance)
+BITS Pilani WILP Deep Learning 33 / 1
+
+=== PAGE 34 ===
+Evaluation Metrics
+1. Mean Squared Error (MSE):
+MSE = 1
+N
+N∑
+i=1
+(ˆy (i)− y (i))2
+(12)
+2. Root Mean Squared Error (RMSE):
+RMSE =
+√
+MSE =
+√ 1
+N
+N∑
+i=1
+(ˆy (i)− y (i))
+2
+(13)
+3. Mean Absolute Error (MAE):(Less sensitive to outliers than MSE)
+MAE = 1
+N
+N∑
+i=1
+| y (i)− ˆy (i)| (14)
+BITS Pilani WILP Deep Learning 34 / 1
+
+=== PAGE 35 ===
+R2 Score (Coefficient of Determination)
+Deﬁnition: Proportion of variance explained by the model
+R2 = 1−
+∑N
+i=1(y (i)− ˆy (i))2
+∑N
+i=1(y (i)− ¯y)2
+= 1− SSresidual
+SStotal
+(15)
+where ¯y = 1
+N
+∑N
+i=1 y (i) is the mean.
+Interpretation:
+R2 = 1: Perfect ﬁt (all variance explained)
+R2 = 0: Model no better than predicting mean
+R2 < 0: Model worse than baseline (possible on test set)
+Typical: 0.7< R2 < 0.9 indicates good ﬁt
+BITS Pilani WILP Deep Learning 35 / 1
+
+=== PAGE 36 ===
+Table of Contents
+1 Regression
+2 Linear Regression
+3 The Linear Model: Single Neuron
+4 Worked Example
+5 Evaluation
+6 Python Implementation
+7 Implementation Tips
+8 Summary
+BITS Pilani WILP Deep Learning 36 / 1
+
+=== PAGE 37 ===
+Demo Python Code
+https:
+//taxila-aws.bits-pilani.ac.in/course/view.php?id=13094
+Practice in Virtual Lab
+Lab ﬁles stored in Labware (Taxila)
+BITS Pilani WILP Deep Learning 37 / 1
+
+=== PAGE 38 ===
+Table of Contents
+1 Regression
+2 Linear Regression
+3 The Linear Model: Single Neuron
+4 Worked Example
+5 Evaluation
+6 Python Implementation
+7 Implementation Tips
+8 Summary
+BITS Pilani WILP Deep Learning 38 / 1
+
+=== PAGE 39 ===
+Tips for Implementation
+1. Choosing Learning Rate η:
+Start withη∈{ 0.001, 0.01, 0.1, 1.0}
+Plot loss vs iterations for each
+If loss increases or becomes NaN  decreaseη
+If convergence too slow  increaseη
+Use learning rate schedules for ﬁne-tuning
+2. When to Stop Training:
+Gradient magnitude:∥∇J∥<ϵ (e.g.,ϵ = 10−4)
+Loss change:|J(t)− J(t−1)|<ϵ
+Maximum iterations reached (e.g., T = 1000 or 10,000)
+Validation loss starts increasing (early stopping for overﬁtting)
+BITS Pilani WILP Deep Learning 39 / 1
+
+=== PAGE 40 ===
+More Practical Tips
+3. Weight Initialization:
+Zero initialization: w(0) = 0 (works well for linear regression)
+Avoid large initial values (can cause divergence or overﬂow)
+4. Feature Engineering:
+Domain knowledge: Create meaningful derived features (e.g., price per sq ft)
+Feature selection: Remove irrelevant/redundant features
+5. Feature Scaling and Normalization:
+Features with different scales can slow convergence
+1. Min-Max Scaling: Scale to [0, 1] x′
+j =
+xj−min(xj)
+max(xj)−min(xj)
+2. Standardization (Z-score): Zero mean, unit variance x′
+j =
+xj−µj
+σj
+BITS Pilani WILP Deep Learning 40 / 1
+
+=== PAGE 41 ===
+Debugging Checklist
+Common Issues and Solutions:
+Loss is NaN/Inf:
+▶ Learning rate too large
+▶ Numerical overﬂow (check feature
+scales)
+▶ Solution: Decreaseη, scale
+features
+Training works but test error high:
+▶ Overﬁtting (too many features
+relative to data)
+▶ Solution: Regularization, more
+data, or simpler model
+Loss oscillating:
+▶ Learning rate too large
+▶ Solution: Decreaseη or use
+learning rate decay
+Loss not decreasing:
+▶ Learning rate too small
+▶ Bug in gradient computation
+(check signs!)
+▶ Wrong sign in update rule (should
+be minus)
+▶ Solution: Increaseη, verify code
+BITS Pilani WILP Deep Learning 41 / 1
+
+=== PAGE 42 ===
+Table of Contents
+1 Regression
+2 Linear Regression
+3 The Linear Model: Single Neuron
+4 Worked Example
+5 Evaluation
+6 Python Implementation
+7 Implementation Tips
+8 Summary
+BITS Pilani WILP Deep Learning 42 / 1
+
+=== PAGE 43 ===
+Summary: Putting It All Together
+Linear Regression Model
+1. Data & Initialization 2. Model
+3. Objective4. Learning
+D ={(x(i), y(i))}
+w(0) = 0
+Σ ˆy
+x1
+x2
+xd
+Linear Activation Function
+J(w)
+MSE Loss Function
+minimum
+w(t) w(t+1)
+−η∇J
+forward
+compute
+gradient
+iterate
+This framework extends to more complex models: neural networks, deep learning!
+BITS Pilani WILP Deep Learning 43 / 1
+
+=== PAGE 44 ===
+Key Takeaways
+Regression predicts continuous outputs from input features.
+Linear regression assumes a linear relationship: y = wT x + w0
+A single neuron with identity activation implements linear regression.
+Squared error loss provides a convex objective function.
+Gradient descent iteratively optimizes weights: w← w−η∇J
+Feature scaling is critical for fast convergence.
+Evaluation on test set ensures generalization.
+BITS Pilani WILP Deep Learning 44 / 1
+
+=== PAGE 45 ===
+Linear Regression
+Key insight: Linear relationship between inputs and output, optimized by minimizing
+squared errors.
+Problem: Predict continuous values: y∈ R
+Model: Single neuron with identity activation
+Output: Predicted value ˆy = wT x∈ (−∞,∞)
+Loss: Mean Squared Error (MSE)
+Training: Batch Gradient Descent (GD)
+x1
+x2
+Σ ˆy
+f(z) = z
+Continuous value
+BITS Pilani WILP Deep Learning 45 / 1
+
+=== PAGE 46 ===
+References
+Zhang, A., Lipton, Z. C., Li, M., & Smola, A. J. (2023). Dive into Deep
+Learning. Cambridge University Press. Chapter 3 (Linear Neural Networks for
+Regression). https://d2l.ai/
+Goodfellow, I., Bengio, Y ., & Courville, A. (2016).Deep Learning. MIT Press.
+Chapter 5 (Machine Learning Basics).
+https://www.deeplearningbook.org/
+Bishop, C. M. (2006). Pattern Recognition and Machine Learning . Springer.
+Chapter 3 (Linear Models for Regression).
+Murphy, K. P . (2022).Probabilistic Machine Learning: An Introduction . MIT
+Press. Chapter 11 (Linear Regression).
+https://probml.github.io/pml-book/
+BITS Pilani WILP Deep Learning 46 / 1

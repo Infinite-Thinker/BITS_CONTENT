@@ -1,0 +1,439 @@
+--- PAGE 1 ---
+Birla Institute of Technology and Science, Pilani
+Work Integrated Learning Programmes Division
+Cluster Programme - M.Tech. in Artificial Intelligence and Machine
+Learning.
+Course Number AIMLC ZC416
+Course Name Mathematical Foundations for Machine Learning
+Nature of Exam Closed Book
+Weightage for grading 30%
+Duration 120 minutes
+Date of Exam 08/01/2025 (14:00 - 16:00)
+# Pages 2
+# Questions 8
+Instructions
+1. All questions are compulsory.
+2. All parts of a question should be answered consecutively. Each answer
+should start from a fresh page.
+(1) A data scientist is told that the characteristic equation of a data ma-
+trix he works with has the property that the roots are all distinct and
+real. The data scientist does not know the values of the roots of the
+characteristic equation but assumes that (a) the matrix is bound to be
+invertible and (b) also diagonalizable. Is the data scientist justified in
+making these assumptions about the matrix? Give appropriate reasons
+for your answer. [5 Marks]
+Solution: Claim (a) is false. The reason for this is that one of the
+eigenvalues could be zero meaning that there is a non-zero vector in the
+nullspace of the matrix so that its rank is less than n. Claim (b) is
+true because the distinct eigenvalues ensure that each eigenspace is of
+dimension equal to 1. Thus there is a non-zero eigenvector associated
+with each eigenvalue. We also know that eigenvalues corresponding to
+distint eigenvalues are linearly independent, which means that we haven
+linearly independent eigenvectors and an invertible eigenvector matrix.
+Marking Scheme: 2.5 Marks → Claim (a) , 2.5 Marks → Claim (b)
+(2) Let A be a m × n matrix over R2. Define NA = {x ∈ Rn : Ax = 0}. NA
+is called kernel of A and ν(A) = dim(NA) as nullity of A.
+(a) (i) Let
+A =
+
+1 2 −1
+2 −1 3
+
+Find NA and ν(A) [2 Marks]
+(b) (ii) Let
+A =
+
+
+2 −1 3
+4 −2 6
+−6 3 −9
+
+
+1
+crackbitswilp.in
+
+--- PAGE 2 ---
+Find NA and ν(A). [3 Marks]
+Solution: (i)
+From 
+1 2 −1
+2 −1 3
+ 
+
+x1
+x2
+x3
+
+ =
+
+0
+0
+
+we find the system of linear equations
+x1 + 2x2 − x3 = 02x1 − x2 + 3x3 = 0
+Eliminating x3 gives x1 = −x2. Also, x3 = −x1 Thus NA is spanned by
+the vector 
+
+−1
+1
+1
+
+
+Hence ν(A)=1.
+(ii) From 
+
+2 −1 3
+4 −2 6
+−6 3 −9
+
+
+
+
+x1
+x2
+x3
+
+ =
+
+
+0
+0
+0
+
+
+we find the system of linear equations
+2x1 − x2 + 3x3 = 04x1 − 2x2 + 6x3 = 0 − 6x1 + 3x2 − 9x3 = 0
+All the three equations are same. Thus from the first equation i.e 2 x1 −
+x2 + 3x3 = 0, we find that
+
+
+
+
+1
+2
+0
+
+ ,
+
+
+0
+3
+1
+
+
+
+
+
+he is a basis for NA and ν(A) = 2
+(3) (i) Suppose if we arrive at a m × m matrix A = P DPT where P −1 =
+P T and D =
+
+
+l 0 · · ·0
+0 l2 · · ·0
+... ... ...
+0 0 · · ·lm
+
+and |l| ̸= 0, 1, then find a best rank
+1 approximation of A2 with justification. [3 Marks]
+(ii) A data analyst arrived at vectors v1 = [1 /
+p
+(2), 1/
+p
+(2)]T , v2 =
+[1/
+p
+(2), −1/
+p
+(2)]T . Help the analyst to find a 2 × 2 matrix A
+such that Avi = −vi, ∀i = 1, 2
+Solution
+(i) Now A = P DPT ⇒ AP = P D.
+⇒ APi = liPi, i = 1, · · ·m where Pi is the ith column of P .
+Also Pi ̸= 0. Therefore, li is an eigenvalue of A and Pi is its corre-
+sponding eigenvector. [0.5 Marks]
+⇒ lin is an eigenvalue of An and Pi is its corresponding eigenvector
+for i = 1, · · ·m. [0.5 Marks]
+crackbitswilp.in
+
+--- PAGE 3 ---
+Clearly AT = (P DPT )T = P DPT = A as D is a diagonal matrix.
+Therefore, A2 is also a symmetric matrix and lk are real.
+So, A2(A2)T = ( A2)T A2 = A4. ⇒ l4i is an eigenvalue and Pi is
+its corresponding eigenvector for i = 1, · · ·m of matrices A2(A2)T ,
+(A2)T A2.
+⇒ l2i is a singular value and Pi is its corresponding left and right
+singular vector for i = 1, · · ·m of matrix A2. [1 Mark]
+If l >1 ⇒ l2m is the largest singular value and hence a best rank 1
+approximation of A2 is l2mPmP T
+m. [0.5 Marks]
+If l < 1 ⇒ l is the largest singular value and hence a best rank 1
+approximation of A2 is l2P1P T
+1 . [0.5 Marks]
+(Kindly award full marks for any other correct method.)
+(ii) Now, clearly {v1, v2} forms an orthonormal basis for R2 . Hence,
+{u1, u2} forms an orthonormal basis for R2 where ui = −vi, ∀i =
+1, 2. [1 Mark]
+Define A = U I2V T , where V = [v1, v2], U = [u1, u2].
+Then, Avi = ui = −vi, ∀i = 1, 2. [1 Mark]
+(4) Let v, w ∈ Rn×1 be two non-zero vectors. Consider the identity matrix
+In ∈ Rn×n.
+(a) Consider the matrix B = In − 2(vvT ). Prove or disprove whether
+this matrix B is an orthogonal matrix for anyv. Also prove/disprove
+whether B is a symmetric matrix for any v. [1.5 Marks]
+(b) Assume that the Euclidean norm of w is equal to 1. Consider the
+matrix C = In − 2(wwT ). Prove or disprove whether this matrix C
+is an orthogonal matrix. [1.5 Marks]
+(c) Show that when the Euclidean norm of v is equal to 1, the rank of
+In − vvT is less than n. [2 Marks]
+Solution:
+(a) Calculate BT B = (In −2(vvT ))T (In −2(vvT ))=I −(vT v −1)(4vv T ).
+Hence B is not orthogonal matrix. Now to check for symmetric
+property: BT = (In − 2(vvT ))T = (IT
+n − 2(vvT )T )=(In − 2(vvT )) =
+B.Hence B is symmetric matrix. (1.5 marks)
+(b) Calculate CT C = ( In − 2(wwT ))T (In − 2(wwT ))=I − (wT w −
+1)(4wwT ). But recall that ∥w∥2
+2 = 1. We know that wT w =
+∥w∥2
+2 = 1. Substituting this in previous expression we get: CT C =
+I − (1 − 1)(4wwT ) = I. (0.75 marks)
+Similarily we can show that CCT = I (0.75 marks). Hence C is
+orthogonal.
+(c) We can see that ( In − vvT )v = v − (vT v)v = v − v = 0. Thus
+we have a non-zero vector v in the nullspace of In − vvT . (1 Mark)
+By the rank-nullity theorem this means that the rank of In − vvT
+is less than n. (1 Mark)
+(5) The profit of a software company on a project is given by
+x3
+1 + x3
+2 + 2x2
+1 + 4x2
+2 + 6
+crackbitswilp.in
+
+--- PAGE 4 ---
+where x1 and x2 denote, respectively, the salary of employees and the
+general expenditure. Find the Hessian matrix and check whether it is
+positive definite or negative definite at each stationary point. Hence,
+find the values of x1 and x2 to maximize the profit.
+Solution
+∂f
+∂x1
+= 0 = ⇒ 3x2
+1 + 4x1 = 0 = ⇒ x1 = 0, −4/3
+∂f
+∂x2
+= 0 = ⇒ 3x2
+2 + 8x2 = 0 = ⇒ x2 = 0, −8/3
+∂2f
+∂x2
+1
+= 6x1 + 4
+∂2f
+∂x2
+2
+= 6x2 + 8
+∂2f
+∂x1∂x2
+= 0
+Hence, the Hessian matrix is
+J =
+
+6x1 + 4 0
+0 6 x2 + 8
+
+J1 = |6x1 + 4| and J2 =
+
+6x1 + 4 0
+0 6 x2 + 8
+
+At (0, 0) J1 = 4 > 0, J2 = 32 > 0, therefore, J is positive definite.
+Therefore, f (x) has a relative minimum at (0, 0)
+At (0, -8/3) J is indefinite, therefore (0, -8/3) is a saddle point.
+At (-4/3, 0), J is again indefinite, so (-4/3, 0) is a saddle point.
+At (-4/3, -8/3) J is negative definite, therefore, f has a relative max-
+imum at (-4/3, -8/3).
+(6) Let A =
+
+a11 a12 a13
+a21 a22 a23
+
+∈ R2×3. Consider the function f : R2×3 → R3×3
+given by f (A) = AT A = K. Calculate the gradient of K with respect to
+A in matrix form.
+Solution
+K = AT A =
+
+
+a11 a21
+a12 a22
+a13 a23
+
+
+
+a11 a12 a13
+a21 a22 a23
+
+=
+
+
+a112 + a212 a11a12 + a21a22 a11a13 + a21a23
+a12a11 + a22a21 a122 + a222 a12a13 + a22a23
+a13a11 + a23a21 a13a12 + a23a22 a132 + a232
+
+(1M)
+The gradient of K with respect to A is 9x6 matrix given by
+crackbitswilp.in
+
+--- PAGE 5 ---
+dK
+dA =
+
+
+∂K11
+∂A11
+∂K11
+∂A12
+∂K11
+∂A13
+∂K11
+∂A21
+∂K11
+∂A22
+∂K11
+∂A23
+∂K12
+∂A11
+∂K12
+∂A12
+∂K12
+∂A13
+∂K12
+∂A21
+∂K12
+∂A22
+∂K12
+∂A23
+∂K13
+∂A11
+∂K13
+∂A12
+∂K13
+∂A13
+∂K13
+∂A21
+∂K13
+∂A22
+∂K13
+∂A23
+∂K21
+∂A11
+∂K21
+∂A12
+∂K21
+∂A13
+∂K21
+∂A21
+∂K21
+∂A22
+∂K21
+∂A23
+∂K22
+∂A11
+∂K22
+∂A12
+∂K22
+∂A13
+∂K22
+∂A21
+∂K22
+∂A22
+∂K22
+∂A23
+∂K23
+∂A11
+∂K23
+∂A12
+∂K23
+∂A13
+∂K23
+∂A21
+∂K23
+∂A22
+∂K23
+∂A23
+∂K31
+∂A11
+∂K31
+∂A12
+∂K31
+∂A13
+∂K31
+∂A21
+∂K31
+∂A22
+∂K31
+∂A23
+∂K32
+∂A11
+∂K32
+∂A12
+∂K32
+∂A13
+∂K32
+∂A21
+∂K32
+∂A22
+∂K32
+∂A23
+∂K33
+∂A11
+∂K33
+∂A12
+∂K33
+∂A13
+∂K33
+∂A21
+∂K33
+∂A22
+∂K33
+∂A23
+
+
+[2M
+(or) one can mention the formula as described in the text book and
+the same 2 marks will be awarded.
+dK
+dA =
+h
+∂Kpq
+∂Aij
+i
+= [∂pqij ]
+Where ∂pqij =
+
+
+
+Aiq if j = p, p ̸= q
+Aip if j = q, p ̸= q
+2Aiq if j = p, p = q
+0 otherwise
+Hence
+dK
+dA =
+
+
+2a11 0 0 2 a21 0 0
+a12 a11 0 a22 a21 0
+a13 0 a11 a23 0 a21
+a12 a11 0 a22 a21 0
+0 2 a12 0 0 2 a22 0
+0 a13 a12 0 a23 a22
+a13 0 a11 a23 0 a21
+0 a13 a12 0 a23 a22
+0 0 2 a13 0 0 2 a23
+
+
+[2M] [The final answer must be in the matrix form]
+crackbitswilp.in

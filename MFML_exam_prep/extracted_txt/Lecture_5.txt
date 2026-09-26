@@ -1,0 +1,561 @@
+--- PAGE 1 ---
+BITSPilani
+MFMLANDMFDS
+MFML and MFDS Team
+WILPD - CSIS
+--- PAGE 2 ---
+BITSPilani
+* ZC416 Mathematical Foundations for
+Machine Learning / Data Science
+Topic: # 5 Singular Value Decomposition
+1 / 30
+--- PAGE 3 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+INTRODUCTION
+In the previous lecture, we discussed eigenvalues and
+eigenvectors of matrices
+In this lecture, we will look at two related methods for
+factorizing matrices into canonical forms.
+The first one is known as Eigenvalue decompostion. It uses
+the concepts of eigenvalues and eigenvectors to generate
+the decomposition
+The second method known as singular value
+decomposition or SVD is applicable to all matrices.
+2 / 30
+--- PAGE 4 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+DIAGONALMATRICES
+A diagonal matrix is a matrix that has value zero on all off
+diagonal elements.
+D=
+
+
+d1
+...
+dn
+
+
+For a diagonal matrixD, the determinant is the product of
+its diagonal entries.
+A matrix powerD k is given by each diagonal element
+raised to the powerk.
+Inverse of a diagonal matrix is obtained by taking inverse of
+non-zero diagonal entry.
+3 / 30
+--- PAGE 5 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+DIAGONALIZABLEMATRICES
+A matrixA∈R n×n is diagonalizable if there exists an
+invertible matrixP∈R n×n and a diagonal matrixDsuch
+thatD=P −1AP
+In the definition of diagonalization, it is required thatPis an
+invertible matrix. Assumep 1,p 2, .....,pn are thencolumns
+ofP
+Rewriting we getAP=PD. By observing thatDis a
+diagonal matrix, we can simplify as
+Api =λ i pi
+whereλ i is thei th diagonal entry inD.
+4 / 30
+--- PAGE 6 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+DIAGONALIZABLEMATRIX
+Consider a square matrix
+A=
+
+1 4
+2 3
+
+Consider the invertible matrix
+P=
+−2 1
+1 1
+
+Now consider the productP −1APas follows
+−2 1
+1 1
+−1
+.
+
+1 4
+2 3
+
+.
+−2 1
+1 1
+
+=
+−1 0
+0 5
+
+5 / 30
+--- PAGE 7 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+EIGENDECOMPOSITION OF A MATRIX
+Recall the existence of eigenvalues and eigenvectors for
+square matrices
+Eigenvalues can be used to create a matrix decomposition
+known as Eigenvalue Decomposition
+A square matrixA∈R n×n can be factored into
+A=PDP −1
+wherePis an invertible matrix of eigenvectors ofA
+assuming we can findneigenvectors that form a basis of
+Rn
+andDis a diagonal matrix whose diagonal entries are the
+eigenvalues ofA
+6 / 30
+--- PAGE 8 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+EXAMPLE OFEIGENDECOMPOSITION
+Let us compute the eigendecomposition of the matrixA
+A=
+
+2.5−1
+−1 2.5
+
+Step 1: Find the eigenvalues and eigenvectors
+A−λI=
+
+2.5−λ−1
+−1 2.5−λ
+
+The characteristic equation is given bydet(A−λI) =0
+This leads to the equationλ 2 −5λ+ 21
+4 =0
+Solving the quadratic equation gives usλ 1 =3.5 and
+λ2 =1.5
+7 / 30
+--- PAGE 9 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+EXAMPLE OFEIGENDECOMPOSITION
+The eigenvector corresponing toλ 1 =3.5 is derived as
+p1 =
+"
+− 1√
+2)
+1√
+2
+#
+The eigenvector corresponing toλ 1 =1.5 is derived as
+p2 =
+"
+1√
+2
+1√
+2
+#
+Step 2 : Construct the matrixPto diagonalizeA
+P=
+"
+1√
+2
+1√
+2
+− 1√
+2
+1√
+2
+#
+8 / 30
+--- PAGE 10 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+EXAMPLE OFEIGENDECOMPOSITION
+The inverse of matrixPis given by
+P−1 =
+"
+1√
+2 − 1√
+2
+1√
+2
+1√
+2
+#
+The eigendecompostion of the matrixAis given by
+A=
+"
+1√
+2
+1√
+2
+− 1√
+2
+1√
+2
+# 
+3.5 0
+0 1.5
+ "
+1√
+2 − 1√
+2
+1√
+2
+1√
+2
+#
+In summary we have obtained the required matrix
+factorization using eigenvalues and eigenvectors.
+9 / 30
+--- PAGE 11 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+SYMMETRICMATRICES ANDDIAGONALIZABILITY
+Recall that a matrixAis called symmetric matrix ifA=A T
+A=
+−2 1
+1 1
+
+A Symmetric matrixA∈R n×n can always be diagonalized.
+This follows directly from the spectral theorem discussed in
+the previous lecture
+Moreover, the spectral theorem states that we can find an
+orthogonal matrixPof eigenvectors ofA.
+10 / 30
+--- PAGE 12 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+MOTIVATION FORSINGULARVALUE
+DECOMPOSITION
+The singular value decomposition or (SVD) of a matrix is a
+central matrix decomposition method in linear algebra.
+The eigenvalue decomposition is applicable to square
+matrices only.
+The singular value decomposition exists for all rectangular
+matrices
+SVD involves writing a matrix as a product of three
+matricesU,ΣandV T.
+The three component matrices are derived by applying
+eigenvalue decomposition discussed previously
+11 / 30
+--- PAGE 13 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+SINGULARVALUEDECOMPOSITIONTHEOREM
+LetA∈R m×n be a rectangular matrix. Assume thatAhas rank
+r.
+The Singular value decomposition ofAis defined as
+A=UΣV T
+U∈R m×m is an orthogonal matrix with column vectorsu i where
+i=1, ...,m
+V∈R n×n is an orthogonal matrix with column vectorsv j where
+j=1, ...,n
+Σis an m × n matrix withΣ ii =σ i >0
+The diagonal entriesΣ i ,i=1, ...,rofΣare called the singular
+values.
+By convention, the singular values are ordered i.e.Σ ii >Σ jj for
+i<j.
+12 / 30
+--- PAGE 14 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+PROPERTIES OFΣ
+The singular value matrixΣis unique.
+Observe that theΣ∈R m×nmatrix is rectangular. In
+particular,Σis of the same size asA.
+This means thatΣhas a diagonal submatrix that contains
+the singular values and needs additional zero padding.
+Specifically, ifm>n, then the matrixΣhas diagonal
+structure up to row n and then consists of zero rows.
+Ifm<n, the matrixΣhas a diagonal structure up to
+column m and columns that consist of 0 fromm+1 ton.
+13 / 30
+--- PAGE 15 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+CONSTRUCTION OFV
+It can be observed that
+AT A=VΣ T ΣV T
+SinceA T Ahas the following eigendecomposition
+ATA=PDP T
+Therefore, the eigenvectors ofA T Athat composePare the
+right-singular vectorsVofA.
+The eigenvalues ofA T Aare the squared singular values of
+Σ
+14 / 30
+--- PAGE 16 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+CONSTRUCTION OFU
+It can be observed that
+AAT =UΣV T VΣ T U T
+SinceAA T has the following eigendecomposition
+AAT =SDS T
+Therefore, the eigenvectors ofAA T that composeSare the
+left-singular vectorsUofA
+15 / 30
+--- PAGE 17 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+CONSTRUCTION OFUCONTINUED
+A=UΣV T can be rearranged to obtain a simple
+formulation foru i
+By postmultiplying byVwe getAV=UΣV T V
+By observing thatVis orthogonal we obtain a simple form
+AV=UΣ
+This is equivalent to the following
+ui = 1
+σi
+Avi ∀i=1,2, ...,r
+16 / 30
+--- PAGE 18 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+COMPUTINGSINGULARVALUEDECOMPOSITION1
+We want to find SVD of the following rectangular matrixA
+A=
+
+1 0 1
+−2 1 0
+
+Let us consider the matrixA T Aderived fromAgiven by
+AT A=
+
+
+5−2 1
+−2 1 0
+1 0 1
+
+
+It is a symmetric matrix
+17 / 30
+--- PAGE 19 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+COMPUTINGSINGULARVALUEDECOMPOSITION2
+Derive the eigendecomposition ofA T Ain the formPDP T
+The matrixPis given by
+P=
+
+
+5√
+30 0 −1√
+6
+−2√
+30
+1√
+5
+−2√
+6
+1√
+30
+2√
+5
+1√
+6
+
+
+The matrixDis given by
+D=
+
+
+6 0 0
+0 1 0
+0 0 0
+
+
+18 / 30
+--- PAGE 20 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+COMPUTINGSINGULARVALUEDECOMPOSITION3
+Now we construct the singular value matrixΣ
+The matrixΣhas the dimension same asA. In this caseΣ
+is hence a 2×3 matrix.
+The diagonal entries of submatrix is obtained by taking
+square root of 6 and 1 respectively.
+Singular-value matrixΣis given by:
+Σ=
+√
+6 0 0
+0 1 0
+
+The last column is a column of zeros only
+19 / 30
+--- PAGE 21 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+COMPUTINGSINGULARVALUEDECOMPOSITION4
+Left singular vectors as the normalized image of the right singular
+vectors. Recall thatu i = 1
+σi
+Avi
+The first vector
+u1 = 1
+σ1
+Av1 =
+"
+1√
+5
+−2√
+5
+#
+The second vector
+u2 = 1
+σ2
+Av2 =
+"
+2√
+5
+1√
+5
+#
+20 / 30
+--- PAGE 22 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+FINALSTEP: COMBININGU,ΣANDV
+We compile all the three matrices together to generate the SVD
+A=
+"
+1√
+5
+2√
+5
+−2√
+5
+1√
+5
+# √
+6 0 0
+0 1 0
+
+
+
+5√
+30 0 −1√
+6
+−2√
+30
+1√
+5
+−2√
+6
+1√
+30
+2√
+5
+1√
+6
+
+
+T
+The matrixUis an 2×2 matrix satifying orthogonality
+property.
+The matrixVis an 3×3 matrix satifying orthogonality
+property.
+21 / 30
+--- PAGE 23 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+COMPARINGSVDANDEVD
+The left-singular vectors ofAare eigenvectors ofAA T
+The right-singular vectors ofAare eigenvectors ofA T A
+The non-zero singular values ofAare the square roots of
+the nonzero eigenvalues ofA T A.
+The SVD always exists for any matrix inR m×n
+The eigendecomposition is only defined for square
+matrices inR n×n and only exists if we can find a basis of
+eigenvectors ofR n
+22 / 30
+--- PAGE 24 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+COMPARINGSVDANDEVD
+The vectors in the eigendecomposition matrixPare not
+necessarily orthogonal.
+On the other hand, the vectors in the matricesUandVin
+the SVD are orthonormal.
+Both the eigendecomposition and the SVD are
+compositions of three linear mappings:
+A key difference between the eigendecomposition and the
+SVD is that in the SVD, domain and codomain can be of
+different dimensions
+In the SVD, the left and right singular vector matricesPand
+Pare generally not inverse of each other.
+23 / 30
+--- PAGE 25 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+COMPARINGSVDANDEVD 3
+In the eigendecomposition, the matrices in decomposition
+are inverse of each other
+In the SVD, the entries in the diagonal matrixΣare all real
+and nonnegative,
+In eigendecomposition diagonal matrix entries need not be
+real always.
+The leftsingular vectors ofAare eigenvectors ofAA T
+The rightsingular vectors ofAare eigenvectors ofA T A.
+24 / 30
+--- PAGE 26 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+MATRIXAPPROXIMATION
+We considered the SVD as a way to factorizeA=UΣV T
+into the product of three matrices, whereUandVare
+orthogonal andΣcontains the singular values on its main
+diagonal.
+Instead of doing the full SVD factorization, we will now
+investigate how the SVD allows us to represent a matrixA
+as a sum of simpler matricesA i
+This representation which lends itself to a matrix
+approximation scheme that is cheaper to compute than the
+full SVD.
+25 / 30
+--- PAGE 27 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+MATRIXAPPROXIMATION CONTINUED
+A matrixA∈R m×n of rank r can be written as a sum of
+rank-1 matrices so thatA= Pr
+i=1 σi ui v T
+i
+The diagonal structure of the singular value matrixΣ
+multiplies only matching left and right singular vectorsu i v T
+i
+and scales them by the corresponding singular valueσ i.
+All termsσ i ui v T
+i vanish fori̸=jbecauseΣis a diagonal
+matrix.
+Any term fori>rwould vanish because the corresponding
+singular value is 0.
+26 / 30
+--- PAGE 28 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+RANK KAPPROXIMATION
+We summed up therindividual rank-1 matrices to obtain a
+rank r matrixA.
+If the sum does not run over all matricesA i i=1, ...,rbut
+only up to an intermediate value k we obtain a rank-k
+approximation
+The approximation represented by ˆA(k)is defined as
+follows
+ˆA(k) =
+kX
+i=1
+σi ui v T
+i
+To measure the difference betweenAand its rank-k
+approximation we need the notion of a norm which is
+introduced next
+27 / 30
+--- PAGE 29 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+SPECTRALNORM OF A MATRIX
+We introduce the notation of a subscript in the matrix norm
+Spectral Norm of a Matrix. Forx∈R n,x̸=0, the spectral
+norm norm of a matrixA∈R m×n is defined as
+∥A∥2 = max
+x
+∥Ax∥ 2
+∥x∥ 2
+where∥y∥ 2 is the euclidean norm ofy
+Theorem : The spectral norm of a matrixAis its largest
+singular value
+28 / 30
+--- PAGE 30 ---
+BITS Pilani, Deemed to be University under Section 3 of UGC Act, 1956
+EXAMPLE: SPECTRALNORM OF A MATRIX
+Example : Consider the following matrixA
+A=
+
+1 2
+3 4
+
+Singular value decomposition of this matrix will provide the
+matrixΣas follows
+Σ=
+
+5.465 0
+0 0.366
+
+The 2 singular values are 5.4650 and 0.366.
+By definition the spectral norm is the largest singular value.
+Hence, the spectral norm is 5.4650
+29 / 30
+--- PAGE 31 ---
+BITSPilani
+Thank you
+30 / 30

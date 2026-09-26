@@ -1,0 +1,164 @@
+=== PAGE 1 ===
+Deep Neural Network | AIMLCZG511 | Practice Question Bank | Page 1
+ Birla Institute of Technology & Science, Pilani
+ Work Integrated Learning Programmes Division
+ QUESTION BANK
+ Course Title: DEEP NEURAL NETWORK
+ Course Code: AIMLCZG511
+Important Announcement
+This question bank is only for practice and revision. It does not guarantee that any of these
+questions, or similar questions, will appear in the examination. Please do not prepare only from this
+question bank.
+For the exam, prepare the complete course: revise the lecture slides, practise the numerical
+problems discussed in class, and focus on conceptual and case-study/application-based questions. Be
+prepared to apply the concepts to new situations and changed numerical values.
+Preparation Guidelines
+ Revise all lecture slides and examples discussed in class.
+ Practise all numerical problems discussed during lectures.
+ Focus on understanding concepts, not memorizing questions.
+ Practise applying concepts to new case studies and situations.
+ Prepare the complete course content; this bank is only a practice resource.
+ Good Luck for the Exam!
+ Wishing you all the very best for your examination.
+
+
+=== PAGE 2 ===
+Deep Neural Network | AIMLCZG511 | Practice Question Bank | Page 2
+Q1. A bank uses a single-layer neural network to classify loan applications based on income and credit
+score. During testing, the classifier consistently misclassifies cases where the positive and negative
+examples cannot be separated by a straight line. Analyze the reason for this behavior and explain what
+architectural change would make the problem solvable.
+Q2. A development team increases the number of epochs of a single-layer Perceptron because the
+model is unable to correctly classify a particular dataset. Explain whether increasing training iterations
+alone can overcome the limitation of the model.
+Q3. Consider a neuron with x = [1, −2], w = [0.6, −0.4], and b = 0.2. Calculate the net input and output
+using an appropriate activation function.
+Q4. A classification system initially uses a Perceptron but later requires learning nonlinear decision
+boundaries. Compare the role of the input, hidden and output layers in the redesigned network.
+Q5. A company replaces a shallow network with a deeper network for image recognition. The training
+accuracy improves significantly, but the engineers are unable to explain why. Explain how depth
+enables hierarchical feature learning using a suitable example.
+Q6. A medical-screening model performs well when the classes are linearly separable but fails when
+several interacting features determine the class. Explain how adding hidden neurons can transform the
+representation learned by the model.
+Q7. A team argues that a sufficiently large number of neurons in a single-layer Perceptron should be
+able to solve any binary classification problem. Evaluate this claim using a suitable decision-boundary
+example.
+Q8. A neural network uses Sigmoid activations in every hidden layer. As the network becomes deeper,
+the gradients reaching the first hidden layer become extremely small. Explain the phenomenon and
+recommend a more suitable activation strategy.
+Q9. For a neuron with z = −2, calculate the output of Sigmoid, ReLU, and Leaky ReLU with α = 0.01.
+Compare their behavior.
+Q10. For z = 2, calculate the Sigmoid activation and its derivative. Explain what the derivative indicates
+about gradient propagation.
+Q11. A deep network uses Tanh activations in several hidden layers. The training process becomes
+slow even though the loss decreases. Analyze whether Tanh could contribute to the problem.
+Q12. A computer-vision model replaces Sigmoid hidden units with ReLU. The model trains faster, but
+some neurons stop responding completely. Identify the possible problem and suggest a modification.
+Q13. A regression model requires outputs that can take both positive and negative values. Compare
+the suitability of ReLU, Sigmoid and Tanh for the output layer and justify a choice.
+Q14. Two hidden-layer designs use ReLU and Leaky ReLU respectively. A developer reports that
+some units in the ReLU network permanently output zero. Explain why this can happen and how the
+alternative activation changes the behavior.
+Q15. A predictive-maintenance network has two input neurons, two hidden Sigmoid neurons and one
+Sigmoid output neuron. Given the input, weights and biases, perform complete forward propagation
+
+
+=== PAGE 3 ===
+Deep Neural Network | AIMLCZG511 | Practice Question Bank | Page 3
+Deep Neural Network | AIMLCZG511 | Practice Question Bank | Page 3 and calculate the final
+prediction.
+Q16. For a binary classification network using Binary Cross-Entropy loss, derive the output-layer error
+term using the chain rule and show why it simplifies to δ^(2) = ■ − y.
+Q17. A neural network predicts a probability of 0.25 for a sample whose actual class is 1. Calculate the
+Binary Cross-Entropy loss and interpret the result.
+Q18. During backpropagation, the output neuron produces a negative error term. Explain what this
+indicates about the current prediction and the direction in which the output-layer weights are likely to
+move.
+Q19. A student calculates the output-layer gradient correctly but obtains an incorrect hidden-layer
+gradient. Identify the role of the chain rule in propagating the error backward and explain where
+activation derivatives enter the calculation.
+Q20. A two-layer classifier gives a confident but incorrect prediction. Explain how the loss and output
+error signal would respond and why this can produce a comparatively large corrective update. Deep
+Neural Network | AIMLCZG511 | Practice Question Bank | Page 3
+Q21. An engineer changes the activation function of a hidden layer but keeps the same weights and
+inputs. Explain which quantities in the forward pass and backpropagation would change and why.
+Q22. A neural-network parameter has w = 0.8, learning rate 0.1, and gradient −0.6. Calculate the
+updated parameter and explain why the parameter increases despite gradient descent.
+Q23. A training dataset produces gradients 0.4, 0.6, 0.2, and 0.8. Calculate the parameter update
+using Batch Gradient Descent, SGD using the first sample, and Mini-Batch GD using the first two
+samples.
+Q24. A company trains a DNN using SGD and notices that the loss fluctuates heavily between
+iterations. Another implementation using Batch GD is extremely slow. Recommend a training strategy
+and justify your decision.
+Q25. A model's loss decreases very slowly after several epochs. The developer proposes increasing
+the learning rate by 20 times. Analyze the possible benefits and risks of this decision.
+Q26. Two networks use learning rates of 0.001 and 1.0 respectively. Without performing numerical
+calculations, explain how their training behavior could differ.
+Q27. A training run reaches a low loss initially but then becomes unstable immediately after the
+learning rate is increased. Diagnose the likely reason and suggest a more appropriate learning-rate
+strategy.
+Q28. Two teams use identical networks and datasets but obtain different convergence behavior
+because one uses full-batch updates and the other uses mini-batches. Explain how the update
+frequency and gradient estimates can account for the difference.
+Q29. A 10-layer network receives an output gradient of 0.8. The gradient multiplier at every layer is
+0.25. Calculate the approximate gradient reaching the first layer.
+
+
+=== PAGE 4 ===
+Deep Neural Network | AIMLCZG511 | Practice Question Bank | Page 4
+Q30. Repeat the previous analysis when the gradient multiplier is 1.8. Identify the training problem.
+Deep Neural Network | AIMLCZG511 | Practice Question Bank | Page 4
+Q31. An engineer observes that the final layers of a DNN learn rapidly while the first few layers hardly
+change. Diagnose the likely gradient problem and explain why it occurs.
+Q32. A deep network suddenly produces extremely large parameter updates and eventually generates
+NaN values during training. Identify the likely cause and suggest two remedies.
+Q33. A research group is choosing between Xavier initialization, He initialization, Batch Normalization,
+Residual Connections and Gradient Clipping. For a network suffering from unstable gradients, select
+two techniques and explain why they are appropriate.
+Q34. A network using many Sigmoid layers shows almost no change in its early-layer weights. Explain
+how repeated multiplication of derivatives can create this behavior.
+Q35. A deep network's gradients become very large only for a small number of training batches.
+Explain why gradient clipping could be useful and distinguish its purpose from that of careful weight
+initialization.
+Q36. A CNN receives a 28 × 28 × 1 image. It contains a 3 × 3 convolution with 8 filters, stride 1 and no
+padding, followed by 2 × 2 max pooling with stride 2. Calculate the output dimensions after both layers.
+Q37. A CNN receives an RGB image of size 64 × 64 × 3. A convolution layer contains 16 filters of size
+3 × 3, stride 1 and padding 1. Calculate its output size and number of trainable parameters.
+Q38. A CNN has a convolution layer with 32 filters of size 5 × 5, receiving 16 input channels. Calculate
+the number of trainable parameters including biases.
+Q39. A student claims that pooling layers increase the number of trainable parameters because they
+introduce additional operations. Evaluate the claim.
+Q40. A surveillance company considers two models: one that directly flattens a 128 × 128 × 3 image
+and another that first applies convolution and pooling. Explain why the second approach is generally
+more suitable for image analysis.
+Q41. A CNN receives a 32 × 32 × 3 image and applies a 3 × 3 convolution with stride 2 and padding 1.
+Determine the output dimensions and explain how changing the stride affects spatial resolution.
+Q42. A model designer doubles the number of filters in a convolutional layer while keeping the kernel
+size unchanged. Explain which dimensions of the parameter count and feature representation are
+affected. Deep Neural Network | AIMLCZG511 | Practice Question Bank | Page 4
+Q43. A CNN contains a sequence of 3 × 3 convolutions and 2 × 2 pooling layers. Determine the
+receptive field of a neuron in a later feature map with respect to the original image. Clearly show the
+calculation layer by layer.
+Q44. A CNN designer replaces one 7 × 7 convolution with three consecutive 3 × 3 convolutions.
+Analyze the effect on receptive field, parameters and number of nonlinear transformations.
+Q45. A company chooses between LeNet-5 and VGG-style architecture for a complex
+image-classification problem. Explain why the deeper architecture may learn richer representations.
+
+
+=== PAGE 5 ===
+Deep Neural Network | AIMLCZG511 | Practice Question Bank | Page 5
+Q46. A VGG-style CNN receives a 224 × 224 × 3 image and applies three 2 × 2 max-pooling
+operations with stride 2. Determine the spatial dimensions before the fully connected layer. Deep
+Neural Network | AIMLCZG511 | Practice Question Bank | Page 5
+Q47. An autonomous-vehicle vision system requires detection of increasingly complex features—from
+edges to textures to object parts. Explain how a CNN's hierarchical feature extraction enables this
+progression. Compare this with directly connecting the pixels to a fully connected layer.
+Q48. A CNN designer observes that increasing the stride of an early convolution reduces the size of
+later feature maps. Explain the trade-off between computational efficiency, spatial detail and receptive
+field.
+Q49. An image-classification model performs well on large objects but poorly on small defects. Analyze
+how pooling, stride and receptive-field growth could contribute to this behavior and suggest an
+architectural adjustment. Deep Neural Network | AIMLCZG511 | Practice Question Bank | Page 5 Deep
+Neural Network | AIMLCZG511 | Practice Question Bank | Page 6
+

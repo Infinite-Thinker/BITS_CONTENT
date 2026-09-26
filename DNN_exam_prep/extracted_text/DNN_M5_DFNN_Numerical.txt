@@ -1,0 +1,2157 @@
+=== PAGE 1 ===
+DEEP NEURAL NETWORK
+MODULE # 5: DFNN N UMERICAL
+DNN Team
+BITS Pilani WILP
+
+=== PAGE 2 ===
+Table of Contents
+1 Complete Neural Network Training
+2 Gradient Flow
+3 Design a Neural Network
+4 Activation Functions
+5 Loss Functions and Their Derivatives
+6 Comparison and Summary
+Deep Neural Network 2 / 82
+
+=== PAGE 3 ===
+Numerical Problem : Forward Propagation
+Problem: Consider a simple 2-layer neural network with the following parameters.
+Calculate the forward propagation step by step.
+Network Architecture:
+Input layer: 2 neurons
+Hidden layer: 3 neurons (ReLU activation)
+Output layer: 2 neurons (Sigmoid activation)
+Given Parameters:
+x =
+[
+1.0
+0.5
+]
+W [1] =
+
+
+0.5 0 .2
+−0.3 0 .8
+0.1 −0.4
+
+, b[1] =
+
+
+0.1
+−0.2
+0.3
+
+
+W [2] =
+[
+0.4 −0.1 0 .6
+0.2 0 .7 −0.3
+]
+, b[2] =
+[
+0.2
+−0.1
+]
+Deep Neural Network 3 / 82
+
+=== PAGE 4 ===
+Forward Prop: Step 0 - Initial Network
+x1
+x2
+1.0
+0.5
+h1
+h2
+h3
+o1
+o2
+Input Layer
+Hidden Layer
+Output Layer
+x =
+[
+1.0
+0.5
+]
+y =
+[
+1
+0
+]
+W [1] =
+
+
+0.5 0 .2
+−0.3 0 .8
+0.1 −0.4
+
+, b[1] =
+
+
+0.1
+−0.2
+0.3
+
+
+W [2] =
+[
+0.4 −0.1 0 .6
+0.2 0 .7 −0.3
+]
+, b[2] =
+[
+0.2
+−0.1
+]
+Ready to compute forward propagation!
+Deep Neural Network 4 / 82
+
+=== PAGE 5 ===
+Solution: Forward Prop - Layer 1
+Step 1: Calculate z[1]
+z[1] = W [1]x + b[1]
+z[1] =
+
+
+0.5 0 .2
+−0.3 0 .8
+0.1 −0.4
+
+
+[
+1.0
+0.5
+]
++
+
+
+0.1
+−0.2
+0.3
+
+
+=
+
+
+0.5(1.0) + 0.2(0.5)
+−0.3(1.0) + 0.8(0.5)
+0.1(1.0) + (−0.4)(0.5)
+
+ +
+
+
+0.1
+−0.2
+0.3
+
+
+=
+
+
+0.6
+0.1
+−0.1
+
+ +
+
+
+0.1
+−0.2
+0.3
+
+ =
+
+
+0.7
+−0.1
+0.2
+
+
+Deep Neural Network 5 / 82
+
+=== PAGE 6 ===
+Forward Prop: Step 1 - Computing z[1]
+x1
+x2
+1.0
+0.5
+h1
+h2
+h3
+o1
+o2
+Input Layer
+Hidden Layer: Computing z[1]
+Output Layer
+z[1] = W [1]x + b[1] =
+
+
+0.5 0 .2
+−0.3 0 .8
+0.1 −0.4
+
+
+[
+1.0
+0.5
+]
++
+
+
+0.1
+−0.2
+0.3
+
+ =
+
+
+0.7
+−0.1
+0.2
+
+
+Deep Neural Network 6 / 82
+
+=== PAGE 7 ===
+Solution: Forward Prop - Layer 1 Activation
+Step 2: Apply ReLU activation a[1] = ReLU(z[1])
+ReLU function: ReLU (x) = max( 0, x)
+a[1] = ReLU
+
+
+0.7
+−0.1
+0.2
+
+ =
+
+
+max(0, 0.7)
+max(0,−0.1)
+max(0, 0.2)
+
+ =
+
+
+0.7
+0.0
+0.2
+
+
+Hidden layer activation: a[1] =
+
+
+0.7
+0.0
+0.2
+
+
+Deep Neural Network 7 / 82
+
+=== PAGE 8 ===
+Forward Prop: Step 2 - Applying ReLU
+Activation
+x1
+x2
+h1
+h2
+h3
+z = 0.7 a = 0.7
+z = −0.1 a = 0.0
+z = 0.2 a = 0.2
+o1
+o2
+Input Layer
+Hidden Layer: ReLU Activation
+Output Layer
+a[1] = ReLU
+
+
+0.7
+−0.1
+0.2
+
+ =
+
+
+0.7
+0.0
+0.2
+
+
+Neuron 2 is dead (z < 0)
+Deep Neural Network 8 / 82
+
+=== PAGE 9 ===
+Solution: Forward Prop - Layer 2
+Step 3: Calculate z[2]
+z[2] = W [2]a[1] + b[2]
+z[2] =
+[
+0.4 −0.1 0 .6
+0.2 0 .7 −0.3
+]
+
+0.7
+0.0
+0.2
+
+ +
+[
+0.2
+−0.1
+]
+=
+[
+0.4(0.7) + (−0.1)(0.0) + 0.6(0.2)
+0.2(0.7) + 0.7(0.0) + (−0.3)(0.2)
+]
++
+[
+0.2
+−0.1
+]
+=
+[
+0.28 + 0 + 0.12
+0.14 + 0− 0.06
+]
++
+[
+0.2
+−0.1
+]
+=
+[
+0.4 + 0.2
+0.08− 0.1
+]
+=
+[
+0.6
+−0.02
+]
+Deep Neural Network 9 / 82
+
+=== PAGE 10 ===
+Forward Prop: Step 3 - Computing z[2]
+x1
+x2
+h1
+h2
+h3
+0.7
+0.0
+0.2
+o1
+o2
+Input Layer
+Hidden Layer
+Output: Computing z[2]
+z[2] = W [2]a[1] + b[2] =
+[
+0.4 −0.1 0 .6
+0.2 0 .7 −0.3
+]
+
+0.7
+0.0
+0.2
+
+ +
+[
+0.2
+−0.1
+]
+=
+[
+0.6
+−0.02
+]
+Deep Neural Network 10 / 82
+
+=== PAGE 11 ===
+Solution: Forward Prop - Output Layer
+Step 4: Apply Sigmoid activation a[2] =σ(z[2])
+Sigmoid function: σ(x) = 1
+1 + e−x
+a[2] =σ
+[
+0.6
+−0.02
+]
+=
+[ 1
+1+e−0.6
+1
+1+e0.02
+]
+Output activation: a[2] =
+[
+0.646
+0.495
+]
+Deep Neural Network 11 / 82
+
+=== PAGE 12 ===
+Forward Prop: Step 4 - Applying Sigmoid
+Activation
+x1
+x2
+h1
+h2
+h3
+o1
+o2
+z = 0.6 ˆy1 = 0.646
+z = −0.02 ˆy2 = 0.495
+Input Layer
+Hidden Layer
+Output: Sigmoid Activation
+y =
+[
+1
+0
+]
+a[2] =σ
+[
+0.6
+−0.02
+]
+=
+[
+0.646
+0.495
+]
+Forward propagation complete! Prediction: ˆy = [0.646, 0.495]T
+Deep Neural Network 12 / 82
+
+=== PAGE 13 ===
+Computational Graph: Forward Propagation
+x
+W [1]
+b[1]
+× + z[1] ReLU a[1]
+W [2]
+b[2]
+× + z[2] Sigmoid
+a[2]
+W [1]x W [2]a[1]
+Layer 1 Layer 2
+[
+1.0
+0.5
+] 
+
+0.7
+−0.1
+0.2
+
+
+
+
+0.7
+0.0
+0.2
+
+
+[
+0.6
+−0.02
+]
+[
+0.646
+0.495
+]
+Deep Neural Network 13 / 82
+
+=== PAGE 14 ===
+Numerical Problem: Backward Propagation
+Problem: Using the previous network, calculate the backward propagation.
+Given:
+Forward propagation results from previous problem
+Target output: y =
+[
+1
+0
+]
+Loss function: Binary Cross-Entropy (BCE)
+Calculate the gradients ∂L
+∂W [2] , ∂L
+∂b[2] , ∂L
+∂W [1] , and ∂L
+∂b[1] .
+Deep Neural Network 14 / 82
+
+=== PAGE 15 ===
+Solution: Backward Propagation - Loss
+Step 1: Calculate the Binary Cross-Entropy loss
+For our outputs: a[2] =
+[
+0.646
+0.495
+]
+y =
+[
+1
+0
+]
+BCE Loss Formula: L =−1
+n
+n∑
+i=1
+[yi log(a[2]
+i ) + (1− yi) log(1− a[2]
+i )]
+L =−1
+2 [1· log(0.646) + (1− 1)· log(1− 0.646)
++ 0· log(0.495) + (1− 0)· log(1− 0.495)]
+=−1
+2 [log(0.646) + log(0.505)]
+=−1
+2 [−0.437 + (−0.683)] = 0.560
+Deep Neural Network 15 / 82
+
+=== PAGE 16 ===
+Computing Loss
+x1
+x2
+h1
+h2
+h3
+o1
+o2
+0.646
+0.495
+L
+0.560
+y =
+[
+1
+0
+]Input Hidden
+Output
+L =− 1
+2 [y1 log(ˆy1) + (1− y1) log(1− ˆy1) + y2 log(ˆy2) + (1− y2) log(1− ˆy2)]
+L =− 1
+2 [log(0.646) + log(0.505)] =− 1
+2 [−0.437− 0.683] = 0.560
+Now we backpropagate to update weights!
+Deep Neural Network 16 / 82
+
+=== PAGE 17 ===
+Solution: BackProp - Output Layer Error
+Step 2: Calculate output layer errorδ[2]
+∂L
+∂z[2] =δ[2] = a[2]− y
+δ[2] =
+[
+0.646
+0.495
+]
+−
+[
+1
+0
+]
+=
+[−0.354
+0.495
+]
+Deep Neural Network 17 / 82
+
+=== PAGE 18 ===
+Back-Prop Step 1 - Output Layer Error
+o1
+o2
+ˆy1 = 0.646
+ˆy2 = 0.495
+δ1 =−0.354
+δ2 = 0.495
+L
+y =
+[
+1
+0
+]
+Output Layer Error
+δ[2] =
+[
+0.646
+0.495
+]
+−
+[
+1
+0
+]
+=
+[−0.354
+0.495
+]
+Deep Neural Network 18 / 82
+
+=== PAGE 19 ===
+Solution: Backward Prop - Output Layer
+Gradients
+Step 3: Calculate gradients for output layer
+Recall: a[1] =
+[
+0.7 0 .0 0 .2
+]⊤
+∂L
+∂W [2] =δ[2](a[1])T =
+[−0.354
+0.495
+][
+0.7 0 .0 0 .2
+]
+=
+[−0.354× 0.7 −0.354× 0.0 −0.354× 0.2
+0.495× 0.7 0 .495× 0.0 0 .495× 0.2
+]
+=
+[−0.248 0 .000 −0.071
+0.347 0 .000 0 .099
+]
+∂L
+∂b[2] =δ[2] =
+[−0.354
+0.495
+]
+Deep Neural Network 19 / 82
+
+=== PAGE 20 ===
+Back-Prop: Step 2 - Output Layer Gradients
+h1
+h2
+h3
+0.7
+0.0
+0.2
+o1
+o2
+δ = −0.354
+δ = 0.495
+Hidden
+Computing ∂L
+∂W [2]
+∂L
+∂W[2]
+∂L
+∂W [2] =δ[2](a[1])T =
+[−0.354
+0.495
+][
+0.7 0 .0 0 .2
+]
+=
+[−0.248 0 .000 −0.071
+0.347 0 .000 0 .099
+]
+∂L
+∂b[2] =δ[2] =
+[−0.354
+0.495
+]
+Deep Neural Network 20 / 82
+
+=== PAGE 21 ===
+Solution: BackProp - Hidden Layer Error
+Step 4: Calculate hidden layer errorδ[1]
+Backpropagate error to hidden layer: δ[1] = (W [2])Tδ[2]⊙ g′[1](z[1])
+(W [2])Tδ[2] =
+
+
+0.4 0 .2
+−0.1 0 .7
+0.6 −0.3
+
+
+[−0.354
+0.495
+]
+=
+
+
+0.4(−0.354) + 0.2(0.495)
+−0.1(−0.354) + 0.7(0.495)
+0.6(−0.354) + (−0.3)(0.495)
+
+
+=
+
+
+−0.142 + 0.099
+0.035 + 0.347
+−0.212− 0.149
+
+ =
+
+
+−0.043
+0.382
+−0.361
+
+
+Deep Neural Network 21 / 82
+
+=== PAGE 22 ===
+Back-Prop: Step 3 - Backprop to Hidden Layer
+h1
+h2
+h3
+o1
+o2
+δ = −0.354
+δ = 0.495
+(W [2])Tδ
+−0.043
+0.382
+−0.361
+Backprop: (W [2])Tδ[2]
+Output
+(W [2])Tδ[2] =
+
+
+0.4 0 .2
+−0.1 0 .7
+0.6 −0.3
+
+
+[−0.354
+0.495
+]
+=
+
+
+−0.043
+0.382
+−0.361
+
+
+Deep Neural Network 22 / 82
+
+=== PAGE 23 ===
+Solution: BackProp - Hidden Layer Error
+Step 4 (continued):
+g′[1](z[1]) =
+
+
+1 (since z[1]
+1 = 0.7> 0)
+0 (since z[1]
+2 =−0.1≤ 0)
+1 (since z[1]
+3 = 0.2> 0)
+
+
+Error to Layer 1: δ[1] = (W [2])Tδ[2]⊙ g′[1](z[1])
+δ[1] =
+
+
+−0.043
+0.382
+−0.361
+
+⊙
+
+
+1
+0
+1
+
+ =
+
+
+−0.043
+0.000
+−0.361
+
+
+Deep Neural Network 23 / 82
+
+=== PAGE 24 ===
+Back-Prop: Step 4 - Apply ReLU Derivative
+h1
+h2
+h3
+before:
+−0.043
+δ1
+−0.043
+before:
+0.382
+δ2
+0.0
+before:
+−0.361
+δ3
+−0.361
+Apply ReLU’:δ[1] = (W [2])Tδ[2]⊙ g′(z[1])
+δ[1] =
+
+
+−0.043
+0.382
+−0.361
+
+⊙
+
+
+1
+0
+1
+
+ =
+
+
+−0.043
+0.0
+−0.361
+
+
+Dead neuron gradient = 0 (no update!)
+Deep Neural Network 24 / 82
+
+=== PAGE 25 ===
+Solution: BackProp - Hidden Layer Gradients
+Step 5: Calculate gradients for hidden layer
+∂L
+∂W [1] =δ[1]x T =
+
+
+−0.043
+0.000
+−0.361
+
+[
+1.0 0 .5
+]
+∂L
+∂W [1] =
+
+
+−0.043× 1.0 −0.043× 0.5
+0.000× 1.0 0 .000× 0.5
+−0.361× 1.0 −0.361× 0.5
+
+
+=
+
+
+−0.043 −0.022
+0.000 0 .000
+−0.361 −0.181
+
+
+∂L
+∂b[1] =δ[1] =
+
+
+−0.043
+0.000
+−0.361
+
+
+Deep Neural Network 25 / 82
+
+=== PAGE 26 ===
+Back-Prop: Step 5 - Hidden Layer Gradients
+x1
+x2
+1.0
+0.5
+h1
+h2
+h3
+δ = −0.043
+δ = 0.0
+δ = −0.361
+Input
+Computing ∂L
+∂W [1]
+∂L
+∂W[1]
+∂L
+∂W [1] =δ[1]xT =
+
+
+−0.043
+0.0
+−0.361
+
+[
+1.0 0 .5
+]
+=
+
+
+−0.043 −0.022
+0.0 0 .0
+−0.361 −0.181
+
+
+∂L
+∂b[1] =δ[1] =
+
+
+−0.043
+0.0
+−0.361
+
+
+Deep Neural Network 26 / 82
+
+=== PAGE 27 ===
+Computational Graph: Backward Propagation
+a[2]
+y
+L ∂L
+∂a[2] δ[2]
+∂L
+∂W [2]
+∂L
+∂b[2]
+∂L
+∂a[1] δ[1]
+∂L
+∂W [1]
+∂L
+∂b[1]
+BCE σ′
+(a[1])T
+sum
+(W [2])T
+ReLU’
+x T
+sum
+[
+−0.354
+0.495
+] 
+
+−0.043
+0.0
+−0.361
+
+
+Layer 2 Gradients Layer 1 Gradients
+Deep Neural Network 27 / 82
+
+=== PAGE 28 ===
+Numerical Problem: Weight Updation
+Problem: Using the gradients computed in previous problem, update the network
+parameters with learning rateα = 0.1.
+Given gradients:
+∂L
+∂W [2] =
+[−0.248 0 .000 −0.071
+0.347 0 .000 0 .099
+] ∂L
+∂b[2] =
+[−0.354
+0.495
+]
+∂L
+∂W [1] =
+
+
+−0.043 −0.022
+0.000 0 .000
+−0.361 −0.181
+
+ ∂L
+∂b[1] =
+
+
+−0.043
+0.000
+−0.361
+
+
+Calculate the updated parameters.
+Deep Neural Network 28 / 82
+
+=== PAGE 29 ===
+Solution: Parameter Updates
+Update rule: θnew =θold−α∂L
+∂θ
+W [2]
+new = W [2]− 0.1× ∂L
+∂W [2]
+W [2]
+new =
+[
+0.4 −0.1 0 .6
+0.2 0 .7 −0.3
+]
+− 0.1×
+[−0.248 0 .000 −0.071
+0.347 0 .000 0 .099
+]
+=
+[
+0.4 + 0.025 −0.1 + 0.000 0 .6 + 0.007
+0.2− 0.035 0 .7 + 0.000 −0.3− 0.010
+]
+=
+[
+0.425 −0.100 0 .607
+0.165 0 .700 −0.310
+]
+b[2]
+new =
+[
+0.2
+−0.1
+]
+− 0.1×
+[−0.354
+0.495
+]
+=
+[
+0.235
+−0.150
+]
+Deep Neural Network 29 / 82
+
+=== PAGE 30 ===
+Solution: Parameter Updates (Continued)
+W [1]
+new = W [1]− 0.1× ∂L
+∂W [1]
+W [1]
+new =
+
+
+0.5 0 .2
+−0.3 0 .8
+0.1 −0.4
+
+− 0.1×
+
+
+−0.043 −0.022
+0.000 0 .000
+−0.361 −0.181
+
+
+=
+
+
+0.5 + 0.004 0 .2 + 0.002
+−0.3 + 0.000 0 .8 + 0.000
+0.1 + 0.036 −0.4 + 0.018
+
+ =
+
+
+0.504 0 .202
+−0.300 0 .800
+0.136 −0.382
+
+
+b[1]
+new =
+
+
+0.1
+−0.2
+0.3
+
+− 0.1×
+
+
+−0.043
+0.000
+−0.361
+
+ =
+
+
+0.104
+−0.200
+0.336
+
+
+Deep Neural Network 30 / 82
+
+=== PAGE 31 ===
+Computational Graph: Weight Update Step
+W [2]
+old
+∂L
+∂W [2] ×η
+− W [2]
+new
+b[2]
+old
+∂L
+∂b[2] ×η
+− b[2]
+new
+W [1]
+old
+∂L
+∂W [1] ×η
+− W [1]
+new
+b[1]
+old
+∂L
+∂b[1] ×η
+− b[1]
+new
+η ∂L
+∂W [2]
+η ∂L
+∂b[2]
+η ∂L
+∂W [1]
+η ∂L
+∂b[1]
+Layer 2 Updates Layer 1 Updates
+Update Rule: θnew =θold−η∂L
+∂θ
+Deep Neural Network 31 / 82
+
+=== PAGE 32 ===
+Table of Contents
+1 Complete Neural Network Training
+2 Gradient Flow
+3 Design a Neural Network
+4 Activation Functions
+5 Loss Functions and Their Derivatives
+6 Comparison and Summary
+Deep Neural Network 32 / 82
+
+=== PAGE 33 ===
+Numerical Problem: Gradient Flow Analysis
+Problem: Consider a 4-layer network with sigmoid activations. Analyze gradient ﬂow
+through the network.
+Given:
+All weight matrices have spectral norm∥W [l]∥ = 0.8
+Sigmoid derivatives at each layer: g′[l] = 0.25 (maximum sigmoid derivative)
+Initial gradient magnitude at output:|δ[4]| = 1.0
+Calculate the gradient magnitude at each layer and discuss the implications.
+Gradient Propagation Formula:
+|δ[l−1]| =|δ[l]|·∥ W [l]∥·| g′[l−1]|
+Deep Neural Network 33 / 82
+
+=== PAGE 34 ===
+Solution: Gradient Flow Analysis
+Layer-by-layer gradient magnitude:
+Layer 4 (Output):|δ[4]| = 1.0 (given)
+Layer 3:|δ[3]| =|δ[4]|·∥ W [4]∥·| g′[3]| = 1.0× 0.8× 0.25 = 0.2
+Layer 2:|δ[2]| =|δ[3]|·∥ W [3]∥·| g′[2]| = 0.2× 0.8× 0.25 = 0.04
+Layer 1:|δ[1]| =|δ[2]|·∥ W [2]∥·| g′[1]| = 0.04× 0.8× 0.25 = 0.008
+Analysis:
+Gradient magnitude decreases by factor of 0.8× 0.25 = 0.2 per layer
+After 3 backward steps: gradient is reduced to 0.8% of original
+First layer receives extremely weak learning signal
+This demonstrates the vanishing gradient problem in deep sigmoid networks
+Deep Neural Network 34 / 82
+
+=== PAGE 35 ===
+Table of Contents
+1 Complete Neural Network Training
+2 Gradient Flow
+3 Design a Neural Network
+4 Activation Functions
+5 Loss Functions and Their Derivatives
+6 Comparison and Summary
+Deep Neural Network 35 / 82
+
+=== PAGE 36 ===
+Example 1: Small Tabular Dataset
+Problem Setup: Compute the number of layers and number of neurons in each layer
+d = 20 features (customer data)
+M = 800 training samples
+c = 3 classes (customer segments)
+Equations to be used are
+L≤ log2(M/(d× c)) + 1
+Parameters≤ M/5
+Deep Neural Network 36 / 82
+
+=== PAGE 37 ===
+Example 1: Small Tabular Dataset
+Step 1: Apply constraints
+L≤ log2(800/(20× 3)) + 1 = log 2(13.33) + 1≈ 4.7⇒ L≤ 4
+Step 2: Choose starting architecture Since M < 1000, start with L = 2:
+[20, 40, 3]
+Step 3: Parameter count check Parameters
+= 20× 40 + 40 + 40× 3 + 3 = 800 + 40 + 120 + 3 = 963
+Constraint: 963≤ 800/5 = 160  Too many parameters!
+Step 4: Reduce complexity
+▶ Try [20, 20, 3]: Parameters = 20× 20 + 20 + 20× 3 + 3 = 483  Still too many!
+▶ Try [20, 10, 3]: Parameters = 20× 10 + 10 + 10× 3 + 3 = 243 
+▶ Try [20, 6, 3]: Parameters = 20× 6 + 6 + 6× 3 + 3 = 147 
+Final recommendation: [20, 6, 3] with regularization
+Deep Neural Network 37 / 82
+
+=== PAGE 38 ===
+Example 2: Medium Image Dataset
+Problem Setup: Compute the number of layers and number of neurons in each layer
+d = 784 features (28×28 grayscale images)
+M = 5000 training samples
+c = 10 classes (digit classiﬁcation)
+Equations to be used are
+L≤ log2(M/(d× c)) + 1
+Parameters≤ M/5
+Deep Neural Network 38 / 82
+
+=== PAGE 39 ===
+Example 2: Medium Image Dataset
+Step 1: Relaxed approach
+For medium datasets, start with L = 3: [784, 2352, 784, 10]
+Step 2: Parameter count check
+Parameters = 784× 2352 + 2352 + 2352× 784 + 784 + 784× 10 + 10≈ 3.7M
+Constraint 5000/5 = 1000  Way too many!
+Step 3: Practical architecture
+▶ Try [784, 128, 64, 10]:
+Parameters = 784× 128 + 128 + 128× 64 + 64 + 64× 10 + 10 = 109, 000 
+▶ Try [784, 64, 32, 10]:
+Parameters = 784× 64 + 64 + 64× 32 + 32 + 32× 10 + 10 = 52, 458 
+▶ Try [784, 32, 10]: Parameters = 784× 32 + 32 + 32× 10 + 10 = 25, 450 
+▶ Try [784, 16, 10]: Parameters = 784× 16 + 16 + 16× 10 + 10 = 12, 714 
+Reality check: Need to use regularization techniques (dropout, L2) with larger
+architectures.
+Deep Neural Network 39 / 82
+
+=== PAGE 40 ===
+Example 3: Large Text Dataset
+Problem Setup: Compute the number of layers and number of neurons in each layer
+d = 1000 features (TF-IDF vectors)
+M = 50000 training samples
+c = 5 classes (sentiment categories)
+Equations to be used are
+L≤ log2(M/(d× c)) + 1
+Parameters≤ M/5
+Deep Neural Network 40 / 82
+
+=== PAGE 41 ===
+Example 3: Large Text Dataset
+Step 1: Apply constraints
+L≤ log2 (50000/(1000× 5)) + 1 = log 2(10) + 1≈ 4.3⇒ L≤ 4
+Step 2: Choose architecture
+Since M≥ 10000, can use L = 4: [1000, 5000, 2000, 1000, 5]
+Step 3: Parameter count check Parameters =
+1000× 5000 + 5000 + 5000× 2000 + 2000 + 2000× 1000 + 1000 + 1000× 5 + 5 =
+5M + 10M + 2M + 5K = 17M
+Constraint: 17M≤ 50000/5 = 10000  Way too many!
+Step 4: Reasonable architecture
+Try [1000, 512, 256, 128, 5]:
+Parameters = 1000× 512 + 512 + 512× 256 + 256 + 256× 128 + 128 + 128× 5 + 5
+= 512K + 131K + 32K + 640 = 675K parameters 
+This is 675000/50000 = 13.5 parameters per sample, which is reasonable.
+Final recommendation: [1000, 512, 256, 128, 5] with batch normalization and dropout.
+Deep Neural Network 41 / 82
+
+=== PAGE 42 ===
+Additional Reading
+Deep Neural Network 42 / 82
+
+=== PAGE 43 ===
+Table of Contents
+1 Complete Neural Network Training
+2 Gradient Flow
+3 Design a Neural Network
+4 Activation Functions
+5 Loss Functions and Their Derivatives
+6 Comparison and Summary
+Deep Neural Network 43 / 82
+
+=== PAGE 44 ===
+Sigmoid Function: Definition and Properties
+The sigmoid function maps any real number to the interval (0, 1).
+Deﬁnition:
+σ(z) = 1
+1 + e−z (1)
+Properties:
+Output range: (0, 1)
+Smooth and differentiable
+everywhere
+σ(0) = 0.5
+σ(−z) = 1−σ(z) (symmetry)
+As z→∞ :σ(z)→ 1
+As z→−∞ :σ(z)→ 0
+Use cases:
+Binary classiﬁcation (output layer)
+Gate mechanisms in LSTMs
+Key values:
+σ(−2)≈ 0.12
+σ(0) = 0.5
+σ(2)≈ 0.88
+Deep Neural Network 44 / 82
+
+=== PAGE 45 ===
+Sigmoid Function: Derivative Derivation
+Goal: Find dσ
+dz whereσ(z) = 1
+1+e−z
+Step 1: Rewrite and apply chain rule
+σ(z) = ( 1 + e−z)−1 ⇒ dσ
+dz =−(1 + e−z)−2· (−e−z) = e−z
+(1 + e−z)2 (2)
+Step 2: Factor to express in terms ofσ(z)
+dσ
+dz = e−z
+(1 + e−z)2 = 1
+1 + e−z· e−z
+1 + e−z (3)
+Step 3: Recognize thatσ(z) = 1
+1+e−z and 1−σ(z) = e−z
+1+e−z
+dσ
+dz =σ(z)· (1−σ(z)) (4)
+Beautiful property: Derivative computed using only the function value itself!
+Deep Neural Network 45 / 82
+
+=== PAGE 46 ===
+Sigmoid Function: Visualization
+Sigmoid Function
+−5 0 5
+0
+0.5
+1
+(0,0.5)
+z
+σ(z)
+σ(z) = 1
+1+e−z
+Sigmoid Derivative
+−5 0 5
+0
+0.1
+0.2
+0.3
+max:(0,0.25)
+z
+σ′(z)
+σ′(z) =σ(z)(1−σ(z))
+Key observations:
+Sigmoid squashes inputs to (0, 1) - ideal for probabilities
+Derivative peaks at z = 0 with value 0.25
+Derivative vanishes for large|z| (vanishing gradient problem!)
+Deep Neural Network 46 / 82
+
+=== PAGE 47 ===
+Softmax Function: Definition
+The softmax function converts a vector of real numbers into a probability distribution.
+For input vector z = [z1, z2,..., zC]T:
+softmax(z)j = ezj
+∑C
+k=1 ezk
+for j = 1, 2,..., C (5)
+Properties:
+All outputs in (0, 1): 0 < softmax(z)j < 1
+Outputs sum to 1:
+∑C
+j=1 softmax(z)j = 1
+Monotonic: larger zj  larger output
+Translation invariant: softmax(z + c) = softmax(z)
+Use case: Multi-class classiﬁcation output layer
+Deep Neural Network 47 / 82
+
+=== PAGE 48 ===
+Softmax Function: Notation
+Let’s denote the softmax outputs as:
+ˆyj = ezj
+∑C
+k=1 ezk
+where ˆy = [ ˆy1, ˆy2,..., ˆyC]T (6)
+Example: z = [1.0, 2.0, 3.0]T
+ˆy1 = e1.0
+e1.0 + e2.0 + e3.0 = 2.718
+2.718 + 7.389 + 20.086≈ 0.090
+ˆy2 = e2.0
+e1.0 + e2.0 + e3.0 = 7.389
+30.193≈ 0.245
+ˆy3 = e3.0
+e1.0 + e2.0 + e3.0 = 20.086
+30.193≈ 0.665
+Verify: 0.090 + 0.245 + 0.665 = 1.0 
+Deep Neural Network 48 / 82
+
+=== PAGE 49 ===
+Softmax + Cross-Entropy: Beautiful
+Simplification
+Cross-entropy Loss: ℓ =−
+∑
+c
+yc log(ˆyc) where true class is k (7)
+Chain rule: ∂ℓ
+∂zj
+=
+C∑
+i=1
+∂ℓ
+∂ˆyi
+· ∂ˆyi
+∂zj
+(8)
+∂ℓ
+∂zj
+=− 1
+ˆyk
+· ∂ˆyk
+∂zj
+where ∂ℓ
+∂ˆyi
+=− yi
+ˆyi
+yk = 1 (9)
+=− 1
+ˆyk
+[ˆyk (δkj− ˆyj)] (10)
+=−(δkj− ˆyj) (11)
+= ˆyj−δkj = ˆyj− yj (12)
+Deep Neural Network 49 / 82
+
+=== PAGE 50 ===
+Tanh Function: Definition and Properties
+The hyperbolic tangent (tanh) maps real numbers to the interval (−1, 1).
+Deﬁnition:
+tanh(z) = ez− e−z
+ez + e−z (13)
+Properties:
+Output range: (−1, 1)
+Zero-centered: tanh(0) = 0
+Odd function:
+tanh(−z) =− tanh(z)
+As z→±∞ : tanh(z)→± 1
+Advantages over sigmoid:
+Zero-centered
+Stronger gradients (max = 1)
+Faster convergence
+Key values:
+tanh(−1)≈− 0.76
+tanh(0) = 0
+tanh(1)≈ 0.76
+Deep Neural Network 50 / 82
+
+=== PAGE 51 ===
+Tanh Function: Derivative Derivation
+Quotient Rule Method (where tanh(z) = ez−e−z
+ez +e−z )
+Let u = ez− e−z, v = ez + e−z, so u′ = ez + e−z, v′ = ez− e−z
+d tanh
+dz = u′v− uv′
+v 2 = (ez + e−z)2− (ez− e−z)2
+(ez + e−z)2 = 4
+(ez + e−z)2 (14)
+Note: (ez + e−z)2− (ez− e−z)2 = (e2z + 2 + e−2z)− (e2z− 2 + e−2z) = 4
+Tanh Derivative
+tanh′(z) = 1− tanh2(z) = 4
+(ez + e−z)2 (15)
+Beautiful property: Derivative computed using only the function value! Maximum at
+z = 0: tanh′(0) = 1
+Deep Neural Network 51 / 82
+
+=== PAGE 52 ===
+Tanh Function: Visualization
+Tanh Function
+−4 −2 0 2 4
+−1
+0
+1
+(0,0)
+z
+tanh(z)
+tanh(z) = ez−e−z
+ez+e−z
+Tanh Derivative
+−4 −2 0 2 4
+0
+0.5
+1 max:(0,1)
+z
+tanh′(z)
+tanh′(z) =1−tanh2(z)
+Key observations:
+Tanh is zero-centered (unlike sigmoid) - better for hidden layers
+Derivative peaks at z = 0 with value 1 (4× larger than sigmoid!)
+Derivative vanishes for large|z| but slower than sigmoid
+Symmetric derivative (even function): tanh′(−z) = tanh′(z)
+Deep Neural Network 52 / 82
+
+=== PAGE 53 ===
+Numerical Problem: Activation Functions
+Problem: Given the input vector z =
+
+
+2.0
+−1.5
+0.8
+−0.3
+
+, calculate the output for each activa-
+tion function. Also compute the derivatives for each function at the given input.
+1 Sigmoid:σ(z)
+2 Tanh: tanh(z)
+3 ReLU: ReLU(z)
+Deep Neural Network 53 / 82
+
+=== PAGE 54 ===
+Solution: Sigmoid Activation
+Sigmoid Function: σ(z) = 1
+1 + e−z
+σ(z) =
+
+
+1
+1+e−2.0
+1
+1+e1.5
+1
+1+e−0.8
+1
+1+e0.3
+
+ =
+
+
+1
+1+0.135 = 0.881
+1
+1+4.482 = 0.182
+1
+1+0.449 = 0.690
+= 1
+1+1.350 = 0.426
+
+ =
+
+
+0.881
+0.182
+0.690
+0.426
+
+
+Sigmoid Derivative: σ′(z) =
+
+
+0.881(1− 0.881)
+0.182(1− 0.182)
+0.690(1− 0.690)
+0.426(1− 0.426)
+
+ =
+
+
+0.105
+0.149
+0.214
+0.245
+
+
+Deep Neural Network 54 / 82
+
+=== PAGE 55 ===
+Solution: Tanh Activation
+Tanh Function: tanh(z) = ez− e−z
+ez + e−z
+tanh(z) =
+
+
+tanh(2.0)
+tanh(−1.5)
+tanh(0.8)
+tanh(−0.3)
+
+ =
+
+
+7.389−0.135
+7.389+0.135 = 0.964
+0.223−4.482
+0.223+4.482 =−0.905
+2.226−0.449
+2.226+0.449 = 0.664
+0.741−1.350
+0.741+1.350 =−0.291
+
+ =
+
+
+0.964
+−0.905
+0.664
+−0.291
+
+
+Tanh Derivative: tanh′(z) =
+
+
+1− 0.9642
+1− (−0.905)2
+1− 0.6642
+1− (−0.291)2
+
+ =
+
+
+0.070
+0.181
+0.559
+0.915
+
+
+Deep Neural Network 55 / 82
+
+=== PAGE 56 ===
+Solution: ReLU
+ReLU Function: ReLU (z) = max( 0, z)
+=
+
+
+max(0, 2.0)
+max(0,−1.5)
+max(0, 0.8)
+max(0,−0.3)
+
+ =
+
+
+2.0
+0.0
+0.8
+0.0
+
+
+ReLU Derivative: ReLU ′(z) =
+{
+1 if z > 0
+0 if z≤ 0
+=
+
+
+1
+0
+1
+0
+
+
+Deep Neural Network 56 / 82
+
+=== PAGE 57 ===
+Numerical Problem: Softmax Function
+Problem: Given the logit vector z, compute:
+1 The softmax output
+2 The cross-entropy loss with true label y
+3 The gradient of the loss with respect to the logits
+z =
+
+
+2.0
+1.0
+0.1
+−1.0
+
+ y =
+
+
+0
+1
+0
+0
+
+
+Cross-entropy Loss:
+L =−
+n∑
+i=1
+yi log(softmax(zi))
+Deep Neural Network 57 / 82
+
+=== PAGE 58 ===
+Solution: Softmax Computation
+Step 1: Compute softmax values First, for numerical stability, subtract the maximum:
+zstable = z− max(z) =
+
+
+2.0
+1.0
+0.1
+−1.0
+
+− 2.0 =
+
+
+0.0
+−1.0
+−1.9
+−3.0
+
+
+ezstable =
+
+
+e0.0
+e−1.0
+e−1.9
+e−3.0
+
+ =
+
+
+1.000
+0.368
+0.150
+0.050
+
+
+4∑
+j=1
+ezj−max(z) = 1.000 + 0.368 + 0.150 + 0.050 = 1.568
+Deep Neural Network 58 / 82
+
+=== PAGE 59 ===
+Solution: Softmax Computation
+softmax(z) = 1
+1.568
+
+
+1.000
+0.368
+0.150
+0.050
+
+ =
+
+
+0.638
+0.235
+0.096
+0.032
+
+
+Veriﬁcation: = 0.638 + 0.235 + 0.096 + 0.032 = 1.001≈ 1
+Deep Neural Network 59 / 82
+
+=== PAGE 60 ===
+Solution: Cross-entropy Loss and Gradient
+Step 2: Compute cross-entropy loss
+L =−
+4∑
+i=1
+yi log(softmax(zi))
+y =
+
+
+0
+1
+0
+0
+
+ only the second term contributes
+L =−y2 log(softmax(z2)) =−1× log(0.235) =− log(0.235) = 1.447
+Deep Neural Network 60 / 82
+
+=== PAGE 61 ===
+Solution: Cross-entropy Loss and Gradient
+Step 3: Compute gradient For cross-entropy loss with softmax, the gradient is:
+∂L
+∂zi
+= softmax(zi)− yi
+∂L
+∂z =
+
+
+0.638
+0.235
+0.096
+0.032
+
+−
+
+
+0
+1
+0
+0
+
+ =
+
+
+0.638
+−0.765
+0.096
+0.032
+
+
+This result shows that the gradient is simply the difference between predicted and
+true probabilities!
+Deep Neural Network 61 / 82
+
+=== PAGE 62 ===
+Table of Contents
+1 Complete Neural Network Training
+2 Gradient Flow
+3 Design a Neural Network
+4 Activation Functions
+5 Loss Functions and Their Derivatives
+6 Comparison and Summary
+Deep Neural Network 62 / 82
+
+=== PAGE 63 ===
+Overview: Loss Functions
+Loss functions measure the discrepancy between predicted and actual values.
+We will include:
+1 Mean Squared Error (MSE) Loss
+2 Mean Absolute Error (MAE) Loss
+3 Binary Cross-Entropy (BCE) Loss
+4 Cross-Entropy Loss
+Key Goal: Understand how to compute gradients for backpropagation
+Deep Neural Network 63 / 82
+
+=== PAGE 64 ===
+MSE Loss: Definition
+Mean Squared Error (MSE) is commonly used for regression tasks.
+ℓ(ˆy, y) = 1
+2 (ˆy− y)2 (16)
+Properties:
+Always non-negative:ℓ≥ 0
+Convex function (for linear models)
+Differentiable everywhere
+Penalizes large errors quadratically
+Factor of 1
+2 simpliﬁes derivative
+Deep Neural Network 64 / 82
+
+=== PAGE 65 ===
+MSE Loss: Derivative Derivation
+Goal: Find ∂ℓ
+∂ˆy whereℓ = 1
+2 (ˆy− y)2
+Let u = ˆy− y, soℓ = 1
+2 u2
+∂ℓ
+∂ˆy = ∂ℓ
+∂u· ∂u
+∂ˆy (chain rule) (17)
+=
+(
+1
+2· 2u
+)
+· (1) (compute derivatives) (18)
+= u = ˆy− y (substitute back) (19)
+MSE Loss Derivative:
+∂ℓ
+∂ˆy = ˆy− y (20)
+Deep Neural Network 65 / 82
+
+=== PAGE 66 ===
+MSE Loss: Numerical Example
+Example 1: y = 3, ˆy = 5
+ℓ = 1
+2(5− 3)2 = 1
+2(2)2 = 2
+∂ℓ
+∂ˆy = 5− 3 = 2
+Example 2: y = 8, ˆy = 5
+ℓ = 1
+2 (5− 8)2 = 1
+2 (−3)2 = 4.5
+∂ℓ
+∂ˆy = 5− 8 =−3
+Note: Gradient is negative, telling us to increase ˆy
+Deep Neural Network 66 / 82
+
+=== PAGE 67 ===
+MAE Loss: Definition
+Mean Absolute Error (MAE) is more robust to outliers than MSE.
+ℓ(ˆy, y) =|ˆy− y| (21)
+Properties:
+Always non-negative:ℓ≥ 0
+Less sensitive to outliers than MSE
+Not differentiable at ˆy = y
+Linear penalty for errors
+Deep Neural Network 67 / 82
+
+=== PAGE 68 ===
+MAE Loss: Derivative Derivation
+Goal: Find ∂ℓ
+∂ˆy whereℓ =|ˆy− y|
+Recall: Derivative of absolute value function
+d|x|
+dx =
+
+
+
+1 if x > 0
+−1 if x < 0
+undeﬁned if x = 0
+(22)
+Apply toℓ =|ˆy− y| using chain rule:
+∂ℓ
+∂ˆy = ∂
+∂ˆy|ˆy− y| =
+
+
+
+1 if ˆy > y
+−1 if ˆy < y
+0 if ˆy = y (convention)
+= sign(ˆy− y) (23)
+MAE Loss Derivative:
+∂ℓ
+∂ˆy = sign(ˆy− y) (24)
+Deep Neural Network 68 / 82
+
+=== PAGE 69 ===
+MAE Loss: Numerical Examples
+Example 1: y = 3, ˆy = 5
+ℓ =|5− 3| = 2
+∂ℓ
+∂ˆy = sign(5− 3) = sign(2) = + 1
+Example 2: y = 8, ˆy = 5
+ℓ =|5− 8| = 3
+∂ℓ
+∂ˆy = sign(5− 8) = sign(−3) =−1
+Comparison with MSE:
+MAE gradient is constant:±1
+MSE gradient varies with error magnitude: ˆy− y
+Deep Neural Network 69 / 82
+
+=== PAGE 70 ===
+BCE Loss: Definition
+Binary Cross-Entropy (BCE) is used for binary classiﬁcation where y∈{ 0, 1} and
+ˆy∈ (0, 1).
+For a single example:
+ℓ(ˆy, y) =−[y log(ˆy) + (1− y) log(1− ˆy)] (25)
+Properties:
+Measures divergence between predicted and true probability distributions
+Always non-negative:ℓ≥ 0
+Heavily penalizes conﬁdent wrong predictions
+Deep Neural Network 70 / 82
+
+=== PAGE 71 ===
+BCE Loss: Understanding the Formula
+Why this form?
+Since y∈{ 0, 1}, the loss simpliﬁes based on the true label:
+Case 1: When y = 1
+ℓ =−[1· log(ˆy) + (1− 1) log(1− ˆy)] (26)
+=− log(ˆy) (27)
+Case 2: When y = 0
+ℓ =−[0· log(ˆy) + (1− 0) log(1− ˆy)] (28)
+=− log(1− ˆy) (29)
+Intuition:
+If y = 1, want ˆy→ 1 to minimize− log(ˆy)
+If y = 0, want ˆy→ 0 to minimize− log(1− ˆy)
+Deep Neural Network 71 / 82
+
+=== PAGE 72 ===
+BCE Loss: Derivative Derivation
+Goal: Find ∂ℓ
+∂ˆy whereℓ =−[y log(ˆy) + (1− y) log(1− ˆy)]
+Differentiate both terms (using d
+dx log(x) = 1
+x and chain rule):
+∂ℓ
+∂ˆy =− ∂
+∂ˆy [y log(ˆy)]− ∂
+∂ˆy [(1− y) log(1− ˆy)] (30)
+=− y
+ˆy− (1− y)· 1
+1− ˆy· (−1) =− y
+ˆy + 1− y
+1− ˆy (31)
+Simplify with common denominator:
+∂ℓ
+∂ˆy =−y(1− ˆy) + (1− y)ˆy
+ˆy(1− ˆy) =−y + y ˆy + ˆy− y ˆy
+ˆy(1− ˆy) = ˆy− y
+ˆy(1− ˆy) (32)
+BCE Loss Derivative:
+∂ℓ
+∂ˆy = ˆy− y
+ˆy(1− ˆy) (33)
+Deep Neural Network 72 / 82
+
+=== PAGE 73 ===
+BCE Loss: Derivative Examples
+Example 1: y = 1, ˆy = 0.9
+ℓ =− log(0.9)≈ 0.105
+∂ℓ
+∂ˆy = 0.9− 1
+0.9(1− 0.9) =−0.1
+0.09 ≈− 1.11
+Example 2: y = 1, ˆy = 0.1
+ℓ =− log(0.1)≈ 2.303
+∂ℓ
+∂ˆy = 0.1− 1
+0.1(1− 0.1) =−0.9
+0.09 =−10
+Example 3: y = 0, ˆy = 0.9
+ℓ =− log(0.1)≈ 2.303
+∂ℓ
+∂ˆy = 0.9− 0
+0.9(1− 0.9) = 0.9
+0.09 = 10
+Deep Neural Network 73 / 82
+
+=== PAGE 74 ===
+Cross-Entropy Loss: Definition
+Cross-Entropy Loss generalizes BCE to multi-class classiﬁcation wherey is one-hot
+encoded and ˆy is a probability distribution.
+For C classes and single example:
+ℓ(ˆy, y) =−
+C∑
+c=1
+yc log(ˆyc) (34)
+where:
+y = [y1, y2,..., yC]T is one-hot encoded (one yc = 1, rest are 0)
+ˆy = [ ˆy1, ˆy2,..., ˆyC]T are predicted probabilities
+∑C
+c=1 ˆyc = 1 (output of softmax)
+Deep Neural Network 74 / 82
+
+=== PAGE 75 ===
+Cross-Entropy Loss: Derivative Derivation
+Goal: Find ∂ℓ
+∂ˆyj
+for each class j, whereℓ =−∑C
+c=1 yc log(ˆyc)
+Step 1: Take derivative with respect to ˆyj
+∂ℓ
+∂ˆyj
+=− ∂
+∂ˆyj
+[ C∑
+c=1
+yc log(ˆyc)
+]
+(35)
+Step 2: Only the c = j term depends on ˆyj
+∂ℓ
+∂ˆyj
+=− ∂
+∂ˆyj
+[yj log(ˆyj)] =−yj· 1
+ˆyj
+(36)
+Cross-Entropy Loss
+∂ℓ
+∂ˆyj
+=− yj
+ˆyj
+(37)
+Deep Neural Network 75 / 82
+
+=== PAGE 76 ===
+Cross-Entropy Loss: Gradient Vector
+The gradient with respect to all outputs forms a vector:
+∇ˆyℓ =
+
+
+∂ℓ
+∂ˆy1
+∂ℓ
+∂ˆy2
+...
+∂ℓ
+∂ˆyC
+
+ =
+
+
+− y1
+ˆy1
+− y2
+ˆy2
+...
+− yC
+ˆyC
+
+ (38)
+Since y is one-hot (only yk = 1):
+For the true class k: ∂ℓ
+∂ˆyk
+=− 1
+ˆyk
+For all other classes j̸= k: ∂ℓ
+∂ˆyj
+= 0
+Important: This is the gradient w.r.t. softmax outputs. When combined with softmax
+derivative, we get a simpler form!
+Deep Neural Network 76 / 82
+
+=== PAGE 77 ===
+Table of Contents
+1 Complete Neural Network Training
+2 Gradient Flow
+3 Design a Neural Network
+4 Activation Functions
+5 Loss Functions and Their Derivatives
+6 Comparison and Summary
+Deep Neural Network 77 / 82
+
+=== PAGE 78 ===
+Activation Functions: Comparison
+Property Sigmoid Tanh Softmax
+Formula 1
+1+e−z
+ez−e−z
+ez +e−z
+ezj
+∑
+k ezk
+Range (0, 1) (−1, 1) (0, 1)
+Zero-centered? No Y es No
+Derivative σ(1−σ) 1− tanh2 Complex
+Max Derivative 0.25 1.0 Varies
+Output Sum N/A N/A 1.0
+Use Case Binary class Hidden layers Multi-class
+Key Advantages:
+Sigmoid: Output is probability for binary classiﬁcation
+Tanh: Zero-centered, stronger gradients
+Softmax: Outputs form probability distribution
+Deep Neural Network 78 / 82
+
+=== PAGE 79 ===
+Loss Functions: Comparison
+Loss Formula Derivative
+MSE 1
+2(ˆy− y)2 ˆy− y
+MAE |ˆy− y| sign(ˆy− y)
+BCE −[y log ˆy + (1− y) log(1− ˆy)] ˆy−y
+ˆy(1−ˆy)
+Cross-Entropy −∑
+c yc log ˆyc −
+yj
+ˆyj
+Use Cases:
+MSE: Regression tasks
+MAE: Regression with outliers
+BCE: Binary classiﬁcation (y∈{ 0, 1})
+Cross-Entropy: Multi-class classiﬁcation
+Special case: Softmax + Cross-Entropy gradient: ˆyj− yj (very clean!)
+Deep Neural Network 79 / 82
+
+=== PAGE 80 ===
+Summary: Key Takeaways
+Loss Functions:
+MSE penalizes errors quadratically, derivative is linear
+MAE is robust to outliers, derivative is constant±1
+BCE for binary classiﬁcation, heavily penalizes conﬁdent errors
+Cross-Entropy for multi-class, only cares about correct class probability
+Activation Functions:
+Sigmoid squashes to (0, 1), useful for probabilities
+Tanh squashes to (−1, 1), zero-centered is better for hidden layers
+Softmax converts logits to probability distribution
+Practical Tips:
+Regression: Use MSE or MAE loss
+Binary classiﬁcation: Use sigmoid + BCE
+Multi-class: Use softmax + cross-entropy
+Deep Neural Network 80 / 82
+
+=== PAGE 81 ===
+Try
+Neural Network Playground: playground.tensorflow.org
+Deep Neural Network 81 / 82
