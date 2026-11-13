@@ -1,8 +1,51 @@
-=== TEMPERATURE 0.2 (500 characters) ===
-[Pending generation from problem2/problem2.ipynb Task B]
+======================================================================
+BITS Pilani M.Tech AIML - DNN Assignment 2
+Student ID: 2026AJ05253 | Task B Generated Samples
+======================================================================
 
-=== TEMPERATURE 0.8 (500 characters) ===
-[Pending generation from problem2/problem2.ipynb Task B]
+SAMPLE AT TEMPERATURE 0.2
+----------------------------------------
 
-=== TEMPERATURE 1.5 (500 characters) ===
-[Pending generation from problem2/problem2.ipynb Task B]
+The the the so the the the dearth of the the have the to my have the here the he sorne
+That the mart have he and and the the that the and the so the with the have the he have the in the have the have the he have the shalll the the beart dearth the and the the have the he that of him the with the shall the he and the the mand the his hear the shall and the the the a hears and the he shalll the word the have the hat the should and the shall the stay hear and the hat he have the have of the the hat
+
+SAMPLE AT TEMPERATURE 0.8
+----------------------------------------
+
+AUTUS:
+Whould me wartipe, not as lave of a a dather,
+For you pasers all forser the mords.
+
+DUCHES OF YORK:
+Have pry compand the may huse foliness ain houng mare my take?
+
+LOUCESTER:
+But stake whould loves what the pariofor with here a thigh all was muld the palty beting and and of thou this and that shall,
+And were dincons? I that of know;
+Yelld the pacteress mark, a has is depear. I that crue.
+
+KING ING ICHENTIOR:
+I what drot whee with canns on rotown the hen sto knay bet and of ast word your o
+
+SAMPLE AT TEMPERATURE 1.5
+----------------------------------------
+
+HRMER:
+Whols:
+Good sringbed if mastude
+I meath, a offue to, notse. How feor;,
+
+Him his sa shervriang, bie thum mosens,
+He he rampneryed cal hapolafh his he.
+Forert! Asublesanes, canlt
+Friuns tripoye fiend: thips onarstseng,
+The soncry to plorauce?
+I morrke penep, in thme, hephein forth booggglon yearse he ksir,
+Gegluon: of anes.
+O, strracice and a
+And I nallle thims strile steld o,
+Ant', and beft your'son tig
+Day on watht'dle e wirs thou
+Tough foirs bit do-thy a murt
+Onecle! Huk her I trighted y
+
