@@ -1,0 +1,14 @@
+# Datasets and raw data archives
+**/data_har/
+*.zip
+!2026AJ05253_DNN_Assignment/*.zip
+*.tar.gz
+
+# Python cache & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+.venv/
+env/
+venv/
