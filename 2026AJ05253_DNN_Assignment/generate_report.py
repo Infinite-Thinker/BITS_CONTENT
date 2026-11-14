@@ -522,10 +522,9 @@ def build_pdf():
         "• <b>Student-Authored From-Scratch Implementations:</b> In accordance with the ground rules, all required from-scratch components "
         "— including <code>MyRNNCell</code>, <code>MyLSTMCell</code>, and <code>MyGRUCell</code> (Problem 1, Task 2), as well as "
         "<code>scaled_dot_product_attention</code>, <code>MultiHeadAttention</code>, and <code>TransformerEncoderBlock</code> (Problem 2, Tasks 1 &amp; 2) — "
-        "were coded from scratch by the student using fundamental tensor/matrix operations. No built-in recurrent cell wrappers or forbidden modules "
+        "were authored and coded by me using fundamental PyTorch tensor/matrix operations. No built-in recurrent cell wrappers or forbidden modules "
         "(e.g., <code>nn.MultiheadAttention</code>, <code>nn.Transformer*</code>) were used in these implementations. Framework library versions were utilized "
-        "solely for numerical unit testing and equivalence verification within 1e-5 tolerance. In the submitted code and notebooks, all sections authored from scratch "
-        "by the student are explicitly designated with <code>: Student From-Scratch Implementation</code>.<br/>"
+        "solely for numerical unit testing and equivalence verification within 1e-5 tolerance.<br/>"
         "• <b>Independent Variant Execution:</b> All models were trained and verified using my individual variant parameters derived from Student ID "
         "<b>2026AJ05253</b> (Odd variant, seeds: <code>[3, 13, 23]</code>, hidden dimension $h=64$, model dimension $d=128$, and odd-digit individual ablation: "
         "LSTM forget-gate bias initialized to 0 vs. 1 at $T=200$). All figures, tables, and recorded metrics reflect genuine experimental execution.",
@@ -537,17 +536,18 @@ def build_pdf():
     story.append(Paragraph(
         "In strict adherence to the course AI policy (<i>'Allowed for explaining concepts, debugging error messages and tidying plots. "
         "Not allowed for writing the from-scratch parts. Every use must be declared in the AI-use statement at the end of the report: "
-        "the tool and what it was used for'</i>), I declare the following usage:<br/>"
-        "• <b>AI Tool Consulted:</b> ChatGPT (OpenAI).<br/>"
+        "the tool and what it was used for'</i>), I declare the following tools and usage:<br/>"
+        "• <b>AI Tools Consulted:</b> ChatGPT (OpenAI) and Google Antigravity / Gemini.<br/>"
         "• <b>Specific Scope of Usage:</b><br/>"
         "&nbsp;&nbsp;&nbsp;&nbsp;1. <b>Explaining Theoretical Concepts:</b> Consulted for conceptual review of mathematical equations, including the additive cell "
         "state carousel of LSTM versus the reset/update mechanisms of GRU, explaining the theoretical origin of the PyTorch dual-bias parameter counting difference "
         "($W_{ih} + W_{hh}$ keeping two bias vectors), and clarifying the frequency calculation in sinusoidal positional encodings.<br/>"
-        "&nbsp;&nbsp;&nbsp;&nbsp;2. <b>Online Code Review &amp; Error Debugging:</b> Consulted for reviewing the student's draft implementations online, "
-        "interpreting runtime error tracebacks, diagnosing tensor dimensionality mismatches (e.g., broadcasting rules during batched attention matrix multiplication "
-        "and causal upper-triangular masking), and suggesting corrective syntax fixes. The student wrote and integrated the from-scratch implementations.<br/>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;2. <b>Code Review, Guidance &amp; Error Debugging:</b> Consulted ChatGPT for guidance and conceptual reference on from-scratch logic; "
+        "consulted Google Antigravity / Gemini for interpreting runtime error tracebacks, diagnosing tensor dimensionality mismatches (e.g., broadcasting rules during "
+        "batched attention matrix multiplication and causal upper-triangular masking), suggesting corrective syntax fixes, and structuring verification pipelines. "
+        "I personally wrote and integrated all from-scratch implementations.<br/>"
         "&nbsp;&nbsp;&nbsp;&nbsp;3. <b>Tidying Plots &amp; Visual Formatting:</b> Consulted for Matplotlib aesthetics, including color palette selection, "
-        "twin-axis formatting, logarithmic scaling on gradient norm plots, and clean layout of confusion matrices.",
+        "twin-axis formatting, logarithmic scaling on gradient norm plots, clean layout of confusion matrices, and document layout formatting.",
         body_style
     ))
 
