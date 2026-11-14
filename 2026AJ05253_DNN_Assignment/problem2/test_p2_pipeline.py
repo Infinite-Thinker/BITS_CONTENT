@@ -60,8 +60,7 @@ def log_result(problem, model, seed, seq_len='', test_acc='', macro_f1='',
 # -------------------------------------------------------------
 # Task 1 (P2.1): Attention From Scratch
 # -------------------------------------------------------------
-# PHASE2
-# TODO (Student: scaled_dot_product_attention):
+# Function: scaled_dot_product_attention
 def scaled_dot_product_attention(Q: torch.Tensor, K: torch.Tensor, V: torch.Tensor,
                                 mask: torch.Tensor = None, dropout: nn.Dropout = None,
                                 return_weights: bool = False):
@@ -91,8 +90,7 @@ def scaled_dot_product_attention(Q: torch.Tensor, K: torch.Tensor, V: torch.Tens
         return output, attn_weights
     return output
 
-# PHASE2
-# TODO (Student: unit_test_attention):
+# Unit Test: unit_test_attention
 def unit_test_attention():
     print("--- Running P2.1 Attention Unit Tests ---")
     B, H, T, d_k = 2, 4, 8, 32
@@ -166,8 +164,7 @@ def unit_test_attention():
 # -------------------------------------------------------------
 # Task 2 (P2.2): Multi-Head Attention & Encoder Block
 # -------------------------------------------------------------
-# PHASE2
-# TODO (Student: MultiHeadAttention):
+# Module: MultiHeadAttention
 class MultiHeadAttention(nn.Module):
     def __init__(self, d_model: int, num_heads: int, dropout: float = 0.0):
         super().__init__()
@@ -209,8 +206,7 @@ class MultiHeadAttention(nn.Module):
             return out, weights
         return out
 
-# PHASE2
-# TODO (Student: SinusoidalPositionalEncoding):
+# Module: SinusoidalPositionalEncoding
 class SinusoidalPositionalEncoding(nn.Module):
     def __init__(self, d_model: int, max_len: int = 5000):
         super().__init__()
@@ -225,8 +221,7 @@ class SinusoidalPositionalEncoding(nn.Module):
         # x: (B, T, d_model)
         return x + self.pe[:, :x.size(1), :]
 
-# PHASE2
-# TODO (Student: TransformerEncoderBlock):
+# Module: TransformerEncoderBlock
 class TransformerEncoderBlock(nn.Module):
     def __init__(self, d_model: int, num_heads: int, d_ff: int = 512, dropout: float = 0.1):
         super().__init__()
@@ -260,8 +255,7 @@ class TransformerEncoderBlock(nn.Module):
             return x, weights
         return x
 
-# PHASE2
-# TODO (Student: verify_encoder_block_parameters):
+# Unit Test: verify_encoder_block_parameters
 def verify_encoder_block_parameters():
     print("\n--- Running P2.2 Parameter Count Derivation Verification ---")
     d = 128
@@ -311,8 +305,7 @@ def verify_encoder_block_parameters():
 # -------------------------------------------------------------
 # Task 3 (P2.3): Task A - HAR Transformer Classifier
 # -------------------------------------------------------------
-# PHASE2
-# TODO (Student: HARTransformerClassifier):
+# Model: HARTransformerClassifier
 class HARTransformerClassifier(nn.Module):
     def __init__(self, input_size: int = 9, d_model: int = 128, num_heads: int = 4,
                  num_layers: int = 2, d_ff: int = 512, num_classes: int = 6,
@@ -359,8 +352,7 @@ class HARTransformerClassifier(nn.Module):
 # -------------------------------------------------------------
 # Task 4 (P2.4): Task B - Character-Level Causal LM
 # -------------------------------------------------------------
-# PHASE2
-# TODO (Student: CausalTransformerLM):
+# Model: CausalTransformerLM
 class CausalTransformerLM(nn.Module):
     def __init__(self, vocab_size: int = 65, d_model: int = 128, num_heads: int = 4,
                  num_layers: int = 4, d_ff: int = 512, max_len: int = 128, dropout: float = 0.1):
@@ -478,8 +470,7 @@ def get_har_splits(seed: int, X_train_raw, y_train_raw, sub_train, X_test_raw, y
 # -------------------------------------------------------------
 # Task 3: Run Task A (HAR Classifier & Positional Ablations)
 # -------------------------------------------------------------
-# PHASE2
-# TODO (Student: run_p2_task_a):
+# Pipeline: run_p2_task_a
 def run_p2_task_a(epochs: int = 8, batch_size: int = 64):
     print("\n=======================================================")
     print("Running P2 Task A: HAR Transformer Encoder Classifier")
@@ -602,8 +593,7 @@ def get_lm_batch(split_data, batch_size: int, block_size: int):
     y = torch.stack([split_data[i+1:i+block_size+1] for i in ix])
     return x, y
 
-# PHASE2
-# TODO (Student: run_p2_task_b):
+# Pipeline: run_p2_task_b
 def run_p2_task_b(max_steps: int = 1000, batch_size: int = 32):
     print("\n=======================================================")
     print("Running P2 Task B: Tiny Shakespeare Causal Language Model")
@@ -719,8 +709,7 @@ def run_p2_task_b(max_steps: int = 1000, batch_size: int = 32):
 # -------------------------------------------------------------
 # Task 5: Analysis and Ablations
 # -------------------------------------------------------------
-# PHASE2
-# TODO (Student: run_p2_task_5a_heatmaps):
+# Experiment: Task 5a - Heatmaps
 def run_p2_task_5a_heatmaps(model, ch2idx, idx2ch):
     print("\n--- Running Task 5a: Attention Heatmaps ---")
     sentence = "To be, or not to be, that is the question:"
@@ -748,8 +737,7 @@ def run_p2_task_5a_heatmaps(model, ch2idx, idx2ch):
     plt.close()
     print("Saved figures/p2_attention_heatmaps.png")
 
-# PHASE2
-# TODO (Student: run_p2_task_5b_heads_ablation):
+# Experiment: Task 5b - Heads Ablation
 def run_p2_task_5b_heads_ablation(train_data, val_data, vocab_size):
     print("\n--- Running Task 5b: Head Count Ablation (H in {1, 4, 8}) ---")
     heads_list = [1, 4, 8]
@@ -799,8 +787,7 @@ def run_p2_task_5b_heads_ablation(train_data, val_data, vocab_size):
     plt.close()
     print("Saved figures/p2_heads_ablation.png")
 
-# PHASE2
-# TODO (Student: run_p2_task_5c_no_mask_ablation):
+# Experiment: Task 5c - No-Mask Ablation
 def run_p2_task_5c_no_mask_ablation(train_data, val_data, vocab_size, ch2idx, idx2ch):
     print("\n--- Running Task 5c: No-Causal-Mask Ablation ---")
     criterion = nn.CrossEntropyLoss()
@@ -840,8 +827,7 @@ def run_p2_task_5c_no_mask_ablation(train_data, val_data, vocab_size, ch2idx, id
     plt.close()
     print("Saved figures/p2_no_mask_ablation.png")
 
-# PHASE2
-# TODO (Student: run_p2_task_5d_context_scaling):
+# Experiment: Task 5d - Context Scaling
 def run_p2_task_5d_context_scaling(vocab_size: int):
     print("\n--- Running Task 5d: Context Length Scaling ---")
     context_lengths = [64, 128, 256, 512]

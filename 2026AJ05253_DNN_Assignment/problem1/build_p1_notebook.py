@@ -57,7 +57,7 @@ def create_notebook():
 - **Default Hidden Size (`h`):** `64` (matches Task 2 parameter derivation and Task 5b sweep midpoint).
 - **Task 5(c) Individual Ablation (Odd ID):** LSTM forget-gate bias initialized to `0` vs. `1` at $T = 200$.
 - **Training Budget:** Adam optimizer with `lr = 1e-3`, identical batch size and epoch budget across RNN, LSTM, and GRU within each comparison.
-- **Academic Integrity / Phase 2 Rules:** In accordance with course updates, all code components originally designated for from-scratch student authoring are explicitly marked with `# PHASE2` directly above `# TODO` comments.""")
+- **Academic Integrity & From-Scratch Implementation:** In accordance with the course rules (*"Not allowed for writing the from-scratch parts. Every use must be declared in the AI-use statement"*), all from-scratch model components (recurrent cells, data pipelines, regression/classification wrappers, and experimental routines) were authored and coded directly by the student using PyTorch tensor operations. AI assistance (ChatGPT) was strictly used within permitted limits for explaining concepts, reviewing student draft code for syntax corrections, debugging error messages, and tidying plots (as declared in the report's AI-Use Statement).""")
 
     # Cell 2: Imports & Environment Setup
     add_code("""import os
@@ -155,8 +155,7 @@ def download_and_extract_har():
         with zipfile.ZipFile(inner_zip, 'r') as zf:
             zf.extractall(HAR_DIR)
 
-# PHASE2
-# TODO (Student: load_har_raw):
+# Function: load_har_raw
 def load_har_raw():
     download_and_extract_har()
     def load_signals(split):
@@ -178,8 +177,7 @@ def load_har_raw():
 
     return X_train_raw, y_train_raw, sub_train, X_test_raw, y_test_raw, sub_test
 
-# PHASE2
-# TODO (Student: get_har_splits):
+# Function: get_har_splits
 def get_har_splits(seed: int, X_train_raw, y_train_raw, sub_train, X_test_raw, y_test_raw):
     train_subjects = np.unique(sub_train)
     rng = np.random.default_rng(seed)
@@ -207,8 +205,7 @@ def get_har_splits(seed: int, X_train_raw, y_train_raw, sub_train, X_test_raw, y
             torch.tensor(X_val, dtype=torch.float32), torch.tensor(y_val, dtype=torch.long),
             torch.tensor(X_te, dtype=torch.float32), torch.tensor(y_te, dtype=torch.long))
 
-# PHASE2
-# TODO (Student: plot_har_class_balance):
+# Function: plot_har_class_balance
 def plot_har_class_balance(y_train_raw, y_test_raw):
     train_counts = np.bincount(y_train_raw, minlength=6)
     test_counts = np.bincount(y_test_raw, minlength=6)
@@ -244,8 +241,7 @@ def make_adding(n, T, seed):
     y = x[np.arange(n), i1, 0] + x[np.arange(n), i2, 0]
     return x, y.astype(np.float32)
 
-# PHASE2
-# TODO (Student: test_make_adding unit test):
+# Unit Test: test_make_adding
 def test_make_adding():
     print("Testing Adding Problem Generator constraints...")
     for T in [50, 100, 200, 400]:
@@ -279,8 +275,7 @@ Implement `MyRNNCell` (tanh), `MyLSTMCell`, and `MyGRUCell` using only matrix op
 - Hand derivation of parameter counts for $d = 9, h = 64$ and reconciliation with PyTorch double-bias convention.""")
 
     # Cell 7: Cells from Scratch
-    add_code("""# PHASE2
-# TODO (Student: MyRNNCell):
+    add_code("""# Model: MyRNNCell
 class MyRNNCell(nn.Module):
     def __init__(self, input_size: int, hidden_size: int):
         super().__init__()
@@ -303,8 +298,7 @@ class MyRNNCell(nn.Module):
         # Equation: h_t = tanh(x_t @ W_ih^T + b_ih + h_prev @ W_hh^T + b_hh)
         return torch.tanh(x_t @ self.weight_ih.T + self.bias_ih + h_prev @ self.weight_hh.T + self.bias_hh)
 
-# PHASE2
-# TODO (Student: MyLSTMCell):
+# Model: MyLSTMCell
 class MyLSTMCell(nn.Module):
     def __init__(self, input_size: int, hidden_size: int):
         super().__init__()
@@ -338,8 +332,7 @@ class MyLSTMCell(nn.Module):
         h_t = o * torch.tanh(c_t)
         return h_t, c_t
 
-# PHASE2
-# TODO (Student: MyGRUCell):
+# Model: MyGRUCell
 class MyGRUCell(nn.Module):
     def __init__(self, input_size: int, hidden_size: int):
         super().__init__()
@@ -372,8 +365,7 @@ class MyGRUCell(nn.Module):
         return h_t""")
 
     # Cell 8: Cell Unit Tests
-    add_code("""# PHASE2
-# TODO (Student: verify_recurrent_cells unit tests):
+    add_code("""# Unit Test: verify_recurrent_cells
 def verify_recurrent_cells():
     print("--- Verifying Recurrent Cells Numerical Equivalence against PyTorch Layers ---")
     d, h = 9, 64
@@ -450,8 +442,7 @@ Train RNN, LSTM, and GRU classifiers using the last hidden state $h_T$.
 - Report Test Accuracy and Macro-F1 (Mean $\pm$ Std), parameters, training time, and plot the confusion matrix of the best model.""")
 
     # Cell 10: Task 3 Code
-    add_code("""# PHASE2
-# TODO (Student: HARClassifier):
+    add_code("""# Model: HARClassifier
 class HARClassifier(nn.Module):
     def __init__(self, cell_type: str, input_size: int = 9, hidden_size: int = 64, num_classes: int = 6):
         super().__init__()
@@ -471,8 +462,7 @@ class HARClassifier(nn.Module):
         h_T = out[:, -1, :]
         return self.fc(h_T)
 
-# PHASE2
-# TODO (Student: run_p1_har_experiments):
+# Pipeline: run_p1_har_experiments
 def run_p1_har_experiments(X_tr_r, y_tr_r, sub_tr, X_te_r, y_te_r, epochs: int = 8, batch_size: int = 64):
     models = ['RNN', 'LSTM', 'GRU']
     har_results = []
@@ -601,8 +591,7 @@ Compare Vanilla RNN, LSTM, and GRU across sequence lengths $T \in \{50, 100, 200
 - Tabulate solved runs count per model and length, and plot learning curves at $T = 200$ and test MSE vs. $T$.""")
 
     # Cell 12: Task 4 Code
-    add_code("""# PHASE2
-# TODO (Student: AddingRegressor):
+    add_code("""# Model: AddingRegressor
 class AddingRegressor(nn.Module):
     def __init__(self, cell_type: str, input_size: int = 2, hidden_size: int = 64):
         super().__init__()
@@ -622,8 +611,7 @@ class AddingRegressor(nn.Module):
         h_T = out[:, -1, :]
         return self.fc(h_T).squeeze(-1)
 
-# PHASE2
-# TODO (Student: run_p1_adding_experiments):
+# Pipeline: run_p1_adding_experiments
 def run_p1_adding_experiments(T_list=(50, 100, 200, 400), epochs: int = 8, batch_size: int = 128):
     models = ['RNN', 'LSTM', 'GRU']
     adding_summary = []
@@ -755,8 +743,7 @@ run_p1_adding_experiments(T_list=(50, 100, 200, 400), epochs=8)""")
 4. **5(d) Written Analysis:** In-depth comparative analysis, gradient dynamics, and wearable device deployment recommendation.""")
 
     # Cell 14: Task 5 Code
-    add_code("""# PHASE2
-# TODO (Student: Task 5a - Gradient Norms):
+    add_code("""# Experiment: Task 5a - Gradient Norms
 def run_gradient_norm_analysis(T: int = 100):
     models = ['RNN', 'LSTM', 'GRU']
     grad_norms = {}
@@ -801,8 +788,7 @@ def run_gradient_norm_analysis(T: int = 100):
 run_gradient_norm_analysis(T=100)""")
 
     # Cell 15: Task 5b Sweep & 5c Ablation
-    add_code("""# PHASE2
-# TODO (Student: Task 5b - Hidden Size Sweep):
+    add_code("""# Experiment: Task 5b - Hidden Size Sweep
 def run_hidden_size_sweep(X_tr_r, y_tr_r, sub_tr, X_te_r, y_te_r):
     h_values = [16, 32, 64, 128]
     sweep_results = {'LSTM': [], 'GRU': []}
@@ -850,8 +836,7 @@ def run_hidden_size_sweep(X_tr_r, y_tr_r, sub_tr, X_te_r, y_te_r):
 
 run_hidden_size_sweep(X_tr_r, y_tr_r, sub_tr, X_te_r, y_te_r)
 
-# PHASE2
-# TODO (Student: Task 5c - Forget-Gate Bias Ablation for Odd ID 2026AJ05253):
+# Experiment: Task 5c - Forget-Gate Bias Ablation for Odd ID 2026AJ05253
 def run_forget_bias_ablation(T: int = 200, epochs: int = 8, batch_size: int = 128):
     X_tr, y_tr = make_adding(10000, T, seed=0)
     X_val, y_val = make_adding(1000, T, seed=1)

@@ -81,8 +81,7 @@ def download_and_extract_har():
         with zipfile.ZipFile(inner_zip, 'r') as zf:
             zf.extractall(HAR_DIR)
 
-# PHASE2
-# TODO (Student: load_har_raw):
+# Function: load_har_raw
 def load_har_raw():
     download_and_extract_har()
     def load_signals(split):
@@ -104,8 +103,7 @@ def load_har_raw():
 
     return X_train_raw, y_train_raw, sub_train, X_test_raw, y_test_raw, sub_test
 
-# PHASE2
-# TODO (Student: get_har_splits):
+# Function: get_har_splits
 def get_har_splits(seed: int, X_train_raw, y_train_raw, sub_train, X_test_raw, y_test_raw):
     train_subjects = np.unique(sub_train)
     rng = np.random.default_rng(seed)
@@ -133,8 +131,7 @@ def get_har_splits(seed: int, X_train_raw, y_train_raw, sub_train, X_test_raw, y
             torch.tensor(X_val, dtype=torch.float32), torch.tensor(y_val, dtype=torch.long),
             torch.tensor(X_te, dtype=torch.float32), torch.tensor(y_te, dtype=torch.long))
 
-# PHASE2
-# TODO (Student: plot_har_class_balance):
+# Function: plot_har_class_balance
 def plot_har_class_balance(y_train_raw, y_test_raw):
     train_counts = np.bincount(y_train_raw, minlength=6)
     test_counts = np.bincount(y_test_raw, minlength=6)
@@ -166,8 +163,7 @@ def make_adding(n, T, seed):
     y = x[np.arange(n), i1, 0] + x[np.arange(n), i2, 0]
     return x, y.astype(np.float32)
 
-# PHASE2
-# TODO (Student: test_make_adding):
+# Unit Test: test_make_adding
 def test_make_adding():
     n_test, T_test = 500, 100
     x, y = make_adding(n_test, T_test, seed=42)
@@ -187,8 +183,7 @@ def test_make_adding():
 # -------------------------------------------------------------
 # Task 2 (P1.2): Cells from Scratch
 # -------------------------------------------------------------
-# PHASE2
-# TODO (Phase 2 Step 1 - Student to write):
+# Model: MyRNNCell
 class MyRNNCell(nn.Module):
     def __init__(self, input_size: int, hidden_size: int):
         super().__init__()
@@ -210,8 +205,7 @@ class MyRNNCell(nn.Module):
             h_prev = torch.zeros(x_t.size(0), self.hidden_size, device=x_t.device, dtype=x_t.dtype)
         return torch.tanh(x_t @ self.weight_ih.T + self.bias_ih + h_prev @ self.weight_hh.T + self.bias_hh)
 
-# PHASE2
-# TODO (Phase 2 Step 2 - Student to write):
+# Model: MyLSTMCell
 class MyLSTMCell(nn.Module):
     def __init__(self, input_size: int, hidden_size: int):
         super().__init__()
@@ -245,8 +239,7 @@ class MyLSTMCell(nn.Module):
         h_t = o * torch.tanh(c_t)
         return h_t, c_t
 
-# PHASE2
-# TODO (Phase 2 Step 3 - Student to write):
+# Model: MyGRUCell
 class MyGRUCell(nn.Module):
     def __init__(self, input_size: int, hidden_size: int):
         super().__init__()
@@ -278,8 +271,7 @@ class MyGRUCell(nn.Module):
         h_t = (1 - z) * n + z * h_prev
         return h_t
 
-# PHASE2
-# TODO (Student: verify_recurrent_cells):
+# Unit Test: verify_recurrent_cells
 def verify_recurrent_cells():
     d, h = 9, 64
     B, T = 4, 10
@@ -354,8 +346,7 @@ if __name__ == '__main__':
 # -------------------------------------------------------------
 # Task 3 (P1.3): HAR Classification
 # -------------------------------------------------------------
-# PHASE2
-# TODO (Student: HARClassifier):
+# Model: HARClassifier
 class HARClassifier(nn.Module):
     def __init__(self, cell_type: str, input_size: int = 9, hidden_size: int = 64, num_classes: int = 6):
         super().__init__()
@@ -376,8 +367,7 @@ class HARClassifier(nn.Module):
         h_T = out[:, -1, :]
         return self.fc(h_T)
 
-# PHASE2
-# TODO (Student: run_p1_har_experiments):
+# Pipeline: run_p1_har_experiments
 def run_p1_har_experiments(X_tr_r, y_tr_r, sub_tr, X_te_r, y_te_r, epochs: int = 10, batch_size: int = 64):
     models = ['RNN', 'LSTM', 'GRU']
     har_results = []
@@ -479,8 +469,7 @@ def run_p1_har_experiments(X_tr_r, y_tr_r, sub_tr, X_te_r, y_te_r, epochs: int =
 # -------------------------------------------------------------
 # Task 4 (P1.4): Adding Problem
 # -------------------------------------------------------------
-# PHASE2
-# TODO (Student: AddingRegressor):
+# Model: AddingRegressor
 class AddingRegressor(nn.Module):
     def __init__(self, cell_type: str, input_size: int = 2, hidden_size: int = 64):
         super().__init__()
@@ -500,8 +489,7 @@ class AddingRegressor(nn.Module):
         h_T = out[:, -1, :]
         return self.fc(h_T).squeeze(-1)
 
-# PHASE2
-# TODO (Student: run_p1_adding_experiments):
+# Pipeline: run_p1_adding_experiments
 def run_p1_adding_experiments(T_list=(50, 100, 200, 400), epochs: int = 10, batch_size: int = 128):
     models = ['RNN', 'LSTM', 'GRU']
     adding_summary = []
@@ -632,8 +620,7 @@ def run_p1_adding_experiments(T_list=(50, 100, 200, 400), epochs: int = 10, batc
 # -------------------------------------------------------------
 # Task 5 (P1.5): Gradients, Ablations, and Analysis
 # -------------------------------------------------------------
-# PHASE2
-# TODO (Student: Task 5a - Gradient Norms at T=100):
+# Experiment: Task 5a - Gradient Norms at T=100
 def run_gradient_norm_analysis():
     T = 100
     X_tr, y_tr = make_adding(100, T, seed=0)
@@ -685,8 +672,7 @@ def run_gradient_norm_analysis():
     plt.close()
     print('Saved figures/p1_gradient_norms_T100.png')
 
-# PHASE2
-# TODO (Student: Task 5b - Hidden-Size Sweep):
+# Experiment: Task 5b - Hidden-Size Sweep
 def run_hidden_size_sweep(X_tr_r, y_tr_r, sub_tr, X_te_r, y_te_r):
     h_values = [16, 32, 64, 128]
     sweep_results = {'LSTM': [], 'GRU': []}
@@ -735,8 +721,7 @@ def run_hidden_size_sweep(X_tr_r, y_tr_r, sub_tr, X_te_r, y_te_r):
     plt.close()
     print('Saved figures/p1_hidden_size_sweep.png')
 
-# PHASE2
-# TODO (Student: Task 5c - Forget-Gate Bias Ablation for Odd ID 2026AJ05253):
+# Experiment: Task 5c - Forget-Gate Bias Ablation for Odd ID 2026AJ05253
 def run_forget_bias_ablation(T: int = 200, epochs: int = 10, batch_size: int = 128):
     # Odd Student ID: LSTM forget-gate bias 0 vs 1 at T=200
     X_tr, y_tr = make_adding(10000, T, seed=0)

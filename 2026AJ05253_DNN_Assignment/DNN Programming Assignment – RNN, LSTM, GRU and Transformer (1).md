@@ -197,13 +197,14 @@ The assignment is out of 100 and can be scaled to whatever weightage it carries 
 
 **Deductions.** Up to 10 points off for code that does not run from the README, results that cannot be reproduced from the fixed seeds, or a report over 6 pages. Copied code, or use of a forbidden layer in a from-scratch part, is handled under the academic-integrity policy.
 
-## **Rules: individual work and integrity**
+## **Rules: individual work, , AI tools and integrity**
 
 The assignment is individual work. Discussing ideas with classmates is fine; sharing or copying code, results or report text is not.
 
 * **Frameworks.** PyTorch only. TensorFlow, JAX and Keras are not accepted.  
 * **Data.** Only the datasets named above (UCI HAR, Tiny Shakespeare and the generated adding problem). No external data and no pre-trained weights.  
 * **From-scratch parts.** The RNN, LSTM and GRU cells (Problem 1 task 2\) and the attention, multi-head attention and encoder block (Problem 2\) must be the student's own code. Framework versions may be used only to check them.  
+* **AI tools.** Allowed for explaining concepts, debugging error messages and tidying plots. Not allowed for writing the from-scratch parts. Every use must be declared in the AI-use statement at the end of the report: the tool and what it was used for. An undeclared use found at the viva or in marking is an integrity case.
 * **Checks.** Submissions are compared against each other and against public repositories. Because every student has a different variant (hidden size, width, seeds), identical numbers or plots from two students are flagged automatically.  
 * **Consequence.** Copied work is handled under the institute's academic-integrity policy.
 
