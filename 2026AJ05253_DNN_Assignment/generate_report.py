@@ -175,12 +175,12 @@ def build_pdf():
 
     story.append(Paragraph("1. Problem 1: Recurrent Cells on Sequences (HAR & Adding Problem)", h1_style))
     story.append(Paragraph(
-        "<b>1.1 Experimental Setup & Data Preprocessing:</b> We evaluate vanilla RNN, LSTM, and GRU on two sequence tasks: "
-        "the real-world UCI Human Activity Recognition (HAR) dataset (128 time-steps, 9 inertial sensors, 6 classes) and a synthetic "
-        "adding problem. For HAR, data is divided subject-wise by holding out 4 out of 21 training subjects per seed (seeds 3, 13, 23) "
-        "so that training and validation distributions have zero subject overlap. Per-channel mean and standard deviation are strictly computed "
-        "on the training split only and applied to standardize validation and test sets without data snooping. "
-        "Fig. 1 depicts the well-balanced class distribution across all 6 physical activities.",
+        "<b>1.1 Experimental Setup & Data Preprocessing:</b> In this investigation, I evaluate vanilla RNN, LSTM, and GRU architectures on two sequence tasks: "
+        "the real-world UCI Human Activity Recognition (HAR) dataset (128 time-steps, 9 inertial sensor channels, 6 activity classes) and a synthetic "
+        "adding problem. For HAR, I partition data on a subject-wise basis by holding out 4 of the 21 training subjects per seed (seeds 3, 13, 23), "
+        "ensuring zero subject overlap between training and validation distributions. Per-channel mean and standard deviation are strictly computed "
+        "from the training split only and applied to normalize validation and test sets without data leakage. "
+        "Fig. 1 depicts the uniform class distribution across all 6 physical activities.",
         body_style
     ))
 
@@ -199,8 +199,8 @@ def build_pdf():
         "<i>c<sub>t</sub> = f * c<sub>t-1</sub> + i * g</i>, and <i>h<sub>t</sub> = o * tanh(c<sub>t</sub>)</i>.<br/>"
         "• <b>GRU:</b> Reset gate <i>r</i>, update gate <i>z</i>, candidate <i>n = tanh(W<sub>in</sub> x<sub>t</sub> + b<sub>in</sub> + r * (W<sub>hn</sub> h<sub>t-1</sub> + b<sub>hn</sub>))</i>, "
         "and hidden state <i>h<sub>t</sub> = (1 - z) * n + z * h<sub>t-1</sub></i>.<br/>"
-        "<b>Numerical Verification:</b> Weights from PyTorch standard layers were copied directly into our custom scratch cells. Over a random mini-batch "
-        "(B=4, T=10, d=9, h=64), maximum absolute differences between scratch and PyTorch outputs were &lt; 1.2e-7 (well within the required 1e-5 tolerance).",
+        "<b>Numerical Verification:</b> Weights from PyTorch standard library layers were copied directly into my custom from-scratch cells. Over a random evaluation mini-batch "
+        "(B=4, T=10, d=9, h=64), maximum absolute differences between my scratch outputs and framework outputs were &lt; 1.2e-7, strictly satisfying the 1e-5 tolerance.",
         body_style
     ))
 
@@ -229,10 +229,10 @@ def build_pdf():
     # =========================================================
     story.append(Paragraph("1.3 Task 3: UCI HAR Sensor Classification Results", h1_style))
     story.append(Paragraph(
-        "Each architecture reads 128 sensor steps (9 channels) and classifies activity using the final hidden vector <i>h<sub>T</sub></i>. "
-        "All models used Adam (lr=1e-3), batch size 64, and identical budget across seeds [3, 13, 23]. "
-        "As reported in Table 2, gated cells (LSTM and GRU) substantially outperform vanilla RNN by over 20% in test accuracy and macro-F1. "
-        "GRU achieves the highest overall accuracy (89.4% ± 0.6%) with 25% fewer parameters than LSTM. Fig. 2 displays the confusion matrix of the best model.",
+        "Each architecture processes 128 sensor steps (9 channels) and predicts physical activity from the final hidden vector <i>h<sub>T</sub></i>. "
+        "All models were trained under identical conditions using Adam (lr=1e-3), batch size 64, and an equal epoch budget across seeds [3, 13, 23]. "
+        "As documented in Table 2, gated cells (LSTM and GRU) substantially outperform vanilla RNN by over 20 percentage points in test accuracy and macro-F1. "
+        "GRU attains the highest overall test accuracy (89.40% ± 0.61%) while requiring 24.5% fewer parameters than LSTM. Fig. 2 presents the confusion matrix for the best-performing model.",
         body_style
     ))
 
@@ -324,15 +324,16 @@ def build_pdf():
         "<b>2. Failure Modes as Sequence Length Grows:</b> In the adding problem, when T increases from 50 to 400, vanilla RNN fails completely at T ≥ 200, "
         "degenerating into the trivial mean prediction (MSE ≈ 0.167). The model cannot correlate the first marker in [0, T/2) with the second marker in [T/2, T). "
         "LSTM and GRU reliably solve T=200 and T=400 with test MSE &lt; 0.05 when gradients are clipped to norm 1.0.<br/>"
-        "<b>3. Forget-Gate Bias Ablation (Odd Student ID 2026AJ05253):</b> When the forget gate bias is initialized to 0.0, σ(0.0) = 0.5, "
-        "meaning the cell state discards 50% of its stored information at every single time step. Over 200 steps, (0.5)<sup>200</sup> ≈ 10<sup>-60</sup>, causing total catastrophic forgetting. "
-        "Initializing the forget-gate bias to 1.0 sets σ(1.0) ≈ 0.73, holding open the information channel and enabling rapid convergence below the 0.05 solved threshold.<br/>"
-        "<b>4. Wearable Device Deployment Recommendation:</b> For a battery-powered health wearable (e.g. smartwatch classifying daily activities), "
-        "we strongly recommend the <b>GRU model with hidden size h=32 or h=64</b>. Justification based on our empirical data:<br/>"
-        "• <i>Accuracy vs. Parameters:</i> GRU achieves 89.40% accuracy with only 14,790 parameters (24.5% fewer parameters than LSTM's 19,590). "
-        "On RAM-constrained microcontrollers (e.g. ARM Cortex-M), a 14.8k parameter model occupies under 60 KB in float32, fitting comfortably in SRAM.<br/>"
-        "• <i>Energy Efficiency:</i> GRU has 3 gate matrix multiplications per step versus 4 in LSTM, reducing arithmetic MAC operations and battery draw by 25%. "
-        "Vanilla RNN is too inaccurate (66.04%) for dependable health tracking. Thus, GRU provides the optimal Pareto frontier between accuracy, SRAM footprint, and battery longevity.",
+        "<b>3. Forget-Gate Bias Ablation (Student ID 2026AJ05253, Odd Variant):</b> In accordance with my assigned variant (Student ID ending in odd digit 3), "
+        "I ablated the LSTM forget-gate bias initialization (0.0 vs. 1.0) at T=200 on the adding problem. When initialized to 0.0, σ(0.0) = 0.5, "
+        "causing the recurrent cell state to lose half its information at each step; compounded over 200 steps, (0.5)<sup>200</sup> ≈ 10<sup>-60</sup>, leading to catastrophic forgetting. "
+        "In contrast, initializing forget-gate bias to 1.0 gives σ(1.0) ≈ 0.73, preserving memory and enabling rapid convergence below the 0.05 solved threshold.<br/>"
+        "<b>4. Wearable Device Deployment Recommendation:</b> For an edge deployment on a battery-powered health wearable (e.g., an on-wrist activity monitor), "
+        "I recommend the <b>GRU architecture with hidden size h=32 or h=64</b>. Empirical justification:<br/>"
+        "• <i>Accuracy vs. Parameter Footprint:</i> GRU achieves 89.40% accuracy with only 14,790 parameters (a 24.5% parameter reduction compared to LSTM's 19,590). "
+        "On resource-constrained microcontrollers (e.g., ARM Cortex-M), this represents under 60 KB in float32, fitting well within typical on-chip SRAM.<br/>"
+        "• <i>Energy & Arithmetic Efficiency:</i> Because GRU requires 3 gate projections per step rather than 4, it saves approximately 25% in multiply-accumulate (MAC) "
+        "operations and energy per inference. Vanilla RNN is too inaccurate (66.04%) for dependable activity tracking. Thus, GRU provides the optimal Pareto trade-off among accuracy, memory footprint, and battery longevity.",
         body_style
     ))
 
@@ -343,30 +344,30 @@ def build_pdf():
     # =========================================================
     story.append(Paragraph("2. Problem 2: Transformer from Scratch (Attention & Encoder Block)", h1_style))
     story.append(Paragraph(
-        "<b>2.1 Attention from Scratch (P2.1):</b> Scaled dot-product attention was built strictly using tensor operations: "
+        "<b>2.1 Attention from Scratch (P2.1):</b> Scaled dot-product attention was implemented directly using tensor operations: "
         "<i>Attention(Q, K, V) = softmax(Q K<sup>T</sup> / √d<sub>k</sub> + M) V</i>, where M is an optional mask. "
-        "Three automated unit tests verify our implementation:<br/>"
-        "1. <i>Row Sum Invariance:</i> Every row of attention weights sums to exactly 1.0000 (tolerance &lt; 1e-6).<br/>"
-        "2. <i>Framework Output Match:</i> Matches PyTorch's native <code>F.scaled_dot_product_attention</code> within 1e-5 max absolute difference.<br/>"
-        "3. <i>Causal Mask Integrity:</i> An upper-triangular boolean mask strictly zeros out future positions, preventing information leakage.",
+        "Three automated unit tests verify my implementation:<br/>"
+        "1. <i>Row Sum Invariance:</i> Every row of attention weights sums to exactly 1.0000 (verified within 1e-6 tolerance).<br/>"
+        "2. <i>Framework Output Match:</i> Matches PyTorch native <code>F.scaled_dot_product_attention</code> within 1e-5 max absolute difference.<br/>"
+        "3. <i>Causal Mask Integrity:</i> An upper-triangular boolean mask strictly zeros out future positions, preventing temporal information leakage.",
         body_style
     ))
 
     story.append(Paragraph("Hand-Checkable 3-Token Numerical Verification", h2_style))
     story.append(Paragraph(
-        "We verify attention against an exact hand derivation using 3 tokens with d<sub>k</sub> = 2:<br/>"
+        "I verify attention against an exact hand derivation using 3 tokens with d<sub>k</sub> = 2:<br/>"
         "Let <i>Q = [[1,0],[0,1],[1,1]]</i>, <i>K = [[1,0],[1,1],[0,1]]</i>, <i>V = [[1,2],[3,4],[5,6]]</i>. Scaling: √2 ≈ 1.41421.<br/>"
         "• Raw dot products: <i>Q K<sup>T</sup> = [[1,1,0],[0,1,1],[1,2,1]]</i>.<br/>"
         "• Scaled scores: <i>S = Q K<sup>T</sup> / √2 = [[0.7071, 0.7071, 0.0], [0.0, 0.7071, 0.7071], [0.7071, 1.4142, 0.7071]]</i>.<br/>"
         "• Softmax row weights: Row 0 = [0.4011, 0.4011, 0.1978]; Row 1 = [0.1978, 0.4011, 0.4011]; Row 2 = [0.2483, 0.5035, 0.2483].<br/>"
         "• Analytical outputs: Row 0 = [2.5933, 3.5933]; Row 1 = [3.4067, 4.4067]; Row 2 = [3.0000, 4.0000].<br/>"
-        "Our code matches these analytical values with maximum absolute difference = <b>1.8e-6 &lt; 1e-5</b>, proving mathematical precision.",
+        "My implementation matches these analytical values with maximum absolute difference = <b>1.8e-6 &lt; 1e-5</b>, proving mathematical precision.",
         body_style
     ))
 
     story.append(Paragraph("2.2 Multi-Head Attention & Pre-LN Encoder Block Architecture (P2.2)", h1_style))
     story.append(Paragraph(
-        "Our modular Pre-LayerNorm Transformer Encoder Block employs:<br/>"
+        "The modular Pre-LayerNorm Transformer Encoder Block implementation employs:<br/>"
         "• <i>Multi-Head Attention:</i> Projects input through W<sub>Q</sub>, W<sub>K</sub>, W<sub>V</sub> (each d × d), splits into h heads of dimension d<sub>k</sub> = d/h, "
         "executes scaled dot-product attention in parallel, concatenates head outputs, and projects through W<sub>O</sub> (d × d).<br/>"
         "• <i>Pre-LN Residual Connections:</i> <i>x<sub>1</sub> = x + Dropout(MHA(LayerNorm<sub>1</sub>(x)))</i>, followed by "
@@ -402,9 +403,9 @@ def build_pdf():
     # =========================================================
     story.append(Paragraph("2.3 Task A: Transformer Encoder Classifier on UCI HAR Data", h1_style))
     story.append(Paragraph(
-        "We adapt our from-scratch encoder for HAR activity classification by linearly projecting each 9-channel sensor step into d=128, "
-        "prepending a learnable <code>[CLS]</code> token (sequence length becomes 129), and routing the final CLS representation through a linear classifier. "
-        "We ablate three positional encoding strategies across seeds [3, 13, 23]: (1) Sinusoidal, (2) Learned positional embeddings, and (3) None (permutation invariant).",
+        "I adapt the from-scratch encoder for HAR activity classification by linearly projecting each 9-channel sensor step into d=128, "
+        "prepending a learnable <code>[CLS]</code> token (yielding sequence length 129), and routing the final CLS representation through a linear classification head. "
+        "Across seeds [3, 13, 23], I ablated three positional encoding schemes: (1) Sinusoidal encodings, (2) Learned positional embeddings, and (3) None (permutation-invariant baseline).",
         body_style
     ))
 
@@ -430,8 +431,8 @@ def build_pdf():
     story.append(Paragraph("2.4 Task B: Character-Level Causal Language Model (Tiny Shakespeare)", h1_style))
     story.append(Paragraph(
         "A 4-layer, 4-head causal Transformer LM (d=128, context=128, vocab=65 characters, 826,368 parameters) was trained on Tiny Shakespeare. "
-        "A uniform character guess yields loss = ln(65) ≈ 4.174 nats. Our model converges to a validation loss of <b>1.946 nats</b>, corresponding to "
-        "<b>2.808 bits per character (BPC = val_loss / ln 2)</b>. Fig. 5 shows smooth learning progression.",
+        "A uniform baseline guess over 65 characters yields a theoretical loss of ln(65) ≈ 4.174 nats. My model converges to a validation loss of <b>1.946 nats</b>, "
+        "corresponding to <b>2.808 bits per character (BPC = val_loss / ln 2)</b>. Fig. 5 shows steady learning progression.",
         body_style
     ))
 
